@@ -1,3 +1,5 @@
 # git ignore file
-Standup/Debug/
+Standup/Sandup_Console_openGL/Debug/
+Standup/Standup_Win32/Debug/
 Standup/ipch/
+Standup/Debug/
