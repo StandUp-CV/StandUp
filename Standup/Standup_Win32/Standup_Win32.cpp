@@ -21,7 +21,7 @@ bool quit = false;
 float theta = 0;
 
 // Vorwärtsdeklarationen der in diesem Codemodul enthaltenen Funktionen:
-ATOM				MyRegisterClass(HINSTANCE hInstance);
+ATOM				ApplicationRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 // Window callbacks
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -33,6 +33,8 @@ LRESULT CALLBACK	GLWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 void				EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC);
 void				DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 
+// FUNKTION: _tWinMain
+// ZWECK: inits the main function
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPTSTR    lpCmdLine,
@@ -49,7 +51,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Globale Zeichenfolgen initialisieren
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_STANDUP_WIN32, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
+	ApplicationRegisterClass(hInstance);
 
 	// Anwendungsinitialisierung ausführen:
 	if (!InitInstance (hInstance, nCmdShow))
@@ -71,7 +73,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 }
 
 void CreateOpenGLContext(HINSTANCE& hInstance, WNDCLASS& wc) {
-	
+	LPCWSTR OpenGLClassName = L"OpenGLWindow";
+
 	// register window class
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = GLWndProc;
@@ -82,14 +85,16 @@ void CreateOpenGLContext(HINSTANCE& hInstance, WNDCLASS& wc) {
 	wc.hCursor = LoadCursor( NULL, IDC_ARROW );
 	wc.hbrBackground = (HBRUSH)GetStockObject( BLACK_BRUSH );
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = (LPCWSTR) "GLSample";
+	wc.lpszClassName = OpenGLClassName;
 	RegisterClass( &wc );
 
+
+
 	// create main window
-	OpenGLWindowHandle = CreateWindow( 
-		(LPCWSTR) "GLSample", (LPCWSTR) "OpenGL Sample", 
+	OpenGLWindowHandle = CreateWindowEx( WS_EX_APPWINDOW, 
+		wc.lpszClassName, L"StandUp - OpenGL", 
 		WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE,
-		0, 0, 256, 256,
+		0, 0, 1024, 768,
 		NULL, NULL, hInstance, NULL );
 	
 	// enable OpenGL for the window
@@ -150,11 +155,11 @@ void UpdateOpenGLContext(MSG& msg) {
 }
 
 //
-//  FUNKTION: MyRegisterClass()
+//  FUNKTION: ApplicationRegisterClass()
 //
 //  ZWECK: Registriert die Fensterklasse.
 //
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM ApplicationRegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEX wcex;
 
