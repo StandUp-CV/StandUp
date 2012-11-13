@@ -1,3 +1,5 @@
+
+
 /*
 -----------------------------------------------------------------------------
 Filename:    BaseApplication.h
@@ -17,7 +19,7 @@ This source file is part of the
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
-#include "stdafx.h""
+#include "stdafx.h"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>

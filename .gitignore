@@ -4,3 +4,5 @@ Standup/Standup_Win32/Debug/
 Standup/ipch/
 Standup/Debug/
 Standup/Standup.opensdf
+Standup/Standup_Win32/Standup_Win32.vcxproj.user
+Standup/Standup_Ogre_Win32/Standup_Ogre_Win32.vcxproj.user
