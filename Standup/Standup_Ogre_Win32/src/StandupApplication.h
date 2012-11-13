@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-Filename:    TutorialApplication.h
+Filename:    StandupApplication.h
 -----------------------------------------------------------------------------
 
 This source file is part of the
@@ -14,20 +14,21 @@ This source file is part of the
       http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
 */
-#ifndef __TutorialApplication_h_
-#define __TutorialApplication_h_
+#ifndef __StandupApplication_h_
+#define __StandupApplication_h_
 
 #include "stdafx.h"
 #include "BaseApplication.h"
 
-class TutorialApplication : public BaseApplication
+class StandupApplication : public BaseApplication
 {
 public:
-    TutorialApplication(void);
-    virtual ~TutorialApplication(void);
+    StandupApplication(void);
+    virtual ~StandupApplication(void);
 
 protected:
     virtual void createScene(void);
+	bool configure();
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif // #ifndef __StandupApplication_h_

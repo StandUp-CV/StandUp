@@ -13,12 +13,12 @@
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\TutorialApplication.cpp" />
+    <ClCompile Include="src\StandupApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseApplication.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\TutorialApplication.h" />
+    <ClInclude Include="src\StandupApplication.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{377E7C18-7BA5-404D-81A5-464926DEFF8F}</ProjectGuid>

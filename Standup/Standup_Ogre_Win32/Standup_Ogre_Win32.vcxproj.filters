@@ -21,7 +21,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\TutorialApplication.cpp">
+    <ClCompile Include="src\StandupApplication.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\TutorialApplication.h">
+    <ClInclude Include="src\StandupApplication.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
