@@ -26,6 +26,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
  	// TODO: Hier Code einfügen.
+
 	MSG msg;
 	HACCEL hAccelTable;
 
@@ -101,7 +102,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-
    if (!hWnd)
    {
       return FALSE;
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
-	HDC hdc;
+	HDC hdc = GetDC(hWnd);
 
 	switch (message)
 	{
@@ -148,9 +148,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_PAINT:
+		// set the pixel format for the DC
+		PIXELFORMATDESCRIPTOR pfd;
+		ZeroMemory( &pfd, sizeof( pfd ) );
+		pfd.nSize = sizeof( pfd );
+		pfd.nVersion = 1;
+		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |
+	          PFD_DOUBLEBUFFER;
+		pfd.iPixelType = PFD_TYPE_RGBA;
+		pfd.cColorBits = 24;
+		pfd.cDepthBits = 16;
+		pfd.iLayerType = PFD_MAIN_PLANE;
+		int iFormat = ChoosePixelFormat( hdc, &pfd );
+		SetPixelFormat( hdc, iFormat, &pfd );
+
 		hdc = BeginPaint(hWnd, &ps);
 		// TODO: Hier den Zeichnungscode hinzufügen.
 		EndPaint(hWnd, &ps);
+		ReleaseDC( hWnd, hdc );
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
