@@ -28,6 +28,8 @@ public:
 
 protected:
     virtual void createScene(void);
+	virtual void createCamera(void);
+	virtual void createViewports(void);
 	bool configure();
 };
 

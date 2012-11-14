@@ -27,9 +27,67 @@ StandupApplication::~StandupApplication(void)
 }
 
 //-------------------------------------------------------------------------------------
+void StandupApplication::createCamera() {
+	mCamera = mSceneMgr->createCamera("PlayerCam");
+	mCamera->setPosition(Ogre::Vector3(0,50,500));
+	mCamera->lookAt(Ogre::Vector3(0,0,0));
+	mCamera->setNearClipDistance(5);
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+	//BaseApplication::createCamera();
+}
+//-------------------------------------------------------------------------------------
+void StandupApplication::createViewports() {
+	// Create one viewport, entire window
+	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	// Alter the camera aspect ratio to match the viewport
+	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / 
+		Ogre::Real(vp->getActualHeight()));
+}
+
+//-------------------------------------------------------------------------------------
 void StandupApplication::createScene(void)
 {
-    // create your scene here :)
+	// Set the scene's ambient light
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0,0,0));
+	// Create a Lights and set positions
+	Ogre::Light* light = mSceneMgr->createLight("MainLight");
+	light->setPosition(0, 200.0f, 50.0f);
+	light->setCastShadows(true);
+	//Ogre::Light* light1 = mSceneMgr->createLight();
+	//light1->setPosition(0,200,0);
+	//light1->setCastShadows(false);
+	//light1->setType(Ogre::Light::LightTypes::LT_SPOTLIGHT);
+	//light1->setDiffuseColour(Ogre::ColourValue(1,0.75f,0.5f));
+
+	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+
+	// Create Entities
+	Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
+	Ogre::Entity* ogreHead2 = mSceneMgr->createEntity("Head2", "ogrehead.mesh");
+	// Create plane mesh called "ground" and register it to the meshmanager
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshManager::getSingleton().createPlane(
+		"ground", 
+		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	// Create a ground and attach it to the root node
+	Ogre::Entity* entGround = mSceneMgr->createEntity(
+		"GroundEntity", "ground");
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
+	entGround->setMaterialName("Examples/Rockwall");
+	entGround->setCastShadows(false);
+
+	// Create a SceneNode and attach the Entity to it
+	Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->
+		createChildSceneNode("HeadNode", Ogre::Vector3(-100,40,0));
+	Ogre::SceneNode* headNode2 = mSceneMgr->getRootSceneNode()->
+		createChildSceneNode("HeadNode2", Ogre::Vector3(100,40,0));
+	headNode->attachObject(ogreHead);
+	headNode2->attachObject(ogreHead2);
+
+
+
 }
 
 bool StandupApplication::configure() {
@@ -49,6 +107,7 @@ bool StandupApplication::configure() {
 		return false;
 	}
 }
+
 
 //-------------------------------------------------------------------------------------
 // MAIN METHOD
