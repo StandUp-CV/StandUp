@@ -17,6 +17,8 @@ This source file is part of the
 #include "stdafx.h"
 #include "TutorialApplication.h"
 
+
+
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void)
 {
@@ -26,13 +28,143 @@ TutorialApplication::~TutorialApplication(void)
 {
 }
 
-//-------------------------------------------------------------------------------------
-void TutorialApplication::createScene(void)
+/*
+ *	create Viewports
+ */
+void TutorialApplication::createViewports(void)
 {
-    // create your scene here :)
+	//Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	//vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	//mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
 }
 
+/*
+ *	create Camera
+ */
+void TutorialApplication::createCamera(void)
+{
+	//mCamera = mSceneMgr->createCamera("PlayerCam"); 
+	//mCamera->setPosition(Ogre::Vector3(50, 0, 0));
+	//mCamera->lookAt(Ogre::Vector3(0,0,0));
+	//mCamera->setNearClipDistance(5);
 
+	//mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+		
+}
+
+/*
+ *	add Spotlight
+
+  It sets up a plain white-light spotlight pointing 
+  back to the head at the designated X and Z position. 
+  The spotlight is set up with a very wide range, by the line 
+  spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));.
+  This is the angle of the spotlight - 180 is very wide, 
+  but I did this to ensure the spotlights overlap and leave no dark spots.
+  Also, the attenuation is set with 
+  spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
+  This defines how the light weakens over distance.
+ */
+void TutorialApplication::addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos) 
+{
+	Ogre::Light* spotLight = mSceneMgr->createLight(name);
+	spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
+	spotLight->setDiffuseColour(1.0, 1.0, 1.0);
+	spotLight->setSpecularColour(1.0, 1.0, 1.0);
+	spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
+	spotLight->setPosition(xPos, 250.0, zPos);
+	spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
+	spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
+}
+
+/*
+ *	create Scene
+ */
+void TutorialApplication::createScene(void)
+{
+	// Create a skybox
+	/*mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+
+	// set lights
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+
+	// create Nodes 
+	mClockNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ClockNode");
+	mView1 = mClockNode->createChildSceneNode("View1");
+	mView2 = mClockNode->createChildSceneNode("View2");
+	mView3 = mClockNode->createChildSceneNode("View3");
+
+
+	//TutorialApplication::createLightBillboards();
+
+	// create a billboardset
+	Ogre::Entity* plane1 =  mSceneMgr->createEntity(Ogre::SceneManager::PT_PLANE);
+	plane1->setMaterialName("Examples/BumpyMetal");
+	
+	 	// create Ground Entity and Material
+	 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	 	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	 		plane, 200, 200, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	 	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
+	 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
+	 	entGround->setMaterialName("Examples/BumpyMetal");
+	 	// entGround->setCastShadows(false);
+		mView2->attachObject( plane1 );
+*/
+	
+}
+
+/*
+* createLightBillboards
+*/
+void TutorialApplication::createLightBillboards(void)
+{
+
+	// create a billboardset
+	/*Ogre::BillboardSet* lightSet1 = mSceneMgr->createBillboardSet("lightSet1");
+	lightSet1->setMaterialName("Examples/FlyingLightMaterial");
+
+	// create billboards
+	// Red light billboard, in "off" state
+	Ogre::Vector3 redLightPosition(74, -8, -70);
+	Ogre::Billboard* mRedLightBoard = lightSet1->createBillboard(redLightPosition);
+	mRedLightBoard->setColour(Ogre::ColourValue::Green);
+
+	// Blue light billboard, in "off" state
+	Ogre::Vector3 blueLightPosition(-87, -8, -70);
+	Ogre::Billboard* mBlueLightBoard = lightSet1->createBillboard(blueLightPosition);
+	mBlueLightBoard->setColour(Ogre::ColourValue::Red);
+
+	// White light billboard, in "off" state
+	Ogre::Vector3 whiteLightPosition(-5.5, 30, -80);
+	Ogre::Billboard* mWhiteLightBoard = lightSet1->createBillboard(whiteLightPosition);
+	mWhiteLightBoard->setColour(Ogre::ColourValue::Blue);
+
+
+	// Red light, in "off" state
+	Ogre::Light* mRedLight = mSceneMgr->createLight("RedFlyingLight");
+	mRedLight->setType(Ogre::Light::LT_POINT);
+	mRedLight->setPosition(redLightPosition);
+	mRedLight->setDiffuseColour(Ogre::ColourValue::White);
+	mView1->attachObject(mRedLight);
+
+	// Blue light, in "off" state
+	Ogre::Light* mBlueLight = mSceneMgr->createLight("BlueFlyingLight");
+	mBlueLight->setType(Ogre::Light::LT_POINT);
+	mBlueLight->setPosition(blueLightPosition);
+	mBlueLight->setDiffuseColour(Ogre::ColourValue::White);
+	mView1->attachObject(mBlueLight);
+
+	// White light in "off" state
+	Ogre::Light*mWhiteLight = mSceneMgr->createLight("WhiteFlyingLight");
+	mWhiteLight->setType(Ogre::Light::LT_POINT);
+	mWhiteLight->setPosition(whiteLightPosition);
+	mWhiteLight->setDiffuseColour(Ogre::ColourValue::White);
+	mView1->attachObject(mWhiteLight);
+
+	// attachObject to Nodes
+	mView1->attachObject( lightSet1 );*/
+}
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN

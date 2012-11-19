@@ -19,6 +19,7 @@ This source file is part of the
 
 #include "stdafx.h"
 #include "BaseApplication.h"
+#include <OgrePrerequisites.h>
 
 class TutorialApplication : public BaseApplication
 {
@@ -27,7 +28,17 @@ public:
     virtual ~TutorialApplication(void);
 
 protected:
-    virtual void createScene(void);
+	virtual void createViewports(void);
+	virtual void createCamera(void);
+	virtual void createScene(void);
+	virtual void createLightBillboards(void);
+	void addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos);
+
+	 Ogre::SceneNode* mClockNode;
+	 Ogre::SceneNode* mView1;
+	 Ogre::SceneNode* mView2;
+	 Ogre::SceneNode* mView3;
+
 };
 
 #endif // #ifndef __TutorialApplication_h_
