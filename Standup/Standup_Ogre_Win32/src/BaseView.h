@@ -20,6 +20,8 @@ public:
 	virtual void setupRenderTarget(void) = 0;  
 	virtual void createScene(void) = 0;
 
+	virtual void update() {};
+
 protected:
 
 	Ogre::String mInstanceName;

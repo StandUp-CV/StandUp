@@ -17,6 +17,7 @@ This source file is part of the
 #include "stdafx.h"
 #include "BaseApplication.h"
 #include "ViewManager.h"
+#include "CubeView.h"
 
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
@@ -237,8 +238,8 @@ bool BaseApplication::setup(void)
     createFrameListener();
 
 
-	ViewManager *v = new ViewManager();
-	v->createViews(mRoot);
+	mViewManager = new ViewManager();
+	mViewManager->createViews(mRoot);
 
 
 
@@ -274,12 +275,20 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
+	mViewManager->update();
+
     return true;
 }
 //-------------------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
     if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
+
+	if (arg.key >= OIS::KC_1 && arg.key<=OIS::KC_3)
+	{
+		CubeView *cw = (CubeView*)(mViewManager->getViews()[3]);
+		cw->setTargetSide(arg.key-OIS::KC_1);
+	}
 
     if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
     {
@@ -298,62 +307,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
             mDetailsPanel->hide();
         }
     }
-    else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::TextureFilterOptions tfo;
-        unsigned int aniso;
 
-        switch (mDetailsPanel->getParamValue(9).asUTF8()[0])
-        {
-        case 'B':
-            newVal = "Trilinear";
-            tfo = Ogre::TFO_TRILINEAR;
-            aniso = 1;
-            break;
-        case 'T':
-            newVal = "Anisotropic";
-            tfo = Ogre::TFO_ANISOTROPIC;
-            aniso = 8;
-            break;
-        case 'A':
-            newVal = "None";
-            tfo = Ogre::TFO_NONE;
-            aniso = 1;
-            break;
-        default:
-            newVal = "Bilinear";
-            tfo = Ogre::TFO_BILINEAR;
-            aniso = 1;
-        }
-
-        Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
-        Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-        mDetailsPanel->setParamValue(9, newVal);
-    }
-    else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::PolygonMode pm;
-
-        switch (mCamera->getPolygonMode())
-        {
-        case Ogre::PM_SOLID:
-            newVal = "Wireframe";
-            pm = Ogre::PM_WIREFRAME;
-            break;
-        case Ogre::PM_WIREFRAME:
-            newVal = "Points";
-            pm = Ogre::PM_POINTS;
-            break;
-        default:
-            newVal = "Solid";
-            pm = Ogre::PM_SOLID;
-        }
-
-        //mCamera->setPolygonMode(pm);
-        mDetailsPanel->setParamValue(10, newVal);
-    }
     else if(arg.key == OIS::KC_F5)   // refresh all textures
     {
         Ogre::TextureManager::getSingleton().reloadAll();

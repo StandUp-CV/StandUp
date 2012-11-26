@@ -31,3 +31,8 @@ BaseView** ViewManager::getViews(void)
 {
 	return mViews;
 }
+
+void ViewManager::update()
+{
+	for (int i=0;i<4;i++) mViews[i]->update();
+}
