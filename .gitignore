@@ -11,3 +11,16 @@ Standup\Standup_Ogre_Win32\Standup_Ogre_Win32.vcxproj.user
 
 Standup\CEGUI_In_OGRE\Debug*\
 /Standup/*.sdf
+/Standup/CEGUI_In_OGRE/Debug/*.tlog
+/Standup/CEGUI_In_OGRE/Debug/*.pdb
+/Standup/CEGUI_In_OGRE/Debug/*.idb
+/Standup/CEGUI_In_OGRE/Debug/*.pch
+/Standup/Standup_Ogre_Win32/Debug/*.tlog
+/Standup/Standup_Ogre_Win32/Debug/*.obj
+/Standup/Standup_Ogre_Win32/Debug/*.pch
+/Standup/ipch/cegui_in_ogre-3091b2a0/*.ipch
+/Standup/ipch/cegui_in_ogre-3f86cf95/*.ipch
+/Standup/ipch/standup_ogre_win32-75e5de5c/*.ipch
+/Standup/ipch/standup_win32-814ebfa4/*.ipch
+/Standup/Debug/*.pdb
+/Standup/CEGUI_In_OGRE/Debug/*.obj
