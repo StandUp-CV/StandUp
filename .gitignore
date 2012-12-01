@@ -3,3 +3,14 @@ Standup/Standup_Ogre_Win32/Debug/
 Standup/Standup_Win32/Debug/
 Standup/ipch/
 Standup/Debug/
+Standup/Standup.opensdf
+Standup/Standup.sdf
+Standup/Standup_Win32/Standup_Win32.vcxproj.user
+Standup/Standup_Ogre_Win32/Standup_Ogre_Win32.vcxproj.user
+/Standup/*.suo
+/Standup/CEGUI_In_OGRE/*.user
+/Standup/CEGUI_In_OGRE/Debug/*.pdb
+/Standup/CEGUI_In_OGRE/Debug/*.idb
+/Standup/CEGUI_In_OGRE/Debug/*.tlog
+/Standup/CEGUI_In_OGRE/Debug/*.pch
+/Standup/CEGUI_In_OGRE/Debug/*.obj
