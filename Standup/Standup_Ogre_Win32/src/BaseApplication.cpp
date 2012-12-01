@@ -380,3 +380,4 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
         }
     }
 }
+
