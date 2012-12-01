@@ -85,7 +85,11 @@ void TutorialApplication::addSpotlight(const Ogre::String name, const Ogre::Real
  *	create Scene
  */
 void TutorialApplication::createScene(void)
+<<<<<<< HEAD
 >>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
+=======
+>>>>>>> viewports:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
 {
 	// Create a skybox
 	/*mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
@@ -187,7 +191,11 @@ void TutorialApplication::createLightBillboards(void)
 
 	// attachObject to Nodes
 	mView1->attachObject( lightSet1 );*/
+<<<<<<< HEAD
 >>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
+=======
+>>>>>>> viewports:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
 }
 
 //-------------------------------------------------------------------------------------

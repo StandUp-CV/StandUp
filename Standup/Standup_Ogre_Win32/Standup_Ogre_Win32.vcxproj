@@ -26,7 +26,11 @@
     </ClCompile>
     <ClCompile Include="src\TutorialApplication.cpp" />
     <ClCompile Include="src\ViewManager.cpp" />
+<<<<<<< HEAD
 >>>>>>> CEGUI
+=======
+>>>>>>> viewports
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseApplication.h" />
@@ -40,7 +44,11 @@
 =======
     <ClInclude Include="src\TutorialApplication.h" />
     <ClInclude Include="src\ViewManager.h" />
+<<<<<<< HEAD
 >>>>>>> CEGUI
+=======
+>>>>>>> viewports
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{377E7C18-7BA5-404D-81A5-464926DEFF8F}</ProjectGuid>

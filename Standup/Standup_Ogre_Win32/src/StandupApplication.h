@@ -43,7 +43,11 @@ protected:
 	 Ogre::SceneNode* mView2;
 	 Ogre::SceneNode* mView3;
 
+<<<<<<< HEAD
 >>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.h
+=======
+>>>>>>> viewports:Standup/Standup_Ogre_Win32/src/TutorialApplication.h
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
 };
 
 #endif // #ifndef __StandupApplication_h_
