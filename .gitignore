@@ -1,10 +1,12 @@
 # git ignore file
-Standup/Standup_Ogre_Win32/Debug/
-Standup/Standup_Win32/Debug/
-Standup/ipch/
-Standup/Debug/
-Standup/Standup.opensdf
-Standup/Standup_Win32/Standup_Win32.vcxproj.user
-Standup/Standup_Ogre_Win32/Standup_Ogre_Win32.vcxproj.user
+Standup\Standup_Ogre_Win32\Debug\
+Standup\Standup_Win32\Debug\
+Standup\ipch\
+Standup\Debug\
+Standup\Standup.opensdf
+Standup\Standup.sdf
+Standup\Standup.v11.suo
+Standup\Standup_Win32\Standup_Win32.vcxproj.user
+Standup\Standup_Ogre_Win32\Standup_Ogre_Win32.vcxproj.user
 
-Standup\CEGUI_In_OGRE\Debug*/
+Standup\CEGUI_In_OGRE\Debug*\
