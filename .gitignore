@@ -1,4 +1,5 @@
 # git ignore file
+<<<<<<< HEAD
 Standup\Standup_Ogre_Win32\Debug\
 Standup\Standup_Win32\Debug\
 Standup\ipch\
@@ -23,4 +24,20 @@ Standup\CEGUI_In_OGRE\Debug*\
 /Standup/ipch/standup_ogre_win32-75e5de5c/*.ipch
 /Standup/ipch/standup_win32-814ebfa4/*.ipch
 /Standup/Debug/*.pdb
+=======
+Standup/Standup_Ogre_Win32/Debug/
+Standup/Standup_Win32/Debug/
+Standup/ipch/
+Standup/Debug/
+Standup/Standup.opensdf
+Standup/Standup.sdf
+Standup/Standup_Win32/Standup_Win32.vcxproj.user
+Standup/Standup_Ogre_Win32/Standup_Ogre_Win32.vcxproj.user
+/Standup/*.suo
+/Standup/CEGUI_In_OGRE/*.user
+/Standup/CEGUI_In_OGRE/Debug/*.pdb
+/Standup/CEGUI_In_OGRE/Debug/*.idb
+/Standup/CEGUI_In_OGRE/Debug/*.tlog
+/Standup/CEGUI_In_OGRE/Debug/*.pch
+>>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
 /Standup/CEGUI_In_OGRE/Debug/*.obj

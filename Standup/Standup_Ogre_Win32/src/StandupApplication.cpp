@@ -27,15 +27,10 @@ StandupApplication::StandupApplication(void)
 StandupApplication::~StandupApplication(void)
 {
 }
-
-<<<<<<< HEAD:Standup/Standup_Ogre_Win32/src/StandupApplication.cpp
-//-------------------------------------------------------------------------------------
-void StandupApplication::createScene(void)
-=======
 /*
  *	create Viewports
  */
-void TutorialApplication::createViewports(void)
+void StandupApplication::createViewports(void)
 {
 	//Ogre::Viewport* vp = mWindow->addViewport(mCamera);
 	//vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
@@ -45,7 +40,7 @@ void TutorialApplication::createViewports(void)
 /*
  *	create Camera
  */
-void TutorialApplication::createCamera(void)
+void StandupApplication::createCamera(void)
 {
 	//mCamera = mSceneMgr->createCamera("PlayerCam"); 
 	//mCamera->setPosition(Ogre::Vector3(50, 0, 0));
@@ -69,7 +64,7 @@ void TutorialApplication::createCamera(void)
   spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
   This defines how the light weakens over distance.
  */
-void TutorialApplication::addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos) 
+void StandupApplication::addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos) 
 {
 	Ogre::Light* spotLight = mSceneMgr->createLight(name);
 	spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
@@ -84,8 +79,7 @@ void TutorialApplication::addSpotlight(const Ogre::String name, const Ogre::Real
 /*
  *	create Scene
  */
-void TutorialApplication::createScene(void)
->>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
+void StandupApplication::createScene(void)
 {
 	// Create a skybox
 	/*mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
@@ -119,7 +113,7 @@ void TutorialApplication::createScene(void)
 	
 }
 
-<<<<<<< HEAD:Standup/Standup_Ogre_Win32/src/StandupApplication.cpp
+
 bool StandupApplication::configure() {
 	// Show the configuration dialog and initialise the system
 	// You can skip this and use root.restoreConfig() to load configuration
@@ -136,11 +130,12 @@ bool StandupApplication::configure() {
 	{
 		return false;
 	}
-=======
+}
+
 /*
 * createLightBillboards
 */
-void TutorialApplication::createLightBillboards(void)
+void StandupApplication::createLightBillboards(void)
 {
 
 	// create a billboardset
@@ -187,7 +182,6 @@ void TutorialApplication::createLightBillboards(void)
 
 	// attachObject to Nodes
 	mView1->attachObject( lightSet1 );*/
->>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.cpp
 }
 
 //-------------------------------------------------------------------------------------

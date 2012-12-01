@@ -27,7 +27,7 @@ BaseApplication::BaseApplication(void)
     mPluginsCfg(Ogre::StringUtil::BLANK),
     //mTrayMgr(0),
     mCameraMan(0),
-    mDetailsPanel(0),
+    //mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
     mInputManager(0),
@@ -58,7 +58,7 @@ bool BaseApplication::configure(void)
     {
         // If returned true, user clicked OK so initialise
         // Here we choose to let the system create a default rendering window by passing 'true'
-        mWindow = mRoot->initialise(true, "TutorialApplication Render Window");
+        mWindow = mRoot->initialise(true, "GEGUI in OGRE3D Test");
 
         return true;
     }
@@ -280,8 +280,16 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
-    //mTrayMgr->frameRenderingQueued(evt);
+	//////////////////////////////////////////////////////////////////////////
+	//		CEGUI Update
+	////////////////////////////////////////////////////////////////////////// 
+	//Need to inject timestamps to CEGUI System.
+	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
+	//////////////////////////////////////////////////////////////////////////
+	//		CE GUI Excludes
+	//////////////////////////////////////////////////////////////////////////
+    //mTrayMgr->frameRenderingQueued(evt);
     //if (!mTrayMgr->isDialogVisible())
     //{
     //    mCameraMan->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
@@ -296,9 +304,6 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //        mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
     //    }
     //}
-
-	//CEGUI::System::renderGUI();
-
     return true;
 }
 //-------------------------------------------------------------------------------------
@@ -356,6 +361,10 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
     //    Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
     //    mDetailsPanel->setParamValue(9, newVal);
     //}
+    //} 
+    //} 
+
+
     if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
     {
         Ogre::String newVal;
@@ -393,36 +402,57 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
     }
 
     mCameraMan->injectKeyDown(arg);
-    return true;
-}
 
+	//////////////////////////////////////////////////////////////////////////
+	//		CEGUI Input Methods
+	//////////////////////////////////////////////////////////////////////////
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown(arg.key);
+	sys.injectChar(arg.text);
+	return true;
+}
+//-------------------------------------------------------------------------------------
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+	mCameraMan->injectKeyUp(arg);
+	// CEGUI key down injection
+	CEGUI::System::getSingleton().injectKeyUp(arg.key);
     return true;
 }
-
+//-------------------------------------------------------------------------------------
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
     //if (mTrayMgr->injectMouseMove(arg)) return true;
     mCameraMan->injectMouseMove(arg);
+	//////////////////////////////////////////////////////////////////////////
+	//		CEGUI Mouse Movement Methods
+	//////////////////////////////////////////////////////////////////////////
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+	// Scroll wheel.
+	if (arg.state.Z.rel)
+		sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
     return true;
 }
-
+//-------------------------------------------------------------------------------------
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     //if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    mCameraMan->injectMouseDown(arg, id);
+	mCameraMan->injectMouseDown(arg, id);
+	// CEGUI mousePressed injection
+	CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
     return true;
 }
-
+//-------------------------------------------------------------------------------------
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     //if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    mCameraMan->injectMouseUp(arg, id);
+	mCameraMan->injectMouseUp(arg, id);
+	// CEGUI mouseReleased injection
+	CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
     return true;
 }
-
+//-------------------------------------------------------------------------------------
 //Adjust mouse clipping area
 void BaseApplication::windowResized(Ogre::RenderWindow* rw)
 {
@@ -434,7 +464,7 @@ void BaseApplication::windowResized(Ogre::RenderWindow* rw)
     ms.width = width;
     ms.height = height;
 }
-
+//-------------------------------------------------------------------------------------
 //Unattach OIS before window shutdown (very important under Linux)
 void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
 {
@@ -450,4 +480,22 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
             mInputManager = 0;
         }
     }
+}
+//-------------------------------------------------------------------------------------
+CEGUI::MouseButton BaseApplication::convertButton(OIS::MouseButtonID buttonID)
+{
+	switch (buttonID)
+	{
+	case OIS::MB_Left:
+		return CEGUI::LeftButton;
+
+	case OIS::MB_Right:
+		return CEGUI::RightButton;
+
+	case OIS::MB_Middle:
+		return CEGUI::MiddleButton;
+
+	default:
+		return CEGUI::LeftButton;
+	}
 }

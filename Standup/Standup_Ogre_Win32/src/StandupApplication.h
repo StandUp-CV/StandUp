@@ -28,10 +28,8 @@ public:
     virtual ~StandupApplication(void);
 
 protected:
-<<<<<<< HEAD:Standup/Standup_Ogre_Win32/src/StandupApplication.h
-    virtual void createScene(void);
+
 	bool configure();
-=======
 	virtual void createViewports(void);
 	virtual void createCamera(void);
 	virtual void createScene(void);
@@ -43,7 +41,6 @@ protected:
 	 Ogre::SceneNode* mView2;
 	 Ogre::SceneNode* mView3;
 
->>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.h
 };
 
 #endif // #ifndef __StandupApplication_h_

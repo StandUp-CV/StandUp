@@ -12,10 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\StandupApplication.cpp" />
-=======
     <ClCompile Include="src\BaseView.cpp" />
     <ClCompile Include="src\ClockView.cpp" />
     <ClCompile Include="src\CubeView.cpp" />
@@ -24,9 +21,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\TutorialApplication.cpp" />
     <ClCompile Include="src\ViewManager.cpp" />
->>>>>>> CEGUI
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseApplication.h" />
@@ -35,12 +30,8 @@
     <ClInclude Include="src\CubeView.h" />
     <ClInclude Include="src\RTTView.h" />
     <ClInclude Include="src\stdafx.h" />
-<<<<<<< HEAD
     <ClInclude Include="src\StandupApplication.h" />
-=======
-    <ClInclude Include="src\TutorialApplication.h" />
     <ClInclude Include="src\ViewManager.h" />
->>>>>>> CEGUI
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{377E7C18-7BA5-404D-81A5-464926DEFF8F}</ProjectGuid>
