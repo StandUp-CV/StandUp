@@ -49,7 +49,7 @@ public:
 
 protected:
     virtual bool setup();
-    virtual bool configure(void);
+	virtual bool configure(void);
     virtual void chooseSceneManager(void);
     virtual void createCamera(void);
     virtual void createFrameListener(void);
