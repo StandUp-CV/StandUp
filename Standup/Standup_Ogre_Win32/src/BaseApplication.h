@@ -1,3 +1,5 @@
+
+
 /*
 -----------------------------------------------------------------------------
 Filename:    BaseApplication.h
@@ -17,7 +19,7 @@ This source file is part of the
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
-#include "stdafx.h""
+#include "stdafx.h"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -35,6 +37,8 @@ This source file is part of the
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
+class ViewManager;
+
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
 {
 public:
@@ -45,7 +49,7 @@ public:
 
 protected:
     virtual bool setup();
-    virtual bool configure(void);
+	virtual bool configure(void);
     virtual void chooseSceneManager(void);
     virtual void createCamera(void);
     virtual void createFrameListener(void);
@@ -91,6 +95,8 @@ protected:
     OIS::InputManager* mInputManager;
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
+
+	ViewManager *mViewManager;
 };
 
 #endif // #ifndef __BaseApplication_h_

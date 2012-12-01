@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Standup_Win32", "Standup_Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Standup_Ogre_Win32", "Standup_Ogre_Win32\Standup_Ogre_Win32.vcxproj", "{377E7C18-7BA5-404D-81A5-464926DEFF8F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CEGUI_In_OGRE", "CEGUI_In_OGRE\CEGUI_In_OGRE.vcxproj", "{4170793E-B45E-405A-8AEF-5CAC178C7BCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{377E7C18-7BA5-404D-81A5-464926DEFF8F}.Debug|Win32.Build.0 = Debug|Win32
 		{377E7C18-7BA5-404D-81A5-464926DEFF8F}.Release|Win32.ActiveCfg = Release|Win32
 		{377E7C18-7BA5-404D-81A5-464926DEFF8F}.Release|Win32.Build.0 = Release|Win32
+		{4170793E-B45E-405A-8AEF-5CAC178C7BCE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4170793E-B45E-405A-8AEF-5CAC178C7BCE}.Debug|Win32.Build.0 = Debug|Win32
+		{4170793E-B45E-405A-8AEF-5CAC178C7BCE}.Release|Win32.ActiveCfg = Release|Win32
+		{4170793E-B45E-405A-8AEF-5CAC178C7BCE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

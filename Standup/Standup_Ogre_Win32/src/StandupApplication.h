@@ -19,6 +19,7 @@ This source file is part of the
 
 #include "stdafx.h"
 #include "BaseApplication.h"
+#include <OgrePrerequisites.h>
 
 class StandupApplication : public BaseApplication
 {
@@ -27,8 +28,22 @@ public:
     virtual ~StandupApplication(void);
 
 protected:
+<<<<<<< HEAD:Standup/Standup_Ogre_Win32/src/StandupApplication.h
     virtual void createScene(void);
 	bool configure();
+=======
+	virtual void createViewports(void);
+	virtual void createCamera(void);
+	virtual void createScene(void);
+	virtual void createLightBillboards(void);
+	void addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos);
+
+	 Ogre::SceneNode* mClockNode;
+	 Ogre::SceneNode* mView1;
+	 Ogre::SceneNode* mView2;
+	 Ogre::SceneNode* mView3;
+
+>>>>>>> CEGUI:Standup/Standup_Ogre_Win32/src/TutorialApplication.h
 };
 
 #endif // #ifndef __StandupApplication_h_
