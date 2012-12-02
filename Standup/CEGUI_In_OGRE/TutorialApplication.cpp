@@ -34,21 +34,21 @@ void TutorialApplication::createScene(void)
     // create your scene here :)
 
 	
-	//WindowManager& wmgr = WindowManager::getSingleton();
+	WindowManager& wmgr = WindowManager::getSingleton();
 
-	//Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
-	//System::getSingleton().setGUISheet( myRoot );
+	Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
+	System::getSingleton().setGUISheet( myRoot );
 
-	//FrameWindow* fWnd = static_cast<FrameWindow*>(
-	//	wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
+	FrameWindow* fWnd = static_cast<FrameWindow*>(
+		wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
 
-	//myRoot->addChildWindow( fWnd );
+	myRoot->addChildWindow( fWnd );
 
-	//// position a quarter of the way in from the top-left of parent.
-	//fWnd->setPosition( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
-	//// set size to be half the size of the parent
-	//fWnd->setSize( UVector2( UDim( 0.5f, 0 ), UDim( 0.5f, 0 ) ) );
-	//fWnd->setText( "Hello World!" );
+	// position a quarter of the way in from the top-left of parent.
+	fWnd->setPosition( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
+	// set size to be half the size of the parent
+	fWnd->setSize( UVector2( UDim( 0.5f, 0 ), UDim( 0.5f, 0 ) ) );
+	fWnd->setText( "Hello World!" );
 
 	//CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	//CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");

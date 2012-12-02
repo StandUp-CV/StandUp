@@ -253,10 +253,7 @@ bool BaseApplication::setup(void)
     createResourceListener();
     // Load resources
     loadResources();
-
-    // Create the scene
-    createScene();
-
+	// create listener for mouse and keyboard
     createFrameListener();
 
 	//////////////////////////////////////////////////////////////////////////
@@ -264,7 +261,8 @@ bool BaseApplication::setup(void)
 	//////////////////////////////////////////////////////////////////////////
 	createCEGUI();
 
-
+	// Create the scene
+	createScene();
     return true;
 };
 //-------------------------------------------------------------------------------------
