@@ -40,7 +40,7 @@ void TutorialApplication::createScene(void)
 	System::getSingleton().setGUISheet( myRoot );
 
 	FrameWindow* fWnd = static_cast<FrameWindow*>(
-		wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
+		wmgr.createWindow( "OgreTray/FrameWindow", "testWindow" ));
 
 	myRoot->addChildWindow( fWnd );
 
@@ -49,6 +49,13 @@ void TutorialApplication::createScene(void)
 	// set size to be half the size of the parent
 	fWnd->setSize( UVector2( UDim( 0.5f, 0 ), UDim( 0.5f, 0 ) ) );
 	fWnd->setText( "Hello World!" );
+
+	CEGUI::Window *quit = wmgr.createWindow("OgreTray/Button", "testWindow/QuitButton");
+	quit->setText("Quit");
+	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
+	quit->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.9f, 0 ) ) );
+	fWnd->addChildWindow(quit);
+
 
 	//CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	//CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");

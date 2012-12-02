@@ -41,3 +41,10 @@ Standup/Standup_Ogre_Win32/Standup_Ogre_Win32.vcxproj.user
 /Standup/CEGUI_In_OGRE/Debug/*.pch
 >>>>>>> 7dfcbb9686c46143b53c03c4d32186306cd595b8
 /Standup/CEGUI_In_OGRE/Debug/*.obj
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.Build.CppClean.log
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.exe.embed.manifest
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.exe.embed.manifest.res
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.exe.intermediate.manifest
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.lastbuildstate
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE.log
+/Standup/CEGUI_In_OGRE/Debug/CEGUI_In_OGRE_manifest.rc

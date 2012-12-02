@@ -89,10 +89,15 @@ void BaseApplication::createCEGUI()
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 	// select the skin
-	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+	CEGUI::SchemeManager& mSchemeManager = CEGUI::SchemeManager::getSingleton();
+	mSchemeManager.create("OgreTray.scheme");
+	mSchemeManager.create("WindowsLook.scheme");
+
+	// Set default tooltip
+	CEGUI::System::getSingleton().setDefaultTooltip("OgreTray/Tooltip");
 	//  set the default mouse cursor
 	CEGUI::System::getSingleton().
-		setDefaultMouseCursor("TaharezLook", "MouseArrow");
+		setDefaultMouseCursor("WindowsLook", "MouseArrow");
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createCamera(void)
