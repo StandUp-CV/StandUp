@@ -27,12 +27,12 @@ void ViewManager::createViews(Ogre::Root* root)
 	}
 }
 
-BaseView** ViewManager::getViews(void)
+const BaseView** ViewManager::getViews() const
 {
-	return mViews;
+	return (const BaseView**) mViews;
 }
 
-void ViewManager::update()
+void ViewManager::update() const
 {
 	for (int i=0;i<4;i++) mViews[i]->update();
 }

@@ -17,9 +17,9 @@ private:
 public:
 	ViewManager(void) { };
 	void createViews(Ogre::Root* root);
-	BaseView **getViews(void);
+	const BaseView **getViews() const;		// was ist kostant? pointer oder Objekt?
 
-	void update();
+	void update() const;
 
 };
 

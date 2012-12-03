@@ -37,6 +37,8 @@ This source file is part of the
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
+#include "sound.h"
+
 class ViewManager;
 
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
@@ -97,6 +99,8 @@ protected:
     OIS::Keyboard* mKeyboard;
 
 	ViewManager *mViewManager;
+
+	Sound sound;
 };
 
 #endif // #ifndef __BaseApplication_h_
