@@ -60,6 +60,9 @@ protected:
     virtual void createResourceListener(void);
     virtual void loadResources(void);
 
+	// CEGUI convertButton
+	CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
+
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -76,6 +79,8 @@ protected:
     virtual void windowResized(Ogre::RenderWindow* rw);
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
+
+	virtual void createCEGUI();
 
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;

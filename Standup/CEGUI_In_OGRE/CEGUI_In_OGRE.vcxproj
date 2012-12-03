@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -61,7 +61,7 @@
       <AdditionalDependencies>OgreMain_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)\$(TargetFileName)" "$(OGRE_HOME)\Bin\$(Configuration)"</Command>
+      <Command>copy "$(SolutionDir)$(Configuration)\$(TargetFileName)" "$(OGRE_HOME)\bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
