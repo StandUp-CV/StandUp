@@ -19,6 +19,8 @@ This source file is part of the
 #include "ViewManager.h"
 #include "CubeView.h"
 
+#include "sound.h"
+
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
     : mRoot(0),
@@ -241,13 +243,15 @@ bool BaseApplication::setup(void)
 	mViewManager = new ViewManager();
 	mViewManager->createViews(mRoot);
 
-
+	sound.play();
 
     return true;
 };
 //-------------------------------------------------------------------------------------
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+	sound.update();
+
     if(mWindow->isClosed())
         return false;
 

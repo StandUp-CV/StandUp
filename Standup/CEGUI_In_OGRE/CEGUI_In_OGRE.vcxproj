@@ -57,8 +57,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;$(OGRE_HOME)\lib\$(Configuration);$(OGRE_HOME)\boost\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;($FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);$(OGRE_HOME)\boost\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OgreMain_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;fmodexvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)\$(TargetFileName)" "$(OGRE_HOME)\Bin\$(Configuration)"</Command>

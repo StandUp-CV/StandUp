@@ -18,7 +18,6 @@ This source file is part of the
 #include "StandupApplication.h"
 
 
-
 //-------------------------------------------------------------------------------------
 StandupApplication::StandupApplication(void)
 {
@@ -202,6 +201,7 @@ extern "C" {
     int main(int argc, char *argv[])
 #endif
     {
+
         // Create application object
         StandupApplication app;
 
