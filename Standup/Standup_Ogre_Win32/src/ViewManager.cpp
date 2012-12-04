@@ -11,6 +11,7 @@ Filename:    ViewManager.cpp
 #include "ViewManager.h"
 #include "CubeView.h"
 #include "ClockView.h"
+#include "StandupApplication.h"
 
 void ViewManager::createViews(Ogre::Root* root)
 {
@@ -34,5 +35,8 @@ BaseView** ViewManager::getViews(void)
 
 void ViewManager::update()
 {
-	for (int i=0;i<4;i++) mViews[i]->update();
+	for (int i=0;i<4;i++) {
+		StandupApplication::getInstance()->getStandupCEGUIRenderer()->setDefaultRootRenderTarget(mViews[i]->getRenderTarget());
+		mViews[i]->update();
+	}
 }

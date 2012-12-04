@@ -46,6 +46,7 @@ public:
     virtual ~BaseApplication(void);
 
     virtual void go(void);
+	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
 
 protected:
     virtual bool setup();
@@ -59,6 +60,8 @@ protected:
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
+
+
 
 	// CEGUI convertButton
 	CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
@@ -88,6 +91,8 @@ protected:
     Ogre::RenderWindow* mWindow;
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
+	//CEGUI Fields
+	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;

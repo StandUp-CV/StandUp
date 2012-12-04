@@ -36,6 +36,9 @@ BaseView::~BaseView(void)
 {
 }
 
+Ogre::RenderTarget& BaseView::getRenderTarget(){
+	return *mRenderTarget;
+}
 
 //-------------------------------------------------------------------------------------
 

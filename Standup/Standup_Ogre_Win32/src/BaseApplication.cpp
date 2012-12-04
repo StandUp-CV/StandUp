@@ -34,7 +34,9 @@ BaseApplication::BaseApplication(void)
     mShutDown(false),
     mInputManager(0),
     mMouse(0),
-    mKeyboard(0)
+    mKeyboard(0),
+	mStandupCEGUIRenderer(0)
+
 {
 }
 
@@ -448,6 +450,11 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
         }
     }
 }
+
+CEGUI::OgreRenderer* BaseApplication::getStandupCEGUIRenderer(){
+	return mStandupCEGUIRenderer;
+}
+
 
 //-------------------------------------------------------------------------------------
 CEGUI::MouseButton BaseApplication::convertButton(OIS::MouseButtonID buttonID)
