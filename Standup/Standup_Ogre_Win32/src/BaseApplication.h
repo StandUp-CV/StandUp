@@ -37,6 +37,9 @@ This source file is part of the
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
+
+#define CUBEFACE_SIZE 1024
+
 class ViewManager;
 
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
@@ -47,6 +50,8 @@ public:
 
     virtual void go(void);
 	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
+	virtual Ogre::RenderTarget* getGUIRenderTarget();
+
 
 protected:
     virtual bool setup();
@@ -83,7 +88,7 @@ protected:
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
 
-	virtual void createCEGUI();
+	virtual void createCEGUI(Ogre::RenderTarget* rt);
 
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
@@ -92,7 +97,10 @@ protected:
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
-	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
+	CEGUI::OgreRenderer*  mStandupCEGUIRenderer;
+
+	Ogre::RenderTarget* mRtex; 
+	Ogre::TexturePtr tex;
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;

@@ -17,7 +17,7 @@ This source file is part of the
 #include "stdafx.h"
 #include "StandupApplication.h"
 
-
+StandupApplication* StandupApplication::instance=0;
 
 //-------------------------------------------------------------------------------------
 StandupApplication::StandupApplication(void) : BaseApplication()

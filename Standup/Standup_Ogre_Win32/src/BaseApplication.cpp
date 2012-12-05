@@ -53,13 +53,22 @@ BaseApplication::~BaseApplication(void)
 }
 
 //-------------------------------------------------------------------------------------
-void BaseApplication::createCEGUI()
+void BaseApplication::createCEGUI(Ogre::RenderTarget* rt)
 {
 	// Bootstrap CEGUI::System with an OgreRenderer object that uses the
 	// default Ogre rendering window as the default output surface, an Ogre based
 	// ResourceProvider, and an Ogre based ImageCodec.
-	CEGUI::OgreRenderer& standupCEGUIRenderer =
-		CEGUI::OgreRenderer::bootstrapSystem();
+	mStandupCEGUIRenderer =
+		&CEGUI::OgreRenderer::bootstrapSystem(*rt);
+
+
+	// Retrieve CEGUI texture for the RTT
+	CEGUI::Texture &aRttTexture = mStandupCEGUIRenderer->createTexture(tex);
+
+	CEGUI::Imageset &aRttImageSet = CEGUI::ImagesetManager::getSingleton().create( (CEGUI::utf8*)"RttImageset", aRttTexture ) ;
+	aRttImageSet.defineImage( (CEGUI::utf8*)"RttImage", CEGUI::Point( 0, 0 ), aRttTexture.getSize(), CEGUI::Point( 0, 0 ) ) ;
+
+
 	//  set the so-called default resource groups for each of 
 	//  CEGUI'S resource managers
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -239,6 +248,10 @@ void BaseApplication::go(void)
     // clean up
     destroyScene();
 }
+
+Ogre::RenderTarget* BaseApplication::getGUIRenderTarget(){
+	return mRtex;
+}
 //-------------------------------------------------------------------------------------
 bool BaseApplication::setup(void)
 {
@@ -249,13 +262,12 @@ bool BaseApplication::setup(void)
     bool carryOn = configure();
     if (!carryOn) return false;
 
-    chooseSceneManager();
-    createCamera();
-    createViewports();
+    //chooseSceneManager();
+    //createCamera();
+    //createViewports();
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-
     // Create any resource listeners (for loading screens)
     createResourceListener();
     // Load resources
@@ -264,12 +276,23 @@ bool BaseApplication::setup(void)
     createFrameListener();
 
 
+	tex = Ogre::TextureManager::getSingleton().createManual(
+		"GUI_Texture",
+		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		Ogre::TEX_TYPE_2D,
+		2*CUBEFACE_SIZE,
+		2*CUBEFACE_SIZE,
+		0,
+		Ogre::PF_R8G8B8,
+		Ogre::TU_RENDERTARGET);
+	
 
+	 mRtex = tex->getBuffer()->getRenderTarget();
 
 	//////////////////////////////////////////////////////////////////////////
 	//		Crazy Eddie GUI Setup
 	//////////////////////////////////////////////////////////////////////////
-	createCEGUI();
+	createCEGUI(mRtex);
 
 	mViewManager = new ViewManager();
 	mViewManager->createViews(mRoot);
@@ -279,6 +302,9 @@ bool BaseApplication::setup(void)
 
     return true;
 };
+
+
+
 //-------------------------------------------------------------------------------------
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {

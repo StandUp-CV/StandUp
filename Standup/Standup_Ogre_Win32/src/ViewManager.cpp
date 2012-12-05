@@ -23,7 +23,7 @@ void ViewManager::createViews(Ogre::Root* root)
 	for(int i=0;i<4;i++)
 	{
 		mViews[i]->setupRenderTarget();
-		mViews[i]->setupViewport();
+		mViews[i]->setupViewport(i);
 		mViews[i]->createScene();
 	}
 }
@@ -36,7 +36,6 @@ BaseView** ViewManager::getViews(void)
 void ViewManager::update()
 {
 	for (int i=0;i<4;i++) {
-		StandupApplication::getInstance()->getStandupCEGUIRenderer()->setDefaultRootRenderTarget(mViews[i]->getRenderTarget());
 		mViews[i]->update();
 	}
 }
