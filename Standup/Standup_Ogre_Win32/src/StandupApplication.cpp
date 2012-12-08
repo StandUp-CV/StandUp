@@ -17,7 +17,6 @@ This source file is part of the
 #include "stdafx.h"
 #include "StandupApplication.h"
 
-using namespace CEGUI;
 
 //-------------------------------------------------------------------------------------
 StandupApplication* StandupApplication::instance = 0;
@@ -49,10 +48,10 @@ void StandupApplication::createCamera(void)
 	mCamera = mSceneMgr->createCamera("PlayerCam"); 
 	mCamera->setPosition(Ogre::Vector3(50, 0, 0));
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
-	mCamera->setNearClipDistance(5);
+	mCamera->setNearClipDistance(1);
+	mCamera->setFarClipDistance(2000);
 
-	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
-		
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
 
 /*
@@ -118,7 +117,18 @@ void StandupApplication::createScene(void)
 	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
 
 	// set lights
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
+
+	Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
+
+	Ogre::SceneNode* clockNode = rootNode->createChildSceneNode("MainClockNode");
+
+	Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
+	sphere->setMaterialName("Examples/Rockwall");
+	Ogre::SceneNode* zeroNode = clockNode->createChildSceneNode("ZeroNode", Ogre::Vector3(0, 1, 0));
+	zeroNode->attachObject(sphere);
+	
+
 
 	// CEGUI
 	WindowManager& wmgr = WindowManager::getSingleton();
@@ -132,9 +142,9 @@ void StandupApplication::createScene(void)
 	myRoot->addChildWindow( fWnd );
 
 	// position a quarter of the way in from the top-left of parent.
-	fWnd->setPosition( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
+	fWnd->setPosition( UVector2( UDim( 0.75f, 0 ), UDim( 0.75f, 0 ) ) );
 	// set size to be half the size of the parent
-	fWnd->setSize( UVector2( UDim( 0.5f, 0 ), UDim( 0.5f, 0 ) ) );
+	fWnd->setSize( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
 	fWnd->setText( "Hello World!" );
 
 	CEGUI::Window *quit = wmgr.createWindow("OgreTray/Button", "testWindow/QuitButton");

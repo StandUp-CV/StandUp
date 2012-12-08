@@ -21,6 +21,8 @@ This source file is part of the
 #include "BaseApplication.h"
 #include <OgrePrerequisites.h>
 
+using namespace CEGUI;
+
 class StandupApplication : public BaseApplication
 {
 public:

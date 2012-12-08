@@ -110,6 +110,8 @@ protected:
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
 
+	Ogre::Vector3* mDefaultCamPosition;
+
 	ViewManager *mViewManager;
 
 	Sound sound;

@@ -74,15 +74,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CEGUI_HOME)\cegui\include\WindowRendererSets;$(CEGUI_HOME)\cegui\include\XMLParserModules;$(CEGUI_HOME)\cegui\include\ScriptingModules;$(CEGUI_HOME)\cegui\include\ImageCodecModules;$(CEGUI_HOME)\cegui\include\falagard;$(CEGUI_HOME)\cegui\include\elements;$(CEGUI_HOME)\cegui\include\RendererModules\Ogre;$(CEGUI_HOME)\cegui\include;$(FMOD_HOME)\api\inc;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <EnablePREfast>false</EnablePREfast>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalOptions>/Zm300 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
