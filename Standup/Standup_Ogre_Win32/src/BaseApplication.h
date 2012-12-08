@@ -39,6 +39,8 @@ This source file is part of the
 
 #include "sound.h"
 
+#define CUBEFACE_SIZE 1024
+
 class ViewManager;
 
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener

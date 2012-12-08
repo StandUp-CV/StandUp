@@ -17,6 +17,8 @@ This source file is part of the
 #include "stdafx.h"
 #include "StandupApplication.h"
 
+using namespace CEGUI;
+
 //-------------------------------------------------------------------------------------
 StandupApplication* StandupApplication::instance = 0;
 
@@ -34,9 +36,9 @@ StandupApplication::~StandupApplication(void)
  */
 void StandupApplication::createViewports(void)
 {
-	//Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-	//vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-	//mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
+	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
 }
 
 /*
@@ -44,12 +46,12 @@ void StandupApplication::createViewports(void)
  */
 void StandupApplication::createCamera(void)
 {
-	//mCamera = mSceneMgr->createCamera("PlayerCam"); 
-	//mCamera->setPosition(Ogre::Vector3(50, 0, 0));
-	//mCamera->lookAt(Ogre::Vector3(0,0,0));
-	//mCamera->setNearClipDistance(5);
+	mCamera = mSceneMgr->createCamera("PlayerCam"); 
+	mCamera->setPosition(Ogre::Vector3(50, 0, 0));
+	mCamera->lookAt(Ogre::Vector3(0,0,0));
+	mCamera->setNearClipDistance(5);
 
-	//mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 		
 }
 
@@ -112,7 +114,35 @@ void StandupApplication::createScene(void)
 	 	// entGround->setCastShadows(false);
 		mView2->attachObject( plane1 );
 */
-	
+	// Create a skybox
+	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+
+	// set lights
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+
+	// CEGUI
+	WindowManager& wmgr = WindowManager::getSingleton();
+
+	Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
+	System::getSingleton().setGUISheet( myRoot );
+
+	FrameWindow* fWnd = static_cast<FrameWindow*>(
+		wmgr.createWindow( "OgreTray/FrameWindow", "testWindow" ));
+
+	myRoot->addChildWindow( fWnd );
+
+	// position a quarter of the way in from the top-left of parent.
+	fWnd->setPosition( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
+	// set size to be half the size of the parent
+	fWnd->setSize( UVector2( UDim( 0.5f, 0 ), UDim( 0.5f, 0 ) ) );
+	fWnd->setText( "Hello World!" );
+
+	CEGUI::Window *quit = wmgr.createWindow("OgreTray/Button", "testWindow/QuitButton");
+	quit->setText("Quit");
+	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
+	quit->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.9f, 0 ) ) );
+	fWnd->addChildWindow(quit);
+
 }
 
 

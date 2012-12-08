@@ -17,6 +17,7 @@
 // CEGUI include
 #include "CEGUI.h"
 #include "CEGUIOgreRenderer.h"
+#include "CEGUIOgreRenderTarget.h"
 #include "CEGUISystem.h"
 
 // any other header can be included, as usual

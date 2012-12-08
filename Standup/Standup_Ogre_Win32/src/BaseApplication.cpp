@@ -104,7 +104,7 @@ bool BaseApplication::configure(void)
 void BaseApplication::chooseSceneManager(void)
 {
     // Get the SceneManager, in this case a generic one
-    //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
+    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createCamera(void)
@@ -273,8 +273,8 @@ bool BaseApplication::setup(void)
 	//////////////////////////////////////////////////////////////////////////
 	createCEGUI();
 
-	mViewManager = new ViewManager();
-	mViewManager->createViews(mRoot);
+	//mViewManager = new ViewManager();
+	//mViewManager->createViews(mRoot);
 
 	sound.play();
 	// Create the scene
@@ -323,7 +323,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
 	// update the Scenes
-	mViewManager->update();
+	//mViewManager->update();
 
     return true;
 }
