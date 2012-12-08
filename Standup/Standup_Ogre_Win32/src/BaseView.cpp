@@ -22,13 +22,19 @@ BaseView::BaseView(Ogre::Root *root, Ogre::String &instanceName)
 	mRenderTarget = 0;
 }
 
-void BaseView::setupViewport(void)
+void BaseView::setupViewport(int i)
 {
-	mViewport = mRenderTarget->addViewport(mCamera);
-	mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	
 
+	mViewport = mRenderTarget->addViewport(mCamera, i);
+	//mViewport->setOverlaysEnabled(false);
+	//mViewport->setClearEveryFrame(true);
+	mViewport->setBackgroundColour(Ogre::ColourValue::Blue);
+	//mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	
 	mCamera->setAspectRatio(
 		Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
+	
 }
 
 //-------------------------------------------------------------------------------------
@@ -36,6 +42,9 @@ BaseView::~BaseView(void)
 {
 }
 
+Ogre::RenderTarget& BaseView::getRenderTarget(){
+	return *mRenderTarget;
+}
 
 //-------------------------------------------------------------------------------------
 

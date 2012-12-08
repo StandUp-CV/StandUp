@@ -14,6 +14,11 @@
 #include <OgreRenderWindow.h>
 #include <OgreEntity.h>
 #include <OgreWindowEventUtilities.h>
+// CEGUI include
+#include "CEGUI.h"
+#include "CEGUIOgreRenderer.h"
+#include "CEGUIOgreRenderTarget.h"
+#include "CEGUISystem.h"
 
 // any other header can be included, as usual
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

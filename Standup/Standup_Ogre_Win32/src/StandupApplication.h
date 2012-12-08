@@ -24,11 +24,13 @@ This source file is part of the
 class StandupApplication : public BaseApplication
 {
 public:
-    StandupApplication(void);
+    
     virtual ~StandupApplication(void);
 
-protected:
+	static StandupApplication* getInstance();
 
+protected:
+	StandupApplication(void);
 	bool configure();
 	virtual void createViewports(void);
 	virtual void createCamera(void);
@@ -40,6 +42,8 @@ protected:
 	 Ogre::SceneNode* mView1;
 	 Ogre::SceneNode* mView2;
 	 Ogre::SceneNode* mView3;
+	 static StandupApplication* instance;
+
 
 };
 
