@@ -37,7 +37,8 @@ This source file is part of the
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
-#include "sound.h"
+
+#define CUBEFACE_SIZE 1024
 
 class ViewManager;
 
@@ -48,6 +49,9 @@ public:
     virtual ~BaseApplication(void);
 
     virtual void go(void);
+	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
+	virtual Ogre::RenderTarget* getGUIRenderTarget();
+
 
 protected:
     virtual bool setup();
@@ -61,6 +65,11 @@ protected:
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
+
+
+
+	// CEGUI convertButton
+	CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -79,12 +88,19 @@ protected:
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
 
+	virtual void createCEGUI(Ogre::RenderTarget* rt);
+
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
+	//CEGUI Fields
+	CEGUI::OgreRenderer*  mStandupCEGUIRenderer;
+
+	Ogre::RenderTarget* mRtex; 
+	Ogre::TexturePtr tex;
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;
@@ -99,8 +115,6 @@ protected:
     OIS::Keyboard* mKeyboard;
 
 	ViewManager *mViewManager;
-
-	Sound sound;
 };
 
 #endif // #ifndef __BaseApplication_h_

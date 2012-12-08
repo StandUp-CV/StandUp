@@ -13,7 +13,7 @@ public:
 	ClockView (Ogre::Root *root, Ogre::String &instanceName) : RTTView(root,instanceName){}
 
 protected:
-	virtual void createScene();
+	virtual void createScene(void);
 };
 
 #endif

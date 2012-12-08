@@ -11,6 +11,7 @@ Filename:    ViewManager.cpp
 #include "ViewManager.h"
 #include "CubeView.h"
 #include "ClockView.h"
+#include "StandupApplication.h"
 
 void ViewManager::createViews(Ogre::Root* root)
 {
@@ -22,7 +23,7 @@ void ViewManager::createViews(Ogre::Root* root)
 	for(int i=0;i<4;i++)
 	{
 		mViews[i]->setupRenderTarget();
-		mViews[i]->setupViewport();
+		mViews[i]->setupViewport(i);
 		mViews[i]->createScene();
 	}
 }
@@ -34,5 +35,7 @@ const BaseView** ViewManager::getViews() const
 
 void ViewManager::update() const
 {
-	for (int i=0;i<4;i++) mViews[i]->update();
+	for (int i=0;i<4;i++) {
+		mViews[i]->update();
+	}
 }

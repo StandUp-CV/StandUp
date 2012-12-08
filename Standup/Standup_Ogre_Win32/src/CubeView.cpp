@@ -14,7 +14,7 @@ void CubeView::createScene()
 	// render texture names
 	// (these are assigned in RTTView)
 
-	static const char *rtName[3]={"sideview1_texture","sideview2_texture","sideview3_texture"};
+	static const char *rtName[3]={"GUI_Texture","GUI_Texture","GUI_Texture"};
 
 	// cube side definitions
 
