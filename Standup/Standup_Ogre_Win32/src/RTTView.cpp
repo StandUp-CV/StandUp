@@ -12,3 +12,4 @@ void RTTView::setupRenderTarget(void)
 
 	mRenderTarget = renderTexture;
 }
+

@@ -19,8 +19,8 @@ public:
 	void BaseView::setupViewport(void);
 	virtual void setupRenderTarget(void) = 0;  
 	virtual void createScene(void) = 0;
-
 	virtual void update() {};
+	
 
 protected:
 

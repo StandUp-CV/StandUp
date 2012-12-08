@@ -36,7 +36,6 @@ BaseView::~BaseView(void)
 {
 }
 
-
 //-------------------------------------------------------------------------------------
 
 	//Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Node1");

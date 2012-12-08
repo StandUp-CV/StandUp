@@ -48,6 +48,7 @@ public:
     virtual ~BaseApplication(void);
 
     virtual void go(void);
+	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
 
 protected:
     virtual bool setup();
@@ -61,6 +62,11 @@ protected:
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
+
+
+
+	// CEGUI convertButton
+	CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -79,12 +85,16 @@ protected:
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
 
+	virtual void createCEGUI();
+
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
+	//CEGUI Fields
+	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;

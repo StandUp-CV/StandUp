@@ -17,10 +17,13 @@ This source file is part of the
 #include "stdafx.h"
 #include "StandupApplication.h"
 
+//-------------------------------------------------------------------------------------
+StandupApplication* StandupApplication::instance = 0;
 
 //-------------------------------------------------------------------------------------
-StandupApplication::StandupApplication(void)
+StandupApplication::StandupApplication(void) : BaseApplication()
 {
+	
 }
 //-------------------------------------------------------------------------------------
 StandupApplication::~StandupApplication(void)
@@ -131,6 +134,14 @@ bool StandupApplication::configure() {
 	}
 }
 
+
+StandupApplication* StandupApplication::getInstance(){
+	if (instance == NULL)
+		return instance = new StandupApplication();
+	else
+		return instance;
+}
+
 /*
 * createLightBillboards
 */
@@ -203,10 +214,10 @@ extern "C" {
     {
 
         // Create application object
-        StandupApplication app;
+        StandupApplication* app = StandupApplication::getInstance();
 
         try {
-            app.go();
+            app->go();
         } catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

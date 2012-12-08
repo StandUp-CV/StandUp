@@ -78,7 +78,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(FMOD_HOME)\api\inc;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CEGUI_HOME)\cegui\include\WindowRendererSets;$(CEGUI_HOME)\cegui\include\XMLParserModules;$(CEGUI_HOME)\cegui\include\ScriptingModules;$(CEGUI_HOME)\cegui\include\ImageCodecModules;$(CEGUI_HOME)\cegui\include\falagard;$(CEGUI_HOME)\cegui\include\elements;$(CEGUI_HOME)\cegui\include\RendererModules\Ogre;$(CEGUI_HOME)\cegui\include;$(FMOD_HOME)\api\inc;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <EnablePREfast>false</EnablePREfast>
       <PrecompiledHeaderFile>
@@ -88,11 +88,11 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\boost\lib;$(FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;$(OGRE_HOME)\boost\lib;$(FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;OgreMain_d.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)\$(TargetFileName)" "$(OGRE_HOME)\Bin\$(Configuration)"</Command>
+      <Command>copy "$(SolutionDir)$(Configuration)\$(TargetFileName)" "$(OGRE_HOME)\bin\$(Configuration)"</Command>
     </PostBuildEvent>
     <Bscmake>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
