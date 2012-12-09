@@ -38,6 +38,7 @@ This source file is part of the
 #include <SdkCameraMan.h>
 
 #include "sound.h"
+#include "GUI.h"
 
 
 #define CUBEFACE_SIZE 1024
@@ -118,6 +119,7 @@ protected:
 	ViewManager *mViewManager;
 
 	Sound sound;
+    GUI gui;
 };
 
 #endif // #ifndef __BaseApplication_h_

@@ -288,6 +288,7 @@ bool BaseApplication::setup(void)
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	sound.update();
+	gui.update();
 
     if(mWindow->isClosed())
         return false;
