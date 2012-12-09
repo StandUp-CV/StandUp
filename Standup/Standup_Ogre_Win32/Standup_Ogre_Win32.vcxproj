@@ -28,6 +28,7 @@
     <ClInclude Include="src\BaseView.h" />
     <ClInclude Include="src\Clock.h" />
     <ClInclude Include="src\ClockView.h" />
+    <ClInclude Include="src\ClockVisualization.h" />
     <ClInclude Include="src\CubeView.h" />
     <ClInclude Include="src\RTTView.h" />
     <ClInclude Include="src\Sound.h" />

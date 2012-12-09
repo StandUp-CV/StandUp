@@ -38,7 +38,7 @@ BaseApplication::BaseApplication(void)
     mMouse(0),
     mKeyboard(0),
 	mStandupCEGUIRenderer(0),
-	mDefaultCamPosition(new Ogre::Vector3(0,10,0))
+	mDefaultCamPosition(new Ogre::Vector3(100,0,0))
 
 {
 }
@@ -114,9 +114,9 @@ void BaseApplication::createCamera(void)
     mCamera = mSceneMgr->createCamera("PlayerCam");
 
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(0,0,80));
+    mCamera->setPosition(*mDefaultCamPosition);
     // Look back along -Z
-    mCamera->lookAt(Ogre::Vector3(0,0,-300));
+    mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller 
@@ -180,13 +180,13 @@ void BaseApplication::destroyScene(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::createViewports(void)
 {
-    /*// Create one viewport, entire window
+    // Create one viewport, entire window
     Ogre::Viewport* vp = mWindow->addViewport(mCamera);
     vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
 
     // Alter the camera aspect ratio to match the viewport
     mCamera->setAspectRatio(
-        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));*/
+        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::setupResources(void)
@@ -265,9 +265,6 @@ bool BaseApplication::setup(void)
     loadResources();
 	// create listener for mouse and keyboard
     createFrameListener();
-
-
-
 
 	//////////////////////////////////////////////////////////////////////////
 	//		Crazy Eddie GUI Setup
@@ -360,9 +357,9 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 		cw->setTargetSide(arg.key-OIS::KC_1);
 	}
 
-	if(arg.key == OIS::KC_F3)   // refresh all textures
+	if(arg.key == OIS::KC_F3)   // reset camera position
 	{
-		//mCamera->setPosition();
+		mCamera->setPosition(*mDefaultCamPosition);
 	}
 
     if(arg.key == OIS::KC_F5)   // refresh all textures

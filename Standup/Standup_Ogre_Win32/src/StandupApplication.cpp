@@ -16,6 +16,7 @@ This source file is part of the
 */
 #include "stdafx.h"
 #include "StandupApplication.h"
+#include "ClockVisualization.h"
 
 
 //-------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ void StandupApplication::createViewports(void)
 void StandupApplication::createCamera(void)
 {
 	mCamera = mSceneMgr->createCamera("PlayerCam"); 
-	mCamera->setPosition(Ogre::Vector3(50, 0, 0));
+	mCamera->setPosition(*mDefaultCamPosition);
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
 	mCamera->setFarClipDistance(2000);
@@ -118,18 +119,11 @@ void StandupApplication::createScene(void)
 
 	// set lights
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
-
-	Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
-
-	Ogre::SceneNode* clockNode = rootNode->createChildSceneNode("MainClockNode");
-
-	Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
-	sphere->setMaterialName("Examples/Rockwall");
-	Ogre::SceneNode* zeroNode = clockNode->createChildSceneNode("ZeroNode", Ogre::Vector3(0, 1, 0));
-	zeroNode->attachObject(sphere);
+	// Create clock
+	Clock clock = Clock();
+	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock);
+	mRoot->addFrameListener(clockVis);
 	
-
-
 	// CEGUI
 	WindowManager& wmgr = WindowManager::getSingleton();
 
