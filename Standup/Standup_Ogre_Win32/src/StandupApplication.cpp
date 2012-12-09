@@ -129,29 +129,10 @@ void StandupApplication::createScene(void)
 	zeroNode->attachObject(sphere);
 	
 
+	gui.createScene();
 
-	// CEGUI
-	WindowManager& wmgr = WindowManager::getSingleton();
 
-	Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
-	System::getSingleton().setGUISheet( myRoot );
-
-	FrameWindow* fWnd = static_cast<FrameWindow*>(
-		wmgr.createWindow( "OgreTray/FrameWindow", "testWindow" ));
-
-	myRoot->addChildWindow( fWnd );
-
-	// position a quarter of the way in from the top-left of parent.
-	fWnd->setPosition( UVector2( UDim( 0.75f, 0 ), UDim( 0.75f, 0 ) ) );
-	// set size to be half the size of the parent
-	fWnd->setSize( UVector2( UDim( 0.25f, 0 ), UDim( 0.25f, 0 ) ) );
-	fWnd->setText( "Hello World!" );
-
-	CEGUI::Window *quit = wmgr.createWindow("OgreTray/Button", "testWindow/QuitButton");
-	quit->setText("Quit");
-	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
-	quit->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.9f, 0 ) ) );
-	fWnd->addChildWindow(quit);
+	
 
 }
 

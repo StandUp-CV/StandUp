@@ -19,7 +19,7 @@ This source file is part of the
 #include "ViewManager.h"
 #include "CubeView.h"
 
-#include "sound.h"
+//#include "sound.h"
 
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
@@ -276,6 +276,7 @@ bool BaseApplication::setup(void)
 
 	//mViewManager = new ViewManager();
 	//mViewManager->createViews(mRoot);
+
 
 	sound.play();
 	// Create the scene

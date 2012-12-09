@@ -39,6 +39,7 @@ This source file is part of the
 
 #include "sound.h"
 
+
 #define CUBEFACE_SIZE 1024
 
 class ViewManager;
@@ -97,6 +98,8 @@ protected:
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
 	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
+
+
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;

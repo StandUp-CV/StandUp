@@ -24,6 +24,8 @@ class Clock
 
 	static const time_t HOUR = (60*60);
 	static const time_t DAY = (HOUR*24);
+
+
 };
 
 class AlarmEventHandler

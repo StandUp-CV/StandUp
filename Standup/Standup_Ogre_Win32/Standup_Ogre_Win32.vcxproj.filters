@@ -39,6 +39,9 @@
     <ClCompile Include="src\ClockView.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUI.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseApplication.h">
@@ -69,6 +72,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\Sound.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

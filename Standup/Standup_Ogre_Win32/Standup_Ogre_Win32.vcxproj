@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\StandupApplication.cpp" />
     <ClCompile Include="src\BaseView.cpp" />
     <ClCompile Include="src\ClockView.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="src\Clock.h" />
     <ClInclude Include="src\ClockView.h" />
     <ClInclude Include="src\CubeView.h" />
+    <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\RTTView.h" />
     <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\stdafx.h" />
@@ -87,8 +89,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;$(OGRE_HOME)\boost\lib;$(FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;OgreMain_d.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(FMOD_HOME);$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;$(OGRE_HOME)\boost\lib;$(FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodexL_vc.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;OIS_d.lib;corona_d.lib;D3DX11EffectsD.lib;DevIL_d.lib;expat_d.lib;freeglut_d.lib;FreeImaged.lib;freetype_d.lib;ILU_d.lib;jpeg_d.lib;libmng_d.lib;libpng_d.lib;libtiff_d.lib;lua_d.lib;pcre_d.lib;SILLY_d.lib;xerces-c_3D.lib;zlib_d.lib;OgreMain_d.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)$(Configuration)\$(TargetFileName)" "$(OGRE_HOME)\bin\$(Configuration)"</Command>

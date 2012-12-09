@@ -20,6 +20,7 @@ This source file is part of the
 #include "stdafx.h"
 #include "BaseApplication.h"
 #include <OgrePrerequisites.h>
+#include "GUI.h"
 
 using namespace CEGUI;
 
@@ -46,7 +47,7 @@ protected:
 	 Ogre::SceneNode* mView3;
 	 static StandupApplication* instance;
 
-
+	 	GUI gui;
 };
 
 #endif // #ifndef __StandupApplication_h_
