@@ -50,7 +50,6 @@ void StandupApplication::createCamera(void)
 	mCamera->setPosition(*mDefaultCamPosition);
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
-	mCamera->setFarClipDistance(2000);
 
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
@@ -68,16 +67,20 @@ void StandupApplication::createCamera(void)
   spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
   This defines how the light weakens over distance.
  */
-void StandupApplication::addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos) 
+void StandupApplication::createLights() 
 {
-	Ogre::Light* spotLight = mSceneMgr->createLight(name);
-	spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-	spotLight->setDiffuseColour(1.0, 1.0, 1.0);
-	spotLight->setSpecularColour(1.0, 1.0, 1.0);
-	spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
-	spotLight->setPosition(xPos, 250.0, zPos);
-	spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
-	spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
+	//Ogre::Light* spotLight = mSceneMgr->createLight(name);
+	//spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
+	//spotLight->setDiffuseColour(1.0, 1.0, 1.0);
+	//spotLight->setSpecularColour(1.0, 1.0, 1.0);
+	//spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
+	//spotLight->setPosition(xPos, 250.0, zPos);
+	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
+	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
+
+	Ogre::Light* light1 = mSceneMgr->createLight("Light1");
+	light1->setType(Ogre::Light::LT_POINT);
+	light1->setPosition(20,0,0);
 }
 
 /*
@@ -114,11 +117,25 @@ void StandupApplication::createScene(void)
 	 	// entGround->setCastShadows(false);
 		mView2->attachObject( plane1 );
 */
+	// create lights for the scene
+	createLights();
+
+	// create Ground Entity and Material, Enable Shadows
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		plane, 200, 200, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
+	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	groundNode->attachObject(entGround);
+	groundNode->setPosition(-50,-30,0);
+	entGround->setMaterialName("Examples/BumpyMetal");
+	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+
 	// Create a skybox
 	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
 
 	// set lights
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 	// Create clock
 	Clock clock = Clock();
 	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock);

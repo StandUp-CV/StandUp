@@ -38,7 +38,7 @@ protected:
 	virtual void createCamera(void);
 	virtual void createScene(void);
 	virtual void createLightBillboards(void);
-	void addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos);
+	void createLights();
 
 	 Ogre::SceneNode* mClockNode;
 	 Ogre::SceneNode* mView1;
