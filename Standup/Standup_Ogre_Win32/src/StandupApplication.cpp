@@ -48,9 +48,10 @@ void StandupApplication::createCamera(void)
 {
 	mCamera = mSceneMgr->createCamera("PlayerCam"); 
 	mCamera->setPosition(*mDefaultCamPosition);
+	mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_X);
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
-
+	mCamera->setFOVy(Ogre::Radian(Ogre::Math::PI * 0.5f));
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
 
@@ -78,9 +79,9 @@ void StandupApplication::createLights()
 	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
 	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
 
-	Ogre::Light* light1 = mSceneMgr->createLight("Light1");
-	light1->setType(Ogre::Light::LT_POINT);
-	light1->setPosition(20,0,0);
+	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
+	//light1->setType(Ogre::Light::LT_POINT);
+	//light1->setPosition(20,0,0);
 }
 
 /*
@@ -123,22 +124,22 @@ void StandupApplication::createScene(void)
 	// create Ground Entity and Material, Enable Shadows
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
 	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		plane, 200, 200, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+		plane, 2000, 2000, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
 	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	groundNode->attachObject(entGround);
-	groundNode->setPosition(-50,-30,0);
-	entGround->setMaterialName("Examples/BumpyMetal");
+	groundNode->setPosition(-50,-100,0);
+	entGround->setMaterialName("Standup/RustySteel");
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	// Create a skybox
-	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+	mSceneMgr->setSkyBox(true, "Standup/TimedSkyBox");
 
 	// set lights
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 	// Create clock
 	Clock clock = Clock();
-	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock);
+	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock, mCamera);
 	mRoot->addFrameListener(clockVis);
 	
 	// CEGUI

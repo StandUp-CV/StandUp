@@ -38,7 +38,7 @@ BaseApplication::BaseApplication(void)
     mMouse(0),
     mKeyboard(0),
 	mStandupCEGUIRenderer(0),
-	mDefaultCamPosition(new Ogre::Vector3(100,0,0))
+	mDefaultCamPosition(new Ogre::Vector3(0,45,0))
 
 {
 }
