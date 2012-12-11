@@ -12,6 +12,7 @@ Filename:    GUI.cpp
 #include "CEGUISlider.h"
 #include "OgreStringConverter.h"
 #include "StandupApplication.h"
+#include "ClockVisualizationBars.h"
 
 
 
@@ -178,10 +179,13 @@ void GUI::createScene( void )
 
 	// create Entity
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
-	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
-	Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
-	Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 0, -300));
-	headNode->attachObject(ogreHead);
+	//mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+	//Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
+	//Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 0, -300));
+	//headNode->attachObject(ogreHead);
+
+	ClockVisualizationBars* clockVis = new ClockVisualizationBars(mSceneMgr, mClock, 1);
+	StandupApplication::getInstance()->getRoot()->addFrameListener(clockVis);
 
 	//Create ogre texture
 		Ogre::TexturePtr tex = StandupApplication::getInstance()->getRoot()->getTextureManager()->createManual(
@@ -197,8 +201,10 @@ void GUI::createScene( void )
 
 	//create Cam
 	Ogre::Camera *cam = mSceneMgr->createCamera("RTTCam");
-	cam->setPosition(100, -100, -400);
-	cam->lookAt(0, 0, -300);
+	cam->setPosition(0, 45, 0);
+	cam->setFixedYawAxis(true, Ogre::Vector3::UNIT_X);
+	cam->lookAt(Ogre::Vector3(0,0,0));
+	cam->setNearClipDistance(1);
 
 	//create Viewport
 	Ogre::Viewport *v = rtex->addViewport(cam);
@@ -274,6 +280,7 @@ void GUI::createScene( void )
 // param realtive XPosition of Slider Thump [0,1]
 // return int hours [0,23]
 int GUI::getSliderValueHour(float f){
+	
 	int hourValue = (int)(24*f);
 
 	return hourValue;
@@ -290,6 +297,8 @@ int GUI::getSliderValueMin(float f){
 // param realtive XPosition of Slider Thump [0,1]
 // return String (example 12:34) for dialog2AlarmTime CEGUI Window
 String GUI::getSliderTimeString(float f){
+	float max = 0.982266f;
+	f/=max;
 	int hour = getSliderValueHour(f);
 	int min = getSliderValueMin(f);
 	String s ="";
@@ -303,7 +312,7 @@ String GUI::getSliderTimeString(float f){
 }
 
 //return current Time as String (example 12:34:56)
-String GUI::getSliderTimeString(void){
+String GUI::getCurrentTimeString(void){
 	// get current time from clock
 	const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
 	// get the current secs, mins and mHours
@@ -344,7 +353,6 @@ String GUI::getSliderTimeString(void){
 bool GUI::frameRenderingQueued( const Ogre::FrameEvent& evt )
 {
 	static float maxTime = 0;
-
 	//update position of dialog2AlarmTime Window
 	dialog2AlarmTime->setPosition((dialog2Slider->getThumb()->getPosition()) * (UVector2( UDim(0.9f, 0 ), UDim( 0, 0 ))));
 	//update Text of dialog2AlarmTime (example 12:34)
@@ -356,7 +364,7 @@ bool GUI::frameRenderingQueued( const Ogre::FrameEvent& evt )
 	//
 	//dialog1TextAlarm->setText(getCurrentAlarmTimeString());
 	//
-	dialog1TextClock->setText(getSliderTimeString());	
+	dialog1TextClock->setText(getCurrentTimeString());	
 
 	return true;
 }

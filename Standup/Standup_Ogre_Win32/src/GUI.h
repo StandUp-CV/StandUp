@@ -74,7 +74,7 @@ public:
 	int GUI::getSliderValueMin(float f);
 	int GUI::getSliderValueHour(float f);
 	String getSliderTimeString(float f);
-	String getSliderTimeString(void);
+	String getCurrentTimeString(void);
 
 	//String getCurrentAlarmTimeString(void);
 private:
