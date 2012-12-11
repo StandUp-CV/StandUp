@@ -16,8 +16,8 @@ This source file is part of the
 */
 #include "stdafx.h"
 #include "StandupApplication.h"
-#include "ClockVisualization.h"
-
+#include "ClockVisualizationCircle.h"
+#include "ClockVisualizationBars.h"
 
 //-------------------------------------------------------------------------------------
 StandupApplication* StandupApplication::instance = 0;
@@ -79,9 +79,9 @@ void StandupApplication::createLights()
 	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
 	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
 
-	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
-	//light1->setType(Ogre::Light::LT_POINT);
-	//light1->setPosition(20,0,0);
+	Ogre::Light* light1 = mSceneMgr->createLight("Light1");
+	light1->setType(Ogre::Light::LT_POINT);
+	light1->setPosition(5,75,0);
 }
 
 /*
@@ -139,8 +139,10 @@ void StandupApplication::createScene(void)
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 	// Create clock
 	Clock clock = Clock();
-	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock, mCamera, 2);
+	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
+	//ClockVisualizationBars* clockVisBars = new ClockVisualizationBars(mSceneMgr, &clock, 2);
+	//mRoot->addFrameListener(clockVisBars);
 	
 	// CEGUI
 	mRoot->addFrameListener(&gui);

@@ -77,10 +77,16 @@
     <ClInclude Include="src\Sound.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ClockVisualization.h">
+    <ClInclude Include="src\GUI.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI.h">
+    <ClInclude Include="src\ClockVisualizationBars.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClockVisualizationCircle.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClockVisualisation.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\AnimationBuilder.h">

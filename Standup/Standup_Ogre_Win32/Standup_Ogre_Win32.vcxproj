@@ -31,7 +31,9 @@
     <ClInclude Include="src\BaseView.h" />
     <ClInclude Include="src\Clock.h" />
     <ClInclude Include="src\ClockView.h" />
-    <ClInclude Include="src\ClockVisualization.h" />
+    <ClInclude Include="src\ClockVisualisation.h" />
+    <ClInclude Include="src\ClockVisualizationCircle.h" />
+    <ClInclude Include="src\ClockVisualizationBars.h" />
     <ClInclude Include="src\CubeView.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\RTTView.h" />
