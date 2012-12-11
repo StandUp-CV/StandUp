@@ -30,7 +30,7 @@ BaseApplication::BaseApplication(void)
     mResourcesCfg(Ogre::StringUtil::BLANK),
     mPluginsCfg(Ogre::StringUtil::BLANK),
     //mTrayMgr(0),
-    mCameraMan(0),
+    //mCameraMan(0),
     //mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
@@ -47,7 +47,7 @@ BaseApplication::BaseApplication(void)
 BaseApplication::~BaseApplication(void)
 {
     //if (mTrayMgr) delete mTrayMgr;
-    if (mCameraMan) delete mCameraMan;
+    //if (mCameraMan) delete mCameraMan;
 
     //Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
@@ -119,7 +119,7 @@ void BaseApplication::createCamera(void)
     mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller 
+    //mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller 
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
@@ -322,7 +322,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	//////////////////////////////////////////////////////////////////////////
 	//		Update Camera
 	//////////////////////////////////////////////////////////////////////////
-	mCameraMan->frameRenderingQueued(evt);
+	//mCameraMan->frameRenderingQueued(evt);
 	// update the Scenes
 	//mViewManager->update();
 
@@ -375,7 +375,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    mCameraMan->injectKeyDown(arg);
+    //mCameraMan->injectKeyDown(arg);
 
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Input Methods
@@ -389,7 +389,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+    //mCameraMan->injectKeyUp(arg);
 
 	// CEGUI key down injection
 	CEGUI::System::getSingleton().injectKeyUp(arg.key);
@@ -399,7 +399,7 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
     // if (mTrayMgr->injectMouseMove(arg)) return true;*/
-	mCameraMan->injectMouseMove(arg);
+	//mCameraMan->injectMouseMove(arg);
 
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Mouse Movement Methods
@@ -416,7 +416,7 @@ bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    mCameraMan->injectMouseDown(arg, id);
+    //mCameraMan->injectMouseDown(arg, id);
 
 	// CEGUI mousePressed injection
 	CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
@@ -426,7 +426,7 @@ bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     //if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    mCameraMan->injectMouseUp(arg, id);
+    //mCameraMan->injectMouseUp(arg, id);
 
 	// CEGUI mouseReleased injection
 	CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));

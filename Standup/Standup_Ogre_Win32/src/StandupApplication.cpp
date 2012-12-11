@@ -51,8 +51,8 @@ void StandupApplication::createCamera(void)
 	mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_X);
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
-	mCamera->setFOVy(Ogre::Radian(Ogre::Math::PI * 0.5f));
-	mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
+	mCamera->setFOVy(Ogre::Radian(Ogre::Math::PI * 0.4f));
+	//mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
 
 /*
@@ -124,11 +124,11 @@ void StandupApplication::createScene(void)
 	// create Ground Entity and Material, Enable Shadows
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
 	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		plane, 2000, 2000, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+		plane, 10000, 10000, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
 	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	groundNode->attachObject(entGround);
-	groundNode->setPosition(-50,-100,0);
+	groundNode->setPosition(-50,-45,0);
 	entGround->setMaterialName("Standup/RustySteel");
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
@@ -139,7 +139,7 @@ void StandupApplication::createScene(void)
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 	// Create clock
 	Clock clock = Clock();
-	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock, mCamera);
+	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
 	
 	// CEGUI
