@@ -40,6 +40,8 @@ void StandupApplication::createViewports(void)
 	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
 }
 
+
+
 /*
  *	create Camera
  */
@@ -121,14 +123,18 @@ void StandupApplication::createScene(void)
 
 	Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
 
-	Ogre::SceneNode* clockNode = rootNode->createChildSceneNode("MainClockNode");
+	//Ogre::SceneNode* clockNode = rootNode->createChildSceneNode("MainClockNode");
 
-	Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
-	sphere->setMaterialName("Examples/Rockwall");
-	Ogre::SceneNode* zeroNode = clockNode->createChildSceneNode("ZeroNode", Ogre::Vector3(0, 1, 0));
-	zeroNode->attachObject(sphere);
+	//Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
+	//sphere->setMaterialName("Examples/Rockwall");
+	//Ogre::SceneNode* zeroNode = clockNode->createChildSceneNode("ZeroNode", Ogre::Vector3(0, 1, 0));
+	//zeroNode->attachObject(sphere);
 	
 
+
+
+
+	mRoot->addFrameListener(&gui);
 	gui.createScene();
 
 

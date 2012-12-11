@@ -40,9 +40,10 @@ BaseApplication::BaseApplication(void)
 	mStandupCEGUIRenderer(0),
 	mDefaultCamPosition(new Ogre::Vector3(0,10,0))
 
-{
-}
 
+{
+
+}
 //-------------------------------------------------------------------------------------
 BaseApplication::~BaseApplication(void)
 {
@@ -53,6 +54,7 @@ BaseApplication::~BaseApplication(void)
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
     windowClosed(mWindow);
     delete mRoot;
+
 }
 
 //-------------------------------------------------------------------------------------
@@ -61,8 +63,8 @@ void BaseApplication::createCEGUI()
 	// Bootstrap CEGUI::System with an OgreRenderer object that uses the
 	// default Ogre rendering window as the default output surface, an Ogre based
 	// ResourceProvider, and an Ogre based ImageCodec.
-	CEGUI::OgreRenderer& standupCEGUIRenderer =
-		CEGUI::OgreRenderer::bootstrapSystem();
+	mStandupCEGUIRenderer =
+		&CEGUI::OgreRenderer::bootstrapSystem();
 	//  set the so-called default resource groups for each of 
 	//  CEGUI'S resource managers
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -80,6 +82,10 @@ void BaseApplication::createCEGUI()
 	//  set the default mouse cursor
 	CEGUI::System::getSingleton().
 		setDefaultMouseCursor("WindowsLook", "MouseArrow");
+}
+
+Ogre::Root* BaseApplication::getRoot(void){
+	return mRoot;
 }
 
 //-------------------------------------------------------------------------------------
@@ -288,7 +294,6 @@ bool BaseApplication::setup(void)
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	sound.update();
-	gui.update();
 
     if(mWindow->isClosed())
         return false;
@@ -490,5 +495,4 @@ CEGUI::MouseButton BaseApplication::convertButton(OIS::MouseButtonID buttonID)
 		return CEGUI::LeftButton;
 	}
 }
-
 

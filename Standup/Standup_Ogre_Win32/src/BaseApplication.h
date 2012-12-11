@@ -53,7 +53,7 @@ public:
 
     virtual void go(void);
 	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
-
+	virtual Ogre::Root* getRoot(void);
 protected:
     virtual bool setup();
 	virtual bool configure(void);
@@ -99,8 +99,6 @@ protected:
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
 	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
-
-
 
     // OgreBites
     OgreBites::SdkTrayManager* mTrayMgr;
