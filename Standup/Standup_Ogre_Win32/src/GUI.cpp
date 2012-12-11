@@ -28,26 +28,26 @@ void GUI::createScene( void )
 	System::getSingleton().setGUISheet( myRoot );
 
 
+
 	//------------------------------Dialog 1---------------------------------------
 	dialogWindow1 = static_cast<FrameWindow*>(
 		wmgr.createWindow( "OgreTray/FrameWindow", "dialogWindow1" ));
 	myRoot->addChildWindow( dialogWindow1 );
 	// position a quarter of the way in from the top-left of parent.
-	dialogWindow1->setPosition( UVector2( UDim( 0.05f, 0 ), UDim( 0.60f, 0 ) ) );
+	dialogWindow1->setPosition( UVector2( UDim( 0.05f, 0 ), UDim( 0.65f, 0 ) ) );
 	// set size to be half the size of the parent
-	dialogWindow1->setSize( UVector2( UDim( 0.9f, 0 ), UDim( 0.35f, 0 ) ) );
+	dialogWindow1->setSize( UVector2( UDim( 0.9f, 0 ), UDim( 0.30f, 0 ) ) );
 	dialogWindow1->setSizingEnabled(false);
 	dialogWindow1->setTitleBarEnabled(false);
 	dialogWindow1->setDragMovingEnabled(false);
 	dialogWindow1->setText( "Dialog 1" );
-	
 
 	// dialog1ButtonRight
 	PushButton* dialog1ButtonRight = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog1ButtonRight"));
 	dialog1ButtonRight->setText(">");
 	dialog1ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(0.2f, 0)));
 	dialog1ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.8f, 0 ) ) );
-	dialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftRight,this));
+	dialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonRightClicked,this));
 	dialogWindow1->addChildWindow(dialog1ButtonRight);
 
 	// dialog1ButtonLeft
@@ -55,21 +55,32 @@ void GUI::createScene( void )
 	dialog1ButtonLeft->setText("<");
 	dialog1ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.2, 0)));
 	dialog1ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.8f, 0 ) ) );
-	dialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftLeft,this));
+	dialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonLeftClicked,this));
 	dialogWindow1->addChildWindow(dialog1ButtonLeft);
 
 	//static Text
-	DefaultWindow* dialog1Text = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "dialog1Text"));
-	dialogWindow1->addChildWindow(dialog1Text);
-	dialog1Text->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(0.2f, 0)));
-	dialog1Text->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0,0)));
-	dialog1Text->setProperty("FrameEnabled", "False");
-	//dialog1Text->setFont((CEGUI::utf8*)"Comic_12");
-	dialog1Text->setProperty("HorzFormatting", "HorzCenterAligned");
-	dialog1Text->setProperty("VertFormatting", "TopAligned");
+	dialog1TextClock = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "dialog1TextClock"));
+	dialogWindow1->addChildWindow(dialog1TextClock);
+	dialog1TextClock->setSize(CEGUI::UVector2(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	dialog1TextClock->setPosition(CEGUI::UVector2(CEGUI::UDim(0.45, 0), CEGUI::UDim(0.3,0)));
+	dialog1TextClock->setProperty("FrameEnabled", "False");
+	dialog1TextClock->setProperty("Font","Comic_12");
+	dialog1TextClock->setProperty("HorzFormatting", "HorzCentred");
+	dialog1TextClock->setProperty("VertFormatting", "VertCentred");
 	//dialog1Text->setProperty("Text", "hallo");
-	dialog1Text->setText("");
+	dialog1TextClock->setText("");
 	
+	//static Text
+	dialog1TextAlarm = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "dialog1TextAlarm"));
+	dialogWindow1->addChildWindow(dialog1TextAlarm);
+	dialog1TextAlarm->setSize(CEGUI::UVector2(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	dialog1TextAlarm->setPosition(CEGUI::UVector2(CEGUI::UDim(0.45, 0), CEGUI::UDim(0.5,0)));
+	dialog1TextAlarm->setProperty("FrameEnabled", "False");
+	dialog1TextAlarm->setProperty("Font","Comic_12");
+	dialog1TextAlarm->setProperty("HorzFormatting", "HorzCentred");
+	dialog1TextAlarm->setProperty("VertFormatting", "VertCentred");
+	//dialog1Text->setProperty("Text", "hallo");
+	dialog1TextAlarm->setText("");
 
 	//------------------------------Dialog 2---------------------------------------
 	dialogWindow2 = static_cast<FrameWindow*>(
@@ -78,7 +89,7 @@ void GUI::createScene( void )
 	// position a quarter of the way in from the top-left of parent.
 	dialogWindow2->setPosition(dialogWindow1->getPosition() +  UVector2(UDim( -1.0f, 0 ), UDim( 0, 0 )));
 	// set size to be half the size of the parent
-	dialogWindow2->setSize( UVector2( UDim( 0.9f, 0 ), UDim( 0.35f, 0 ) ) );
+	dialogWindow2->setSize( UVector2( UDim( 0.9f, 0 ), UDim( 0.30f, 0 ) ) );
 	dialogWindow2->setSizingEnabled(false);
 	dialogWindow2->setTitleBarEnabled(true);
 	dialogWindow2->setDragMovingEnabled(false);
@@ -89,18 +100,18 @@ void GUI::createScene( void )
 	dialog2ButtonRight->setText(">");
 	dialog2ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.2, 0)));
 	dialog2ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.8f, 0 ) ) );
-	dialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftRight,this));
+	dialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog2ButtonRightClicked,this));
 	dialogWindow2->addChildWindow(dialog2ButtonRight);
 
 	//dialog2Slider -> set the Wackup Time
 	dialog2Slider = static_cast<Slider*>(wmgr.createWindow("OgreTray/HorizontalScrollbar", "dialog2Slider"));
-	dialog2Slider->setPosition(UVector2(UDim(0.1f,0), UDim(0.4f,0)));
-	dialog2Slider->setSize(UVector2(UDim(0.8f,0), UDim(0.1f,0)));
-	dialog2Slider->setProperty("DocumentSize", "100");
+	dialog2Slider->setPosition(UVector2(UDim(0.05f,0), UDim(0.4f,0)));
+	dialog2Slider->setSize(UVector2(UDim(0.9f,0), UDim(0.1f,0)));
+	dialog2Slider->setProperty("DocumentSize", "101");
 	dialog2Slider->setProperty("PageSize", "16");
 	dialog2Slider->setProperty("StepSize", "1");
 	dialog2Slider->setProperty("OverlapSize", "0");
-	dialog2Slider->setProperty("ScrollPosition", "0");
+	dialog2Slider->setProperty("ScrollPosition", "50");
 	//dialog2Slider->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&GUI::scrollPositionChanged, this));
 
 	dialogWindow2->addChildWindow(dialog2Slider);
@@ -130,19 +141,19 @@ void GUI::createScene( void )
 	//staticText AlarmTime
 	dialog2ActivateText = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "dialog2ActivateText"));
 	dialogWindow2->addChildWindow(dialog2ActivateText);
-	dialog2ActivateText->setSize(UVector2(UDim(0.1f, 0), UDim(0.3f,0)));
+	dialog2ActivateText->setSize(UVector2(UDim(0.1f, 0), UDim(0.4f,0)));
 	dialog2ActivateText->setPosition(UVector2(UDim(0.3f,0), UDim(0.6f,0)));
 	dialog2ActivateText->setProperty("FrameEnabled", "False");
-	//dialog2ActivateText->setFont((CEGUI::utf8*)"Comic_12");
-	dialog2ActivateText->setProperty("HorzFormatting", "HorzCenterAligned");
-	dialog2ActivateText->setProperty("VertFormatting", "TopAligned");
+	dialog2ActivateText->setProperty("Font","Comic_12");
+	dialog2ActivateText->setProperty("HorzFormatting", "HorzCentred");
+	dialog2ActivateText->setProperty("VertFormatting", "VertCentred");
 	
 
 	//------------------------------Dialog 3---------------------------------------
 	dialogWindow3 = static_cast<FrameWindow*>(
 		wmgr.createWindow( "OgreTray/FrameWindow", "Dialog 3" ));
 	myRoot->addChildWindow( dialogWindow3 );
-	dialogWindow3->setPosition( dialogWindow1->getPosition() + UVector2( UDim( 1.0f, 0 ), UDim(-0.55f, 0 ) ) );
+	dialogWindow3->setPosition( dialogWindow1->getPosition() + UVector2( UDim( 1.0f, 0 ), UDim(-0.60f, 0 ) ) );
 	dialogWindow3->setSize( UVector2( UDim( 0.9f, 0 ), UDim( 0.9f, 0 ) ) );
 	dialogWindow3->setSizingEnabled(false);
 	dialogWindow3->setTitleBarEnabled(true);
@@ -154,7 +165,7 @@ void GUI::createScene( void )
 	dialog3ButtonLeft->setText("<");
 	dialog3ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.077f, 0)));
 	dialog3ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.9f, 0 ) ) );
-	dialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftLeft,this));
+	dialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog3ButtonLeftClicked,this));
 	dialogWindow3->addChildWindow(dialog3ButtonLeft);
 
 
@@ -191,8 +202,8 @@ void GUI::createScene( void )
 
 	//create Viewport
 	Ogre::Viewport *v = rtex->addViewport(cam);
-	v->setOverlaysEnabled(false);
-	v->setClearEveryFrame(true);
+	//v->setOverlaysEnabled(false);
+	//v->setClearEveryFrame(true);
 	v->setBackgroundColour(Ogre::ColourValue::Black);
 
 	//Create cegui texture
@@ -218,7 +229,47 @@ void GUI::createScene( void )
 	/************************************************************************/
 	/* CREATE IMAGESET END   	                                            */
 	/************************************************************************/ 
+
+
+	/************************************************************************/
+	/* Animation                                                            */
+	/************************************************************************/
+	
+	animBuilder->createAnimations(dialogWindow1->getProperty("UnifiedXPosition"), dialogWindow2->getProperty("UnifiedXPosition"), dialogWindow3->getProperty("UnifiedXPosition") );
+	AnimationManager& animMng = AnimationManager::getSingleton();
+
+	instAnim_MoveWindow1Right = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Right"));
+	instAnim_MoveWindow1Right->setTargetWindow(dialogWindow1);
+
+	instAnim_MoveWindow2Right= animMng.instantiateAnimation(animMng.getAnimation("MoveWindow2Right"));
+	instAnim_MoveWindow2Right->setTargetWindow(dialogWindow2);
+
+	instAnim_MoveWindow1Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Left"));
+	instAnim_MoveWindow1Left->setTargetWindow(dialogWindow1);
+
+	instAnim_MoveWindow3Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow3Left"));
+	instAnim_MoveWindow3Left->setTargetWindow(dialogWindow3);
+
+	instAnim_moveWindow1FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromRightToStart"));
+	instAnim_moveWindow1FromRightToStart->setTargetWindow(dialogWindow1);
+
+	instAnim_moveWindow2FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow2FromLeftToStart"));
+	instAnim_moveWindow2FromLeftToStart->setTargetWindow(dialogWindow2);
+
+	instAnim_moveWindow1FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromLeftToStart"));
+	instAnim_moveWindow1FromLeftToStart->setTargetWindow(dialogWindow1);
+
+	instAnim_moveWindow3FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow3FromRightToStart"));
+	instAnim_moveWindow3FromRightToStart->setTargetWindow(dialogWindow3);
+
+	/************************************************************************/
+	/* Animation            END                                             */
+	/************************************************************************/
+
+
 }
+
+
 
 // param realtive XPosition of Slider Thump [0,1]
 // return int hours [0,23]
@@ -251,41 +302,62 @@ String GUI::getSliderTimeString(float f){
 	return s;
 }
 
+//return current Time as String (example 12:34:56)
+String GUI::getSliderTimeString(void){
+	// get current time from clock
+	const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+	// get the current secs, mins and mHours
+	mCurrentSeconds = localTime.tm_sec;
+	mCurrentMinutes = localTime.tm_min;
+	mCurrentHours = localTime.tm_hour % (12 * mHourFormat); // in right time format (12 vs 24)
+	String s ="";
+	if(mCurrentHours<10)
+		s += "0";
+	s += Ogre::StringConverter::toString(mCurrentHours) + ":";
+	if(mCurrentMinutes<10)
+		s+= "0";
+	s+= Ogre::StringConverter::toString(mCurrentMinutes) + ":";
+	if(mCurrentSeconds<10)
+		s+= "0";
+		s+= Ogre::StringConverter::toString(mCurrentSeconds);
+	return s;
+}
+
+//TODO
+	//String GUI::getCurrentAlarmTimeString(){
+	//	// get current alarm time from clock
+	//	const tm& alarmTime = mClock->getDisplayTime(mAlarmClock->getAlarmTime());
+	//	// get the alarm mins and mHours
+	//	mAlarmMinutes = alarmTime.tm_min;
+	//	mAlarmHours = alarmTime.tm_hour % (12 * mHourFormat); // in right time format (12 vs 24)
+	//	String s ="";
+	//	if(mAlarmHours<10)
+	//		s += "0";
+	//	s += Ogre::StringConverter::toString(mAlarmHours) + ":";
+	//	if(mAlarmMinutes<10)
+	//		s+= "0";
+	//	s+= Ogre::StringConverter::toString(mAlarmMinutes) + ":";
+	//	return s;
+	//}
+
 //Frame Rendering Queued
 bool GUI::frameRenderingQueued( const Ogre::FrameEvent& evt )
 {
+	static float maxTime = 0;
+
 	//update position of dialog2AlarmTime Window
 	dialog2AlarmTime->setPosition((dialog2Slider->getThumb()->getPosition()) * (UVector2( UDim(0.9f, 0 ), UDim( 0, 0 ))));
 	//update Text of dialog2AlarmTime (example 12:34)
-	dialog2AlarmTime->setText(getSliderTimeString((float)(dialog2Slider->getThumb()->getXPosition().asRelative(1))));
+	dialog2AlarmTime->setText(getSliderTimeString(static_cast<float>(dialog2Slider->getThumb()->getXPosition().asRelative(1))));
 	// update 
-	dialog2ActivateText->setText(Ogre::StringConverter::toString(dialog2Checkbox->isSelected()));
-	// Right Button clicked
-	if(moveRight){
-		if(swiftCounter<100){
-			dialogWindow1->setPosition(dialogWindow1->getPosition() + (UVector2( UDim(-0.01f, 0 ), UDim( 0, 0 ))));
-			dialogWindow2->setPosition(dialogWindow2->getPosition() + (UVector2( UDim(-0.01f, 0 ), UDim( 0, 0 ))));
-			dialogWindow3->setPosition(dialogWindow3->getPosition() + (UVector2( UDim(-0.01f, 0 ), UDim( 0, 0 ))));
-			++swiftCounter;
-		}
-		else{
-			swiftCounter = 0;		
-			moveRight = false;
-		}
-	}
-	// Left Button clicked
-	if(moveLeft){
-		if(swiftCounter<100){
-			dialogWindow1->setPosition(dialogWindow1->getPosition() + (UVector2( UDim(0.01f, 0 ), UDim( 0, 0 ))));
-			dialogWindow2->setPosition(dialogWindow2->getPosition() + (UVector2( UDim(0.01f, 0 ), UDim( 0, 0 ))));
-			dialogWindow3->setPosition(dialogWindow3->getPosition() + (UVector2( UDim(0.01f, 0 ), UDim( 0, 0 ))));
-			++swiftCounter;
-		}
-		else{
-			swiftCounter = 0;		
-			moveLeft = false;
-		}
-	}
+	//dialog2ActivateText->setText(Ogre::StringConverter::toString(dialog2Checkbox->isSelected()));
+	dialog2ActivateText->setText(Ogre::StringConverter::toString(dialog2Slider->getThumb()->getXPosition().asRelative(1)));
+	
+	//
+	//dialog1TextAlarm->setText(getCurrentAlarmTimeString());
+	//
+	dialog1TextClock->setText(getSliderTimeString());	
+
 	return true;
 }
 

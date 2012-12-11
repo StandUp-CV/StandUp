@@ -147,9 +147,7 @@ void StandupApplication::createScene(void)
 
 	mRoot->addFrameListener(&gui);
 	gui.createScene();
-	myRoot->addChildWindow( fWnd );
 
-	fWnd->setText( "Hello World!" );
 }
 
 bool StandupApplication::configure() {

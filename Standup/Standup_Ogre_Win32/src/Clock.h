@@ -71,6 +71,7 @@ private:
 
 	time_t timeOfLastUpdate;
 
+
 	time_t alarmTime,snoozeTime,prerunTime;
 	//time_t actualTimeOfAlarm;
 
@@ -88,6 +89,9 @@ public:
 	}
 
 	void setAlarmTime( time_t t) { if (alarmState!=INACTIVE) throw ( new ClockException ); alarmTime = t; }
+
+	// Hady Created for display Alarmtime
+	//static const time_t getAlarmTime() {return alarmTime;};
 
 	void hookAlarmEventHandler ( AlarmEventHandler *handler ) { alarmEventHandler = handler; }
 
