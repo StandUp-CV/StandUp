@@ -1,5 +1,5 @@
-#ifndef CLOCK_VISUALIZATION_H
-#define CLOCK_VISUALIZATION_H
+#ifndef CLOCK_VISUALIZATION_CIRCLE_H
+#define CLOCK_VISUALIZATION_CIRCLE_H
 
 #include "stdafx.h"
 #include <vector>
@@ -9,10 +9,11 @@
 #include "OgreMath.h"
 #include "clock.h"
 #include "OgreQuaternion.h"
+#include "ClockVisualisation.h"
 
 //-------------------------------------------------------------------------------------
 // Class for visualization of a clock
-class ClockVisualization : public Ogre::FrameListener
+class ClockVisualizationCircle : public Ogre::FrameListener, public ClockVisualization
 {
 public:
 	//-------------------------------------------------------------------------------------
@@ -20,8 +21,13 @@ public:
 	//-------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------- 
 	// Contructor of the visualization
-	ClockVisualization(const Ogre::String &name, Ogre::SceneManager* sceneManager, Clock* clock, Ogre::Camera* cam, int hourFormat = 1) 
-		: mSceneMgr(sceneManager), mClock(clock), mHourFormat(hourFormat), mCamera(cam) {
+	ClockVisualizationCircle(Ogre::SceneManager* sceneManager, Clock* clock, 
+		Ogre::Camera* cam, int hourFormat = 1) : ClockVisualization(sceneManager, clock, hourFormat), 
+		mCamera(cam) {
+		// set max values
+		mHours = 12 * mHourFormat;
+		mMinutes = 60;
+		mSeconds = 60;
 		// create the clock components
 		createClock();
 		// get the initial time
@@ -69,7 +75,7 @@ public:
 		// Apply Time visualization every second
 		if(mCurrentSeconds!=second)
 		{
-			second=mCurrentSeconds;
+			second = mCurrentSeconds;
 			//mDaytimeLight->setSpecularColour(newColor);
 			// Seconds
 			for (int i = 0; i < mSeconds; i++) {
@@ -149,7 +155,7 @@ private:
 	void createClock() {
 		Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
 
-		mClockNode = rootNode->createChildSceneNode("MainClockNode");
+		mClockNode = rootNode->createChildSceneNode("MainCircleClockNode");
 		mClockRotationNode = mClockNode->createChildSceneNode("ClockRotationNode");
 		//mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0.5f), Ogre::Vector3::NEGATIVE_UNIT_Z));
 		mHoursNode = mClockRotationNode->createChildSceneNode("HoursNode");
@@ -162,9 +168,6 @@ private:
 		Ogre::String minutesMaterialName = "Standup/Clock/Cubemap_Minutes";
 		Ogre::String secondsMaterialName = "Standup/Clock/Cubemap_Seconds";
 
-		mHours = 12 * mHourFormat;
-		mMinutes = 60;
-		mSeconds = 60;
 		float scaleHours = 0.05f;
 		float scaleMinutes = 0.02f;
 		float scaleSeconds = 0.005f;
@@ -191,7 +194,7 @@ private:
 
 			float rscale = scaleHours;
 			if((i%(3 * mHourFormat))!=0) rscale*=0.66f;
-			tempNode->scale(rscale, rscale, rscale);
+			tempNode->setScale(rscale, rscale, rscale);
 			tempNode->attachObject(tempGeometry);
 			//tempNode->setVisible(false);
 			mVectorHourGeom.push_back(tempGeometry);
@@ -212,7 +215,7 @@ private:
 
 			float rscale = scaleMinutes;
 			if((i%5)!=0) rscale*=0.66f;
-			tempNode->scale(rscale, rscale, rscale);
+			tempNode->setScale(rscale, rscale, rscale);
 			tempNode->attachObject(tempGeometry);
 			mVectorMinuteGeom.push_back(tempGeometry);
 		}
@@ -232,7 +235,7 @@ private:
 
 			float rscale = scaleSeconds;
 			if((i%5)!=0) rscale*=0.66f;
-			tempNode->scale(rscale, rscale, rscale*5.0f);
+			tempNode->setScale(rscale, rscale, rscale*5.0f);
 			tempNode->attachObject(tempGeometry);
 			mVectorSecondGeom.push_back(tempGeometry);
 		}
@@ -244,7 +247,6 @@ private:
 	//-------------------------------------------------------------------------------------
 	//		Variables
 	//-------------------------------------------------------------------------------------
-	Ogre::SceneManager* mSceneMgr;
 	Ogre::SceneNode* mClockNode;
 	Ogre::SceneNode* mClockRotationNode;
 	// Nodes for Symbols
@@ -253,22 +255,11 @@ private:
 	Ogre::SceneNode* mSecondsNode;
 	// Light node
 	Ogre::Light* mDaytimeLight;
-	// saves the static values for max hours, mins and secs
-	int mHours;
-	int mMinutes;
-	int mSeconds;
-	// saves the current time and gmt offset
-	int mCurrentSeconds;
-	int mCurrentMinutes;
-	int mCurrentHours;
-	int mHourFormat;
 	// time update
 	float mAnimationTime;
 	// references the ogre basic camera
 	Ogre::Camera* mCamera;
 	Ogre::Vector3 mCameraPosition;
-	// references the clock used for the visualization
-	Clock* mClock;
 	// holds all nodes for the nodes with the 
 	std::vector <Ogre::Entity*> mVectorHourGeom;
 	std::vector <Ogre::Entity*> mVectorMinuteGeom;
