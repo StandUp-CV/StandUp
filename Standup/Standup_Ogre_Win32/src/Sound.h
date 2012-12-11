@@ -43,13 +43,8 @@ public:
 		result = system->init(32, FMOD_INIT_NORMAL, 0);
 		if(result!=FMOD_OK) throw new SoundException();
 
-		result = system->createSound("booze.wav", FMOD_HARDWARE, 0, &sound);
+		//result = system->createSound("booze.wav", FMOD_HARDWARE, 0, &sound);
 		if(result!=FMOD_OK) throw new SoundException();
-
-
-
-
-
 	}
 
 	~Sound()

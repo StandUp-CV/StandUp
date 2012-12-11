@@ -143,8 +143,6 @@ void StandupApplication::createScene(void)
 	mRoot->addFrameListener(clockVis);
 	
 	// CEGUI
-
-
 	mRoot->addFrameListener(&gui);
 	gui.createScene();
 
