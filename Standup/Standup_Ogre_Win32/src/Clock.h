@@ -21,6 +21,7 @@ class Clock
 	
 	static const time_t getCurrentSecond() { static time_t t; time(&t); return t; };
 	static const tm& getDisplayTime(const time_t &second) { static tm *lt; lt=localtime(&second); return *lt; };
+	static const tm& getGMTime() { time_t rawtime; time ( &rawtime ); return *gmtime( &rawtime ); }
 
 	static const time_t HOUR = (60*60);
 	static const time_t DAY = (HOUR*24);

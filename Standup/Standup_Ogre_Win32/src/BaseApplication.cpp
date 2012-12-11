@@ -30,7 +30,7 @@ BaseApplication::BaseApplication(void)
     mResourcesCfg(Ogre::StringUtil::BLANK),
     mPluginsCfg(Ogre::StringUtil::BLANK),
     //mTrayMgr(0),
-    mCameraMan(0),
+    //mCameraMan(0),
     //mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
@@ -38,7 +38,7 @@ BaseApplication::BaseApplication(void)
     mMouse(0),
     mKeyboard(0),
 	mStandupCEGUIRenderer(0),
-	mDefaultCamPosition(new Ogre::Vector3(0,10,0))
+	mDefaultCamPosition(new Ogre::Vector3(0,45,0))
 
 
 {
@@ -48,7 +48,7 @@ BaseApplication::BaseApplication(void)
 BaseApplication::~BaseApplication(void)
 {
     //if (mTrayMgr) delete mTrayMgr;
-    if (mCameraMan) delete mCameraMan;
+    //if (mCameraMan) delete mCameraMan;
 
     //Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
@@ -120,12 +120,12 @@ void BaseApplication::createCamera(void)
     mCamera = mSceneMgr->createCamera("PlayerCam");
 
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(0,0,80));
+    mCamera->setPosition(*mDefaultCamPosition);
     // Look back along -Z
-    mCamera->lookAt(Ogre::Vector3(0,0,-300));
+    mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller 
+    //mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller 
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
@@ -186,13 +186,13 @@ void BaseApplication::destroyScene(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::createViewports(void)
 {
-    /*// Create one viewport, entire window
+    // Create one viewport, entire window
     Ogre::Viewport* vp = mWindow->addViewport(mCamera);
     vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
 
     // Alter the camera aspect ratio to match the viewport
     mCamera->setAspectRatio(
-        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));*/
+        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::setupResources(void)
@@ -272,9 +272,6 @@ bool BaseApplication::setup(void)
 	// create listener for mouse and keyboard
     createFrameListener();
 
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	//		Crazy Eddie GUI Setup
 	//////////////////////////////////////////////////////////////////////////
@@ -332,7 +329,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	//////////////////////////////////////////////////////////////////////////
 	//		Update Camera
 	//////////////////////////////////////////////////////////////////////////
-	mCameraMan->frameRenderingQueued(evt);
+	//mCameraMan->frameRenderingQueued(evt);
 	// update the Scenes
 	//mViewManager->update();
 
@@ -367,9 +364,9 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 		cw->setTargetSide(arg.key-OIS::KC_1);
 	}
 
-	if(arg.key == OIS::KC_F3)   // refresh all textures
+	if(arg.key == OIS::KC_F3)   // reset camera position
 	{
-		//mCamera->setPosition();
+		mCamera->setPosition(*mDefaultCamPosition);
 	}
 
     if(arg.key == OIS::KC_F5)   // refresh all textures
@@ -385,7 +382,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    mCameraMan->injectKeyDown(arg);
+    //mCameraMan->injectKeyDown(arg);
 
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Input Methods
@@ -399,7 +396,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+    //mCameraMan->injectKeyUp(arg);
 
 	// CEGUI key down injection
 	CEGUI::System::getSingleton().injectKeyUp(arg.key);
@@ -409,7 +406,7 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
     // if (mTrayMgr->injectMouseMove(arg)) return true;*/
-	mCameraMan->injectMouseMove(arg);
+	//mCameraMan->injectMouseMove(arg);
 
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Mouse Movement Methods
@@ -426,7 +423,7 @@ bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    mCameraMan->injectMouseDown(arg, id);
+    //mCameraMan->injectMouseDown(arg, id);
 
 	// CEGUI mousePressed injection
 	CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
@@ -436,7 +433,7 @@ bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     //if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    mCameraMan->injectMouseUp(arg, id);
+    //mCameraMan->injectMouseUp(arg, id);
 
 	// CEGUI mouseReleased injection
 	CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));

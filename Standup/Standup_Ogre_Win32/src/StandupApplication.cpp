@@ -16,6 +16,7 @@ This source file is part of the
 */
 #include "stdafx.h"
 #include "StandupApplication.h"
+#include "ClockVisualization.h"
 
 
 //-------------------------------------------------------------------------------------
@@ -40,20 +41,18 @@ void StandupApplication::createViewports(void)
 	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
 }
 
-
-
 /*
  *	create Camera
  */
 void StandupApplication::createCamera(void)
 {
 	mCamera = mSceneMgr->createCamera("PlayerCam"); 
-	mCamera->setPosition(Ogre::Vector3(50, 0, 0));
+	mCamera->setPosition(*mDefaultCamPosition);
+	mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_X);
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
-	mCamera->setFarClipDistance(2000);
-
-	mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
+	mCamera->setFOVy(Ogre::Radian(Ogre::Math::PI * 0.4f));
+	//mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
 
 /*
@@ -69,16 +68,20 @@ void StandupApplication::createCamera(void)
   spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
   This defines how the light weakens over distance.
  */
-void StandupApplication::addSpotlight(const Ogre::String name, const Ogre::Real xPos, const Ogre::Real zPos) 
+void StandupApplication::createLights() 
 {
-	Ogre::Light* spotLight = mSceneMgr->createLight(name);
-	spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-	spotLight->setDiffuseColour(1.0, 1.0, 1.0);
-	spotLight->setSpecularColour(1.0, 1.0, 1.0);
-	spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
-	spotLight->setPosition(xPos, 250.0, zPos);
-	spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
-	spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
+	//Ogre::Light* spotLight = mSceneMgr->createLight(name);
+	//spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
+	//spotLight->setDiffuseColour(1.0, 1.0, 1.0);
+	//spotLight->setSpecularColour(1.0, 1.0, 1.0);
+	//spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
+	//spotLight->setPosition(xPos, 250.0, zPos);
+	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
+	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
+
+	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
+	//light1->setType(Ogre::Light::LT_POINT);
+	//light1->setPosition(20,0,0);
 }
 
 /*
@@ -115,33 +118,39 @@ void StandupApplication::createScene(void)
 	 	// entGround->setCastShadows(false);
 		mView2->attachObject( plane1 );
 */
+	// create lights for the scene
+	createLights();
+
+	// create Ground Entity and Material, Enable Shadows
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		plane, 10000, 10000, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
+	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	groundNode->attachObject(entGround);
+	groundNode->setPosition(-50,-45,0);
+	entGround->setMaterialName("Standup/RustySteel");
+	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+
 	// Create a skybox
-	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+	mSceneMgr->setSkyBox(true, "Standup/TimedSkyBox");
 
 	// set lights
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
-
-	Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
-
-	//Ogre::SceneNode* clockNode = rootNode->createChildSceneNode("MainClockNode");
-
-	//Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
-	//sphere->setMaterialName("Examples/Rockwall");
-	//Ogre::SceneNode* zeroNode = clockNode->createChildSceneNode("ZeroNode", Ogre::Vector3(0, 1, 0));
-	//zeroNode->attachObject(sphere);
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+	// Create clock
+	Clock clock = Clock();
+	ClockVisualization* clockVis = new ClockVisualization("Clock", mSceneMgr, &clock, mCamera, 2);
+	mRoot->addFrameListener(clockVis);
 	
-
-
+	// CEGUI
 
 
 	mRoot->addFrameListener(&gui);
 	gui.createScene();
+	myRoot->addChildWindow( fWnd );
 
-
-	
-
+	fWnd->setText( "Hello World!" );
 }
-
 
 bool StandupApplication::configure() {
 	// Show the configuration dialog and initialise the system

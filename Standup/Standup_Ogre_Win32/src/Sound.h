@@ -69,7 +69,7 @@ public:
 	void play()
 	{
 		FMOD::Channel *ch;
-		system->playSound(FMOD_CHANNEL_FREE,sound,false,&ch);
+		//system->playSound(FMOD_CHANNEL_FREE,sound,false,&ch);
 	}
 };
 
