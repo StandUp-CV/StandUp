@@ -31,6 +31,9 @@ public:
     virtual ~StandupApplication(void);
 
 	static StandupApplication* getInstance();
+	OIS::Mouse* getMouse() { return mMouse; }
+	OIS::Keyboard* getKeyboard() { return mKeyboard; }
+
 
 protected:
 	StandupApplication(void);

@@ -201,8 +201,7 @@ void GUI::createScene( void )
 
 	//create Cam
 	Ogre::Camera *cam = mSceneMgr->createCamera("RTTCam");
-	cam->setPosition(0, 45, 0);
-	cam->setFixedYawAxis(true, Ogre::Vector3::UNIT_X);
+	cam->setPosition(60, 0, -30);
 	cam->lookAt(Ogre::Vector3(0,0,0));
 	cam->setNearClipDistance(1);
 
@@ -213,7 +212,7 @@ void GUI::createScene( void )
 	v->setBackgroundColour(Ogre::ColourValue::Black);
 
 	//Create cegui texture
-	CEGUI::Texture &guiTex = StandupApplication::getInstance()->getStandupCEGUIRenderer()->createTexture(tex);
+	CEGUI::Texture &guiTex = StandupApplication::getInstance()->getOgreCEGUIRenderer()->createTexture(tex);
 
 	//IMAGESET
 	CEGUI::Imageset &imageSet =

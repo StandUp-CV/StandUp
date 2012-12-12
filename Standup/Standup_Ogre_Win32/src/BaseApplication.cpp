@@ -37,7 +37,7 @@ BaseApplication::BaseApplication(void)
     mInputManager(0),
     mMouse(0),
     mKeyboard(0),
-	mStandupCEGUIRenderer(0),
+	mOgreCEGUIRenderer(0),
 	mDefaultCamPosition(new Ogre::Vector3(0,45,0))
 
 
@@ -63,7 +63,7 @@ void BaseApplication::createCEGUI()
 	// Bootstrap CEGUI::System with an OgreRenderer object that uses the
 	// default Ogre rendering window as the default output surface, an Ogre based
 	// ResourceProvider, and an Ogre based ImageCodec.
-	mStandupCEGUIRenderer =
+	mOgreCEGUIRenderer =
 		&CEGUI::OgreRenderer::bootstrapSystem();
 	//  set the so-called default resource groups for each of 
 	//  CEGUI'S resource managers
@@ -469,8 +469,8 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
     }
 }
 
-CEGUI::OgreRenderer* BaseApplication::getStandupCEGUIRenderer(){
-	return mStandupCEGUIRenderer;
+CEGUI::OgreRenderer* BaseApplication::getOgreCEGUIRenderer(){
+	return mOgreCEGUIRenderer;
 }
 
 

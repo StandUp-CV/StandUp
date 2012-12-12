@@ -54,10 +54,12 @@ protected:
 		Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
 		mClockNode = rootNode->createChildSceneNode("MainBarsClockNode");
 
-		mClockNode->setOrientation(Ogre::Quaternion(1,0,-0.1f,-0.66f));
 		mClockNode->setPosition(0,0,0);
 		mClockNode->setScale(0.66f, 0.66f, 0.66f);
-		//mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0.5f), Ogre::Vector3::NEGATIVE_UNIT_Z));
+		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI), 
+			Ogre::Vector3(0,1,1)));*/
+		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0.5f), 
+		Ogre::Vector3::NEGATIVE_UNIT_X));*/
 		
 		mHoursBarsNode = mClockNode->createChildSceneNode("HoursBarsNode");
 		mMinutesBarsNode = mClockNode->createChildSceneNode("MinutesBarsNode");

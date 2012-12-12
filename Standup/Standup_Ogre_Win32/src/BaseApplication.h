@@ -52,9 +52,12 @@ public:
     virtual ~BaseApplication(void);
 
     virtual void go(void);
-	virtual CEGUI::OgreRenderer* getStandupCEGUIRenderer();
+	// get the Ogre Renderer
+	virtual CEGUI::OgreRenderer* getOgreCEGUIRenderer();
+	// get the Ogre3D root node
 	virtual Ogre::Root* getRoot(void);
 protected:
+	// basic instatiation of ogre
     virtual bool setup();
 	virtual bool configure(void);
     virtual void chooseSceneManager(void);
@@ -66,8 +69,6 @@ protected:
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
-
-
 
 	// CEGUI convertButton
 	CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
@@ -88,7 +89,7 @@ protected:
     virtual void windowResized(Ogre::RenderWindow* rw);
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
-
+	// creates the base components of Crazy Eddie GUI
 	virtual void createCEGUI();
 
     Ogre::Root *mRoot;
@@ -98,12 +99,12 @@ protected:
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
-	CEGUI::OgreRenderer* mStandupCEGUIRenderer;
+	CEGUI::OgreRenderer* mOgreCEGUIRenderer;
 
     // OgreBites
-    OgreBites::SdkTrayManager* mTrayMgr;
+    //OgreBites::SdkTrayManager* mTrayMgr;
     //OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
-    OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
+    //OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;
 
@@ -111,12 +112,13 @@ protected:
     OIS::InputManager* mInputManager;
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
-
+	// saves the inital cam pos so you can reset with F3
 	Ogre::Vector3* mDefaultCamPosition;
-
+	// TODO: Deprecated pointer!
 	ViewManager *mViewManager;
-
+	// the reference to the class that handles sound
 	Sound sound;
+	// the refernce to the gui resposible class
     GUI gui;
 };
 
