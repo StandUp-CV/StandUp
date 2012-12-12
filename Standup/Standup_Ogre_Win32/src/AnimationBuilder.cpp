@@ -11,151 +11,127 @@ AnimationBuilder::~AnimationBuilder(void)
 {
 }
 
+
+
 //Param startposition of the 3 Windows
-void AnimationBuilder::createAnimations( CEGUI::String v1,  CEGUI::String v2,  CEGUI::String v3 )
+void AnimationBuilder::createAnimations( CEGUI::String v1,  CEGUI::String v2,  CEGUI::String v3, CEGUI::String r1, CEGUI::String r2, CEGUI::String r3 )
 {
 	/************************************************************************/
 	/* moveWindow1Right														*/
 	/************************************************************************/
-	CEGUI::Animation* anim = CEGUI::AnimationManager::getSingleton().createAnimation("MoveWindow1Right");
-	anim->setDuration(0.5f); // duration in seconds
-	anim->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
-
-
-	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v1);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v3, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
+	CEGUI::Animation* anim = createAnimation("MoveWindow1Right", 0.6f, CEGUI::Animation::RM_Once);
+	unifiedXPositionInterpolation(anim,v1,v3);
+	// yRotation
+	yRotation(anim,r1,r3);
 
 	/************************************************************************/
 	/* moveWindow2Right														*/
 	/************************************************************************/
-	CEGUI::Animation* anim2 = CEGUI::AnimationManager::getSingleton().createAnimation("MoveWindow2Right");
-	anim2->setDuration(0.5f); // duration in seconds
-	anim2->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
+	CEGUI::Animation* anim2 = createAnimation("MoveWindow2Right", 0.6f, CEGUI::Animation::RM_Once);
+	unifiedXPositionInterpolation(anim2,v2,v1);
+	// yRotation
+	yRotation(anim2,r2,r1);
 
-
-	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim2->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v2);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v1, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
 
 	/************************************************************************/
 	/* moveWindow3left														*/
 	/************************************************************************/
-	CEGUI::Animation* anim3 = CEGUI::AnimationManager::getSingleton().createAnimation("MoveWindow3Left");
-	anim3->setDuration(0.5f); // duration in seconds
-	anim3->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
-
-
+	CEGUI::Animation* anim3 = createAnimation("MoveWindow3Left", 0.6f, CEGUI::Animation::RM_Once);
 	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim3->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v3);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v1, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
+	unifiedXPositionInterpolation(anim3,v3,v1);
+	// yRotation
+	yRotation(anim3,r3,r1);
+
 
 	/************************************************************************/
 	/* moveWindow1left														*/
 	/************************************************************************/
-	CEGUI::Animation* anim4 = CEGUI::AnimationManager::getSingleton().createAnimation("MoveWindow1Left");
-	anim4->setDuration(0.5f); // duration in seconds
-	anim4->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
+	CEGUI::Animation* anim4 = createAnimation("MoveWindow1Left", 0.6f, CEGUI::Animation::RM_Once);
+	unifiedXPositionInterpolation(anim4,v1,v2);
+	// yRotation
+	yRotation(anim4,r1,r2);
 
-
-	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim4->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v1);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v2, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
 
 	/************************************************************************/
 	/* moveWindow1FromRightToStart														*/
 	/************************************************************************/
-	CEGUI::Animation* anim5 = CEGUI::AnimationManager::getSingleton().createAnimation("moveWindow1FromRightToStart");
-	anim5->setDuration(0.5f); // duration in seconds
-	anim5->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
-
-
+	CEGUI::Animation* anim5 = createAnimation("moveWindow1FromRightToStart", 0.6f, CEGUI::Animation::RM_Once);
 	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim5->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v3);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v1, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
+	unifiedXPositionInterpolation(anim5,v3,v1);
+	yRotation(anim5,r3,r1);
+
 
 	/************************************************************************/
 	/* moveWindow1FromLeftToStart														*/
 	/************************************************************************/
-	CEGUI::Animation* anim6 = CEGUI::AnimationManager::getSingleton().createAnimation("moveWindow1FromLeftToStart");
-	anim6->setDuration(0.5f); // duration in seconds
-	anim6->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
+	CEGUI::Animation* anim6 = createAnimation("moveWindow1FromLeftToStart", 0.6f, CEGUI::Animation::RM_Once);
+	unifiedXPositionInterpolation(anim6,v2,v1);
+	yRotation(anim6,r2,r1);
 
 
+	/************************************************************************/
+	/* moveWindow2FromStarttoLeft														*/
+	/************************************************************************/
+	CEGUI::Animation* anim7 = createAnimation("moveWindow2FromLeftToStart", 0.6f, CEGUI::Animation::RM_Once);
+	unifiedXPositionInterpolation(anim7,v1,v2);
+	// yRotation
+	yRotation(anim7,r1,r2);
+
+
+	/************************************************************************/
+	/* moveWindow3FromStartTORight														*/
+	/************************************************************************/
+	CEGUI::Animation* anim8 = 	createAnimation("moveWindow3FromRightToStart", 0.6f, CEGUI::Animation::RM_Once);
 	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim6->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v2);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v1, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
-
-	/************************************************************************/
-	/* moveWindow2FromLeftToStart														*/
-	/************************************************************************/
-	CEGUI::Animation* anim7 = CEGUI::AnimationManager::getSingleton().createAnimation("moveWindow2FromLeftToStart");
-	anim7->setDuration(0.5f); // duration in seconds
-	anim7->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
-
-
-	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim7->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v1);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v2, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
-
-	/************************************************************************/
-	/* moveWindow3FromRightToStart														*/
-	/************************************************************************/
-	CEGUI::Animation* anim8 = CEGUI::AnimationManager::getSingleton().createAnimation("moveWindow3FromRightToStart");
-	anim8->setDuration(0.5f); // duration in seconds
-	anim8->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
-
-
-	// now we define affector inside our Testing animation
-	{
-		// this affector changes YRotation and interpolates keyframes with float interpolator
-		CEGUI::Affector* affector = anim8->createAffector("UnifiedXPosition", "UDim");
-		// at 0.0 seconds, the animation should set YRotation to 0 degrees
-		affector->createKeyFrame(0.0f, v1);
-		// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
-		affector->createKeyFrame(0.5f, v3, CEGUI::KeyFrame::P_QuadraticAccelerating);
-	}
+	unifiedXPositionInterpolation(anim8,v1,v3);
+	// yRotation
+	yRotation(anim8,r1, r3);
 
 }
+
+
+/*
+ *	
+ *	createAnimation
+ *	
+ */
+CEGUI::Animation* AnimationBuilder::createAnimation(CEGUI::String name, float duration, CEGUI::Animation::ReplayMode replayMode)
+{
+	CEGUI::Animation* anim = CEGUI::AnimationManager::getSingleton().createAnimation(name);
+	anim->setDuration(duration); // duration in seconds
+	anim->setReplayMode(replayMode); // when this animation is started, only play it once, then stop
+	return anim;
+}
+
+
+/*
+ *	
+ *	unifiedXPositionInterpolation
+ *	
+ */
+void AnimationBuilder::unifiedXPositionInterpolation(CEGUI::Animation* anim, CEGUI::String pos1, CEGUI::String pos2)
+{
+	// this affector changes YRotation and interpolates keyframes with float interpolator
+	CEGUI::Affector* affector = anim->createAffector("UnifiedXPosition", "UDim");
+	// at 0.0 seconds, the animation should set YRotation to 0 degrees
+	affector->createKeyFrame(0.0f, pos1);
+	// at 0.3 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
+	affector->createKeyFrame(0.6f, pos2, CEGUI::KeyFrame::P_QuadraticAccelerating);
+}
+
+
+/*
+ *	
+ *	yRotation
+ *	
+ */
+void AnimationBuilder::yRotation(CEGUI::Animation* anim, CEGUI::String valueStart , CEGUI::String valueEnd)
+	{
+		
+		// this affector changes YRotation and interpolates keyframes with float interpolator
+		CEGUI::Affector* affector = anim->createAffector("YRotation", "float");
+		// at 0.0 seconds, the animation should set YRotation to 0 degrees
+		affector->createKeyFrame(0.0f, valueStart);
+		// at 0.8 seconds, YRotation should be 10.0 degrees and animation should progress towards this in an accelerating manner
+		affector->createKeyFrame(0.6f, valueEnd, CEGUI::KeyFrame::P_QuadraticAccelerating);
+	}
