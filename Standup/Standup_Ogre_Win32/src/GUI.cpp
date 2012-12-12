@@ -176,9 +176,10 @@ void GUI::createScene( void )
 	dialogWindow3->setPosition( dialogWindow1->getPosition() + UVector2( UDim( 1.0f, 0 ), UDim(-0.7f, 0 ) ) );
 	dialogWindow3->setSize( UVector2( UDim( 1.0f, 0 ), UDim( 1.0f, 0 ) ) );
 	dialogWindow3->setSizingEnabled(false);
-	dialogWindow3->setTitleBarEnabled(true);
+	dialogWindow3->setTitleBarEnabled(false);
 	dialogWindow3->setDragMovingEnabled(false);
 	dialogWindow3->setText( "Video Settings" );
+	dialogWindow3->setFrameEnabled(false);
 	dialogWindow3->setProperty("YRotation","90.0");
 	myRoot->addChildWindow( dialogWindow3 );
 
@@ -250,8 +251,8 @@ void GUI::createScene( void )
 
 	//create Window
 	Window *dialog3VideoWindow = wmgr.createWindow("OgreTray/StaticImage", "RTTWindow");
-	dialog3VideoWindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.8f, 0), CEGUI::UDim(0.6f, 0)));
-	dialog3VideoWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.1f, 0), CEGUI::UDim(0.2f, 0)));
+	dialog3VideoWindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f, 0), CEGUI::UDim(0.65f, 0)));
+	dialog3VideoWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f, 0), CEGUI::UDim(0.05f, 0)));
 	dialog3VideoWindow->setProperty("FrameEnabled", "False");
 	dialog3VideoWindow->setProperty("Image", CEGUI::PropertyHelper::imageToString(&imageSet.getImage("RTTImage")));
 
