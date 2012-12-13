@@ -75,7 +75,7 @@ public:
 	int GUI::getSliderValueHour(float f);
 	String getSliderTimeString(float f);
 	String getCurrentTimeString(void);
-
+	String getDisplayCurrentTime();
 	//String getCurrentAlarmTimeString(void);
 private:
 	FrameWindow* dialogWindow1;
@@ -83,7 +83,7 @@ private:
 	FrameWindow* dialogWindow3;
 	FrameWindow* mainWindow;
 	DefaultWindow* dialog2AlarmTime;
-	DefaultWindow* dialog2ActivateText;
+	DefaultWindow* dialog2CurrentTime;
 	DefaultWindow* dialog1TextClock;
 	DefaultWindow* dialog1TextAlarm;
 	Checkbox* dialog2Checkbox;
