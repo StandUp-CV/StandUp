@@ -18,6 +18,8 @@ This source file is part of the
 #include "BaseApplication.h"
 #include "ViewManager.h"
 #include "CubeView.h"
+#include "CEGUIOgreRenderer.h"
+#include "CEGUIOgreImageCodec.h"
 
 //#include "sound.h"
 
@@ -37,10 +39,10 @@ BaseApplication::BaseApplication(void)
     mInputManager(0),
     mMouse(0),
     mKeyboard(0),
+	mDefaultCamPosition(new Ogre::Vector3(0,45,0)),
 	mOgreCEGUIRenderer(0),
-	mDefaultCamPosition(new Ogre::Vector3(0,45,0))
-
-
+	mCEGUISystem(0),
+	mGUI(0)
 {
 
 }
@@ -60,11 +62,60 @@ BaseApplication::~BaseApplication(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::createCEGUI()
 {
+	/*
+	// HARD WAY
+	// Create an OgreRenderer object that uses the default Ogre rendering
+	// window as the default output surface.
+	mOgreCEGUIRenderer = &CEGUI::OgreRenderer::create();
+	mCEGUISystem = &CEGUI::System::create(*mOgreCEGUIRenderer);
+	// initialise the required dirs for the DefaultResourceProvider
+	//CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
+	//	(CEGUI::System::getSingleton().getResourceProvider());
+
+	//rp->setResourceGroupDirectory("schemes", "../datafiles/schemes/");
+	//rp->setResourceGroupDirectory("imagesets", "../datafiles/imagesets/");
+	//rp->setResourceGroupDirectory("fonts", "../datafiles/fonts/");
+	//rp->setResourceGroupDirectory("layouts", "../datafiles/layouts/");
+	//rp->setResourceGroupDirectory("looknfeels", "../datafiles/looknfeel/");
+	//rp->setResourceGroupDirectory("lua_scripts", "../datafiles/lua_scripts/");
+	// This is only really needed if you are using Xerces and need to
+	// specify the schemas location
+	//rp->setResourceGroupDirectory("schemas", "../datafiles/xml_schemas/");
+
+	//  CEGUI'S resource managers
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+	CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
+
+	// setup default group for validation schemas
+	CEGUI::XMLParser* parser = CEGUI::System::getSingleton().getXMLParser();
+	if (parser->isPropertyPresent("SchemaDefaultResourceGroup"))
+		parser->setProperty("SchemaDefaultResourceGroup", "schemas");
+	// select the skin
+	CEGUI::SchemeManager& mSchemeManager = CEGUI::SchemeManager::getSingleton();
+	mSchemeManager.create("OgreTray.scheme");
+	mSchemeManager.create("WindowsLook.scheme");
+	// Set default tooltip
+	mCEGUISystem->setDefaultTooltip("OgreTray/Tooltip");
+	//  set the default mouse cursor
+	mCEGUISystem->setDefaultMouseCursor("WindowsLook", "MouseArrow");
+
+	*/
+
+
+	// SIMPLE BOOTSTRAP
+	// 
 	// Bootstrap CEGUI::System with an OgreRenderer object that uses the
 	// default Ogre rendering window as the default output surface, an Ogre based
 	// ResourceProvider, and an Ogre based ImageCodec.
 	mOgreCEGUIRenderer =
 		&CEGUI::OgreRenderer::bootstrapSystem();
+	// Manually control when the gui is rendered
+	mOgreCEGUIRenderer->setRenderingEnabled(false);
+	//Ogre::Root::getSingleton().addFrameListener(this);
 	//  set the so-called default resource groups for each of 
 	//  CEGUI'S resource managers
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -77,11 +128,12 @@ void BaseApplication::createCEGUI()
 	mSchemeManager.create("OgreTray.scheme");
 	mSchemeManager.create("WindowsLook.scheme");
 
+	//mCEGUISystem = CEGUI::System::getSingleton().create(dynamic_cast<CEGUI::Renderer&>(*mOgreCEGUIRenderer), NULL, NULL);
+	mCEGUISystem = &CEGUI::System::getSingleton();
 	// Set default tooltip
-	CEGUI::System::getSingleton().setDefaultTooltip("OgreTray/Tooltip");
+	mCEGUISystem->setDefaultTooltip("OgreTray/Tooltip");
 	//  set the default mouse cursor
-	CEGUI::System::getSingleton().
-		setDefaultMouseCursor("WindowsLook", "MouseArrow");
+	mCEGUISystem->setDefaultMouseCursor("WindowsLook", "MouseArrow");
 }
 
 Ogre::Root* BaseApplication::getRoot(void){
@@ -252,7 +304,7 @@ void BaseApplication::go(void)
 bool BaseApplication::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
-
+	// collect and parse resources
     setupResources();
 
     bool carryOn = configure();
@@ -273,16 +325,16 @@ bool BaseApplication::setup(void)
     createFrameListener();
 
 	//////////////////////////////////////////////////////////////////////////
-	//		Crazy Eddie GUI Setup
+	//Crazy Eddie GUI Setup
 	//////////////////////////////////////////////////////////////////////////
 	createCEGUI();
-
-	//mViewManager = new ViewManager();
-	//mViewManager->createViews(mRoot);
-
-
+	//////////////////////////////////////////////////////////////////////////
+	//Create FMOD Sound
+	//////////////////////////////////////////////////////////////////////////
 	sound.play();
-	// Create the scene
+	//////////////////////////////////////////////////////////////////////////
+	//Create the Scene
+	//////////////////////////////////////////////////////////////////////////
 	createScene();
 
     return true;
@@ -302,62 +354,16 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
-//     mTrayMgr->frameRenderingQueued(evt);
-// 
-//     if (!mTrayMgr->isDialogVisible())
-//     {
-//         //mCameraMan->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
-//         if (mDetailsPanel->isVisible())   // if details panel is visible, then update its contents
-//         {
-//             mDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-//             mDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-//             mDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-//             mDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-//             mDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-//             mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-//             mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
-//         }
-//     }
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Update
 	////////////////////////////////////////////////////////////////////////// 
 	//Need to inject timestamps to CEGUI System.
 	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
-	//////////////////////////////////////////////////////////////////////////
-	//		Update Camera
-	//////////////////////////////////////////////////////////////////////////
-	//mCameraMan->frameRenderingQueued(evt);
-	// update the Scenes
-	//mViewManager->update();
-
     return true;
 }
 //-------------------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
-//  if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
-// 
-//     if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
-//     {
-//         mTrayMgr->toggleAdvancedFrameStats();
-//     }
-//     else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
-//     {
-//         if (mDetailsPanel->getTrayLocation() == OgreBites::TL_NONE)
-//         {
-//             mTrayMgr->moveWidgetToTray(mDetailsPanel, OgreBites::TL_TOPRIGHT, 0);
-//             mDetailsPanel->show();
-//         }
-//         else
-//         {
-//             mTrayMgr->removeWidgetFromTray(mDetailsPanel);
-//             mDetailsPanel->hide();
-//         }
-//     }
-
 	if (arg.key >= OIS::KC_1 && arg.key<=OIS::KC_3)
 	{
 		CubeView *cw = (CubeView*)(mViewManager->getViews()[3]);
@@ -382,8 +388,6 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    //mCameraMan->injectKeyDown(arg);
-
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Input Methods
 	//////////////////////////////////////////////////////////////////////////
@@ -396,8 +400,6 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
-    //mCameraMan->injectKeyUp(arg);
-
 	// CEGUI key down injection
 	CEGUI::System::getSingleton().injectKeyUp(arg.key);
     return true;
@@ -405,9 +407,6 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
-    // if (mTrayMgr->injectMouseMove(arg)) return true;*/
-	//mCameraMan->injectMouseMove(arg);
-
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Mouse Movement Methods
 	//////////////////////////////////////////////////////////////////////////
@@ -422,9 +421,6 @@ bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    //mCameraMan->injectMouseDown(arg, id);
-
 	// CEGUI mousePressed injection
 	CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
     return true;
@@ -432,9 +428,6 @@ bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    //if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    //mCameraMan->injectMouseUp(arg, id);
-
 	// CEGUI mouseReleased injection
 	CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
     return true;
@@ -469,10 +462,9 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
     }
 }
 
-CEGUI::OgreRenderer* BaseApplication::getOgreCEGUIRenderer(){
+CEGUI::OgreRenderer* BaseApplication::getOgreCEGUIRenderer() {
 	return mOgreCEGUIRenderer;
 }
-
 
 //-------------------------------------------------------------------------------------
 CEGUI::MouseButton BaseApplication::convertButton(OIS::MouseButtonID buttonID)

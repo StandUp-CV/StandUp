@@ -59,7 +59,7 @@ protected:
 		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI), 
 			Ogre::Vector3(0,1,1)));*/
 		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0.5f), 
-		Ogre::Vector3::NEGATIVE_UNIT_X));*/
+		Ogre::Vector3::NEGATIVE_UNIT_Z));*/
 		
 		mHoursBarsNode = mClockNode->createChildSceneNode("HoursBarsNode");
 		mMinutesBarsNode = mClockNode->createChildSceneNode("MinutesBarsNode");

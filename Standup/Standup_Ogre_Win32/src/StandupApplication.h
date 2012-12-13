@@ -12,6 +12,9 @@ This source file is part of the
       |___/                              
       Tutorial Framework
       http://www.ogre3d.org/tikiwiki/
+
+	  Modified by Hans Ferchland, Roman Hillebrand and Hady Khalifa
+	  during Project for Computergraphic.
 -----------------------------------------------------------------------------
 */
 #ifndef __StandupApplication_h_
@@ -43,14 +46,7 @@ protected:
 	virtual void createScene(void);
 	virtual void createLightBillboards(void);
 	void createLights();
-
-	 Ogre::SceneNode* mClockNode;
-	 Ogre::SceneNode* mView1;
-	 Ogre::SceneNode* mView2;
-	 Ogre::SceneNode* mView3;
-	 static StandupApplication* instance;
-
-
+	static StandupApplication* instance;
 };
 
 #endif // #ifndef __StandupApplication_h_

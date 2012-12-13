@@ -99,9 +99,9 @@ protected:
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
+	//CEGUI::OgreRenderer* mOgreCEGUIRenderer;
 	CEGUI::OgreRenderer* mOgreCEGUIRenderer;
-
-    // OgreBites
+	CEGUI::System* mCEGUISystem;
     //OgreBites::SdkTrayManager* mTrayMgr;
     //OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
     //OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
@@ -118,8 +118,8 @@ protected:
 	ViewManager *mViewManager;
 	// the reference to the class that handles sound
 	Sound sound;
-	// the refernce to the gui resposible class
-    GUI gui;
+	// the refernce to the mGUI resposible class
+    GUI* mGUI;
 };
 
 #endif // #ifndef __BaseApplication_h_

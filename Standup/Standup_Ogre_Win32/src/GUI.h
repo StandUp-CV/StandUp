@@ -11,17 +11,21 @@
 #include "Clock.h"
 
 using namespace CEGUI;
-
+// Class that handles the gui creation and animation
 class GUI : public Ogre::FrameListener
 {
 public:
-	GUI(void): FrameListener(){
-		moveLeft = false;
-		moveRight = false;
-		isAlarmActive = false;
+	GUI(CEGUI::System* system) : FrameListener() {
+		mMoveLeft = false;
+		mMoveRight = false;
+		mIsAlarmActive = false;
+		mSystem = system;
 	};
-	~GUI(void){};
-		void createScene(void);
+
+	~GUI(void){ mSystem = NULL; };
+
+	void createScene(void);
+	Ogre::TexturePtr createCEGUI_RTTScene();
 
 	/************************************************************************/
 	/* Events                                                               */
@@ -30,7 +34,7 @@ public:
 	{
 		instAnim_MoveWindow1Right->start();
 		instAnim_MoveWindow2Right->start();
-		moveRight = true;
+		mMoveRight = true;
 		return true;
 	};
 
@@ -38,7 +42,7 @@ public:
 	{
 		instAnim_MoveWindow1Left->start();
 		instAnim_MoveWindow3Left->start();
-		moveLeft = true;
+		mMoveLeft = true;
 		return true;
 	};
 
@@ -58,12 +62,12 @@ public:
 
 	bool checkBoxClicked(const CEGUI::EventArgs& /*e*/) 
 	{
-		if(isAlarmActive){
-					isAlarmActive = false;
+		if(mIsAlarmActive){
+					mIsAlarmActive = false;
 		}
 		else
 		{
-					isAlarmActive = true;
+					mIsAlarmActive = true;
 		}
 		return true;
 	};
@@ -78,20 +82,24 @@ public:
 
 	//String getCurrentAlarmTimeString(void);
 private:
-	FrameWindow* dialogWindow1;
-	FrameWindow* dialogWindow2;
-	FrameWindow* dialogWindow3;
+	void initialiseRTTViewport(CEGUI::RenderingSurface* const surface);
+
+	CEGUI::System* mSystem;
+
+	FrameWindow* mDialogWindow1;
+	FrameWindow* mDialogWindow2;
+	FrameWindow* mDialogWindow3;
 	FrameWindow* mainWindow;
-	DefaultWindow* dialog2AlarmTime;
-	DefaultWindow* dialog2ActivateText;
-	DefaultWindow* dialog1TextClock;
-	DefaultWindow* dialog1TextAlarm;
+	DefaultWindow* mDialog2AlarmTime;
+	DefaultWindow* mDialog2ActivateText;
+	DefaultWindow* mDialog1TextClock;
+	DefaultWindow* mDialog1TextAlarm;
 	Checkbox* dialog2Checkbox;
 	Slider* dialog2Slider;
-	Window* myRoot;
-	bool moveLeft;
-	bool moveRight;
-	bool isAlarmActive;
+	Window* mWindowRoot;
+	bool mMoveLeft;
+	bool mMoveRight;
+	bool mIsAlarmActive;
 	// saves the current time and gmt offset
 	int mCurrentSeconds;
 	int mCurrentMinutes;
@@ -118,6 +126,11 @@ private:
 
 	Clock* mClock;
 	AlarmClock* mAlarmClock;
+
+	//RTT Utils
+	Ogre::Viewport *mRTTViewport;
+	Ogre::Camera *mRTTCam;
+	Ogre::RenderTexture *mOgreRenderTexture;
 };
 
 #endif // #ifndef __GUI_h_

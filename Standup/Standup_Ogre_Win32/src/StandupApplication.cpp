@@ -89,35 +89,6 @@ void StandupApplication::createLights()
  */
 void StandupApplication::createScene(void)
 {
-	// Create a skybox
-	/*mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
-
-	// set lights
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-
-	// create Nodes 
-	mClockNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ClockNode");
-	mView1 = mClockNode->createChildSceneNode("View1");
-	mView2 = mClockNode->createChildSceneNode("View2");
-	mView3 = mClockNode->createChildSceneNode("View3");
-
-
-	//TutorialApplication::createLightBillboards();
-
-	// create a billboardset
-	Ogre::Entity* plane1 =  mSceneMgr->createEntity(Ogre::SceneManager::PT_PLANE);
-	plane1->setMaterialName("Examples/BumpyMetal");
-	
-	 	// create Ground Entity and Material
-	 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
-	 	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-	 		plane, 200, 200, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
-	 	Ogre::Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
-	 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
-	 	entGround->setMaterialName("Examples/BumpyMetal");
-	 	// entGround->setCastShadows(false);
-		mView2->attachObject( plane1 );
-*/
 	// create lights for the scene
 	createLights();
 
@@ -141,12 +112,11 @@ void StandupApplication::createScene(void)
 	Clock clock = Clock();
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
-	//ClockVisualizationBars* clockVisBars = new ClockVisualizationBars(mSceneMgr, &clock, 2);
-	//mRoot->addFrameListener(clockVisBars);
-	
+
 	// CEGUI
-	mRoot->addFrameListener(&gui);
-	gui.createScene();
+	mGUI = new GUI(mCEGUISystem);
+	mRoot->addFrameListener(mGUI);
+	mGUI->createScene();
 
 }
 
