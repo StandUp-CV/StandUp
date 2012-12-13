@@ -383,7 +383,7 @@ Ogre::TexturePtr GUI::createCEGUI_RTTScene()
 		800,
 		600,
 		0,
-		Ogre::PF_R8G8B8,
+		Ogre::PF_PVRTC_RGBA4,
 		Ogre::TU_RENDERTARGET);
 
 	mOgreRenderTexture = tex->getBuffer()->getRenderTarget();
@@ -398,8 +398,7 @@ Ogre::TexturePtr GUI::createCEGUI_RTTScene()
 
 	//create Viewport
 	mRTTViewport = mOgreRenderTexture->addViewport(mRTTCam);
-	mRTTViewport->setOverlaysEnabled(false);
-	mRTTViewport->setAutoUpdated(true);
+	mRTTViewport->setOverlaysEnabled(true);
 	mRTTViewport->setClearEveryFrame(true);
 	mRTTViewport->setBackgroundColour(Ogre::ColourValue(0,0,0,0));
 
