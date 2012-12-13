@@ -40,7 +40,7 @@ public:
 		mDaytimeLight = mSceneMgr->createLight("ClockAmbientLight");
 		mDaytimeLight->setType(Ogre::Light::LT_POINT);
 		mDaytimeLight->setCastShadows(true);
-		mDaytimeLight->setPosition(0, 100, 0);
+		mDaytimeLight->setPosition(*(mLightPosition = new Ogre::Vector3(20,100,0)));
 		//mDaytimeLight->setAttenuation(1000, 0.f, 1.0f, 1.f);
 		// set initial cam distance and alginment in front of mMinutes plane
 		mCameraPosition = Ogre::Vector3(0,15,-66);
@@ -69,9 +69,7 @@ public:
 		mCurrentSeconds = localTime.tm_sec;
 		mCurrentMinutes = localTime.tm_min;
 		mCurrentHours = localTime.tm_hour % (12 * mHourFormat); // in right time format (12 vs 24)
-		// Light Color interpolate
-		Ogre::ColourValue newColor = interpolateColors(dayInterpolationTime);//localTime.tm_hour + (localTime.tm_min * 0.01667f));
-		mDaytimeLight->setDiffuseColour(newColor);
+
 		// Apply Time visualization every second
 		if(mCurrentSeconds!=second)
 		{
@@ -100,11 +98,21 @@ public:
 				node->setCastShadows(i < mCurrentHours);
 			}
 		}
+		// Light Color interpolate
+		Ogre::ColourValue newColor = interpolateColors(dayInterpolationTime);//localTime.tm_hour + (localTime.tm_min * 0.01667f));
+		mDaytimeLight->setDiffuseColour(newColor);
+		mDaytimeLight->setSpecularColour(newColor);
+		// light position update animation
+		// 
+		float speed = (mAnimationTime * 0.2f);
+		float x = 10 * Ogre::Math::Cos(Ogre::Math::PI * 2 * speed);
+		float z = 10 * Ogre::Math::Sin(Ogre::Math::PI * 2 * speed);
+		float y;
+		mLightPosition->x = x;
+		mLightPosition->z = z;
+		mDaytimeLight->setPosition(*(mLightPosition));
 
 		// Animate the clock via rotation
-		float x;
-		float y;
-		float z;
 		// Rotation of hours, minutes and seconds
 		Ogre::Quaternion q1,q2,q3;
 		float hoursTime = mAnimationTime * (1.0f/3600.0f);
@@ -255,6 +263,7 @@ private:
 	Ogre::SceneNode* mSecondsNode;
 	// Light node
 	Ogre::Light* mDaytimeLight;
+	Ogre::Vector3* mLightPosition;
 	// time update
 	float mAnimationTime;
 	// references the ogre basic camera

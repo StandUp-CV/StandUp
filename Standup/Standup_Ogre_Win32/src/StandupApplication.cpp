@@ -79,9 +79,9 @@ void StandupApplication::createLights()
 	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
 	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
 
-	Ogre::Light* light1 = mSceneMgr->createLight("Light1");
-	light1->setType(Ogre::Light::LT_POINT);
-	light1->setPosition(5,75,0);
+	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
+	//light1->setType(Ogre::Light::LT_POINT);
+	//light1->setPosition(5,75,0);
 }
 
 /*
