@@ -36,7 +36,13 @@ public:
 	static StandupApplication* getInstance();
 	OIS::Mouse* getMouse() { return mMouse; }
 	OIS::Keyboard* getKeyboard() { return mKeyboard; }
-
+	void createCEGUI() override {
+		BaseApplication::createCEGUI();
+		// CEGUI
+		mGUI = new GUI(mCEGUISystem);
+		mRoot->addFrameListener(mGUI);
+		mGUI->createScene();
+	}
 
 protected:
 	StandupApplication(void);

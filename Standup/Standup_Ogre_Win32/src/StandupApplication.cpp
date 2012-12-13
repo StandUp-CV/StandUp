@@ -113,11 +113,6 @@ void StandupApplication::createScene(void)
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
 
-	// CEGUI
-	mGUI = new GUI(mCEGUISystem);
-	mRoot->addFrameListener(mGUI);
-	mGUI->createScene();
-
 }
 
 bool StandupApplication::configure() {

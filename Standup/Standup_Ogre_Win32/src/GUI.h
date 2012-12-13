@@ -73,13 +73,16 @@ public:
 	};
 	
 
-	// Ogre::FrameListener
+	// renders the gui, handles RTT issues
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	// updates the content
+	void update(const Ogre::FrameEvent& evt);
+
 	int GUI::getSliderValueMin(float f);
 	int GUI::getSliderValueHour(float f);
 	String getSliderTimeString(float f);
 	String getCurrentTimeString(void);
-
+	String getDisplayCurrentTime();
 	//String getCurrentAlarmTimeString(void);
 private:
 	void initialiseRTTViewport(CEGUI::RenderingSurface* const surface);
@@ -91,11 +94,11 @@ private:
 	FrameWindow* mDialogWindow3;
 	FrameWindow* mainWindow;
 	DefaultWindow* mDialog2AlarmTime;
-	DefaultWindow* mDialog2ActivateText;
+	DefaultWindow* mDialog2CurrentTime;
 	DefaultWindow* mDialog1TextClock;
 	DefaultWindow* mDialog1TextAlarm;
-	Checkbox* dialog2Checkbox;
-	Slider* dialog2Slider;
+	Checkbox* mDialog2Checkbox;
+	Slider* mDialog2Slider;
 	Window* mWindowRoot;
 	bool mMoveLeft;
 	bool mMoveRight;
@@ -113,7 +116,7 @@ private:
 	Ogre::RenderTarget *mRenderTarget;
 	Ogre::Viewport* mViewport;
 
-	AnimationBuilder* animBuilder;
+	AnimationBuilder* mAnimationBuilder;
 	// AnimationInstance
 	AnimationInstance* instAnim_MoveWindow1Right;
 	AnimationInstance* instAnim_MoveWindow2Right;
