@@ -25,6 +25,52 @@ public:
 	~GUI(void){ mSystem = NULL; };
 
 	void createScene(void);
+
+	void createDialog1( WindowManager &wmgr );
+
+	void createDialog2( WindowManager &wmgr );
+
+	void createDialog3( WindowManager &wmgr );
+
+	void setAnimationInstances() 
+	{
+		/************************************************************************/
+		/* _-----------------------ANIMATION-------------------------------------*/
+		/************************************************************************/
+
+		mAnimationBuilder->createAnimations(mDialogWindow1->getProperty("UnifiedXPosition"),
+			mDialogWindow2->getProperty("UnifiedXPosition"), 
+			mDialogWindow3->getProperty("UnifiedXPosition"), 
+			mDialogWindow1->getProperty("YRotation"),
+			mDialogWindow2->getProperty("YRotation"),
+			mDialogWindow3->getProperty("YRotation")
+			);
+		AnimationManager& animMng = AnimationManager::getSingleton();
+
+		instAnim_MoveWindow1Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Left"));//AnimationInstances get and setTarget
+		instAnim_MoveWindow1Left->setTargetWindow(mDialogWindow1);
+		instAnim_MoveWindow1Right = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Right"));
+		instAnim_MoveWindow1Right->setTargetWindow(mDialogWindow1);
+		instAnim_moveWindow1FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromLeftToStart"));
+		instAnim_moveWindow1FromLeftToStart->setTargetWindow(mDialogWindow1);
+		instAnim_moveWindow1FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromRightToStart"));
+		instAnim_moveWindow1FromRightToStart->setTargetWindow(mDialogWindow1);
+
+		instAnim_MoveWindow2Right= animMng.instantiateAnimation(animMng.getAnimation("MoveWindow2Right")); //AnimationInstances get and setTarget
+		instAnim_MoveWindow2Right->setTargetWindow(mDialogWindow2);
+		instAnim_moveWindow2FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow2FromLeftToStart"));
+		instAnim_moveWindow2FromLeftToStart->setTargetWindow(mDialogWindow2);
+
+		instAnim_MoveWindow3Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow3Left"));
+		instAnim_MoveWindow3Left->setTargetWindow(mDialogWindow3);
+		instAnim_moveWindow3FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow3FromRightToStart"));
+		instAnim_moveWindow3FromRightToStart->setTargetWindow(mDialogWindow3);
+
+		/************************************************************************/
+		/* Animation            END                                             */
+		/************************************************************************/
+	}
+
 	Ogre::TexturePtr createCEGUI_RTTScene();
 
 	/************************************************************************/
@@ -86,7 +132,7 @@ public:
 	//String getCurrentAlarmTimeString(void);
 private:
 	void initialiseRTTViewport(CEGUI::RenderingSurface* const surface);
-
+	float getCurrentTimePosition();
 	CEGUI::System* mSystem;
 
 	FrameWindow* mDialogWindow1;
@@ -97,6 +143,7 @@ private:
 	DefaultWindow* mDialog2CurrentTime;
 	DefaultWindow* mDialog1TextClock;
 	DefaultWindow* mDialog1TextAlarm;
+	DefaultWindow* mDialog2CurrentTimeHelper;
 	Checkbox* mDialog2Checkbox;
 	Slider* mDialog2Slider;
 	Window* mWindowRoot;
