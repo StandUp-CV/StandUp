@@ -35,6 +35,7 @@
     <ClInclude Include="src\ClockVisualizationCircle.h" />
     <ClInclude Include="src\ClockVisualizationBars.h" />
     <ClInclude Include="src\CubeView.h" />
+    <ClInclude Include="src\GlowMaterialListener.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\RTTView.h" />
     <ClInclude Include="src\Sound.h" />

@@ -20,6 +20,11 @@ This source file is part of the
 #include "CubeView.h"
 #include "CEGUIOgreRenderer.h"
 #include "CEGUIOgreImageCodec.h"
+#include "GlowMaterialListener.h"
+#include "OgreResourceGroupManager.h"
+#include "OgrePixelFormat.h"
+#include "OgreCompositorManager.h"
+#include "OgreParticleAffector.h"
 
 //#include "sound.h"
 
@@ -31,9 +36,6 @@ BaseApplication::BaseApplication(void)
     mWindow(0),
     mResourcesCfg(Ogre::StringUtil::BLANK),
     mPluginsCfg(Ogre::StringUtil::BLANK),
-    //mTrayMgr(0),
-    //mCameraMan(0),
-    //mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
     mInputManager(0),
@@ -42,16 +44,14 @@ BaseApplication::BaseApplication(void)
 	mDefaultCamPosition(new Ogre::Vector3(0,45,0)),
 	mOgreCEGUIRenderer(0),
 	mCEGUISystem(0),
-	mGUI(0)
+	mGUI(0),
+	mWindowViewport(0)
 {
 
 }
 //-------------------------------------------------------------------------------------
 BaseApplication::~BaseApplication(void)
 {
-    //if (mTrayMgr) delete mTrayMgr;
-    //if (mCameraMan) delete mCameraMan;
-
     //Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
     windowClosed(mWindow);
@@ -62,50 +62,6 @@ BaseApplication::~BaseApplication(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::createCEGUI()
 {
-	/*
-	// HARD WAY
-	// Create an OgreRenderer object that uses the default Ogre rendering
-	// window as the default output surface.
-	mOgreCEGUIRenderer = &CEGUI::OgreRenderer::create();
-	mCEGUISystem = &CEGUI::System::create(*mOgreCEGUIRenderer);
-	// initialise the required dirs for the DefaultResourceProvider
-	//CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
-	//	(CEGUI::System::getSingleton().getResourceProvider());
-
-	//rp->setResourceGroupDirectory("schemes", "../datafiles/schemes/");
-	//rp->setResourceGroupDirectory("imagesets", "../datafiles/imagesets/");
-	//rp->setResourceGroupDirectory("fonts", "../datafiles/fonts/");
-	//rp->setResourceGroupDirectory("layouts", "../datafiles/layouts/");
-	//rp->setResourceGroupDirectory("looknfeels", "../datafiles/looknfeel/");
-	//rp->setResourceGroupDirectory("lua_scripts", "../datafiles/lua_scripts/");
-	// This is only really needed if you are using Xerces and need to
-	// specify the schemas location
-	//rp->setResourceGroupDirectory("schemas", "../datafiles/xml_schemas/");
-
-	//  CEGUI'S resource managers
-	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-	CEGUI::Font::setDefaultResourceGroup("Fonts");
-	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-	CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
-
-	// setup default group for validation schemas
-	CEGUI::XMLParser* parser = CEGUI::System::getSingleton().getXMLParser();
-	if (parser->isPropertyPresent("SchemaDefaultResourceGroup"))
-		parser->setProperty("SchemaDefaultResourceGroup", "schemas");
-	// select the skin
-	CEGUI::SchemeManager& mSchemeManager = CEGUI::SchemeManager::getSingleton();
-	mSchemeManager.create("OgreTray.scheme");
-	mSchemeManager.create("WindowsLook.scheme");
-	// Set default tooltip
-	mCEGUISystem->setDefaultTooltip("OgreTray/Tooltip");
-	//  set the default mouse cursor
-	mCEGUISystem->setDefaultMouseCursor("WindowsLook", "MouseArrow");
-
-	*/
-
-
 	// SIMPLE BOOTSTRAP
 	// 
 	// Bootstrap CEGUI::System with an OgreRenderer object that uses the
@@ -128,7 +84,6 @@ void BaseApplication::createCEGUI()
 	mSchemeManager.create("OgreTray.scheme");
 	mSchemeManager.create("WindowsLook.scheme");
 
-	//mCEGUISystem = CEGUI::System::getSingleton().create(dynamic_cast<CEGUI::Renderer&>(*mOgreCEGUIRenderer), NULL, NULL);
 	mCEGUISystem = &CEGUI::System::getSingleton();
 	// Set default tooltip
 	mCEGUISystem->setDefaultTooltip("OgreTray/Tooltip");
@@ -236,17 +191,6 @@ void BaseApplication::destroyScene(void)
 {
 }
 //-------------------------------------------------------------------------------------
-void BaseApplication::createViewports(void)
-{
-    // Create one viewport, entire window
-    Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-
-    // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(
-        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-}
-//-------------------------------------------------------------------------------------
 void BaseApplication::setupResources(void)
 {
     // Load resource paths from config file
@@ -275,11 +219,19 @@ void BaseApplication::setupResources(void)
 void BaseApplication::createResourceListener(void)
 {
 
+	
+	
+
+	//Ogre::CompositorManager::getSingleton().addCompositor(mCamera->getViewport(), "Glow");
+	//Ogre::CompositorManager::getSingleton().setCompositorEnabled(mCamera->getViewport(), "Glow", true);
+	//GlowMaterialListener *gml = new GlowMaterialListener();
+	//Ogre::MaterialManager::getSingleton().addListener(gml);
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::loadResources(void)
 {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../../media/materials/scripts/", "FileSystem");
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::go(void)

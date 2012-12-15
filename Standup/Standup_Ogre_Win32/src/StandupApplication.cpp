@@ -36,9 +36,16 @@ StandupApplication::~StandupApplication(void)
  */
 void StandupApplication::createViewports(void)
 {
-	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-	vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));    
+	// Create one viewport, entire window
+	mWindowViewport = mWindow->addViewport(mCamera);
+	mWindowViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	Ogre::CompositorManager::getSingleton().addCompositor(mWindowViewport, "Bloom");
+	Ogre::CompositorManager::getSingleton().setCompositorEnabled(mWindowViewport, "Bloom", true);
+	Ogre::CompositorManager::getSingleton().addCompositor(mWindowViewport, "HDR");
+	Ogre::CompositorManager::getSingleton().setCompositorEnabled(mWindowViewport, "HDR", true);
+	// Alter the camera aspect ratio to match the viewport
+	mCamera->setAspectRatio(
+		Ogre::Real(mWindowViewport->getActualWidth()) / Ogre::Real(mWindowViewport->getActualHeight()));
 }
 
 /*
@@ -107,7 +114,7 @@ void StandupApplication::createScene(void)
 	mSceneMgr->setSkyBox(true, "Standup/TimedSkyBox");
 
 	// set lights
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.75, 0.75, 0.75));
 	// Create clock
 	Clock clock = Clock();
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);

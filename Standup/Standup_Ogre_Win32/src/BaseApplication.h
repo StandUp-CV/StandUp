@@ -65,7 +65,7 @@ protected:
     virtual void createFrameListener(void);
     virtual void createScene(void) = 0; // Override me!
     virtual void destroyScene(void);
-    virtual void createViewports(void);
+    virtual void createViewports(void) = 0;
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
@@ -96,15 +96,12 @@ protected:
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
+	Ogre::Viewport* mWindowViewport;
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
 	//CEGUI Fields
-	//CEGUI::OgreRenderer* mOgreCEGUIRenderer;
 	CEGUI::OgreRenderer* mOgreCEGUIRenderer;
 	CEGUI::System* mCEGUISystem;
-    //OgreBites::SdkTrayManager* mTrayMgr;
-    //OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
-    //OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;
 
