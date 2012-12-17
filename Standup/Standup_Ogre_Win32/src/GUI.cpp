@@ -228,18 +228,21 @@ void GUI::createDialog3( WindowManager &wmgr )
 	mDialogWindow3->setDragMovingEnabled(false);
 	mDialogWindow3->setText( "Video Settings" );
 	mDialogWindow3->setFrameEnabled(false);
+	mDialogWindow3->setAlpha(0);
 	mDialogWindow3->setProperty("YRotation","90.0");
 	mWindowRoot->addChildWindow( mDialogWindow3 );
 
 	// dialog3ButtonLeft
-	PushButton* dialog3ButtonLeft = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "Dialog 1/QuitButton3"));
-	dialog3ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
-	dialog3ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.0f, 0 ) ) );
-	dialog3ButtonLeft->setAlwaysOnTop(true);
-	dialog3ButtonLeft->setAlpha(0.2f);
-	dialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog3ButtonLeftClicked,this));
-	mDialogWindow3->addChildWindow(dialog3ButtonLeft);
-
+	mDialog3ButtonLeft = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "Dialog 1/QuitButton3"));
+	mDialog3ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
+	mDialog3ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.0f, 0 ) ) );
+	mDialog3ButtonLeft->setAlwaysOnTop(true);
+	mDialog3ButtonLeft->setAlpha(0);
+	mDialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog3ButtonLeftClicked,this));
+	mDialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&GUI::dialog3ButtonLeftHoverIn,this));
+	mDialog3ButtonLeft->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&GUI::dialog3ButtonLeftHoverOut,this));
+	mDialogWindow3->addChildWindow(mDialog3ButtonLeft);
+	mDialog3ButtonLeft->setInheritsAlpha(false);
 
 	Ogre::TexturePtr tex = createCEGUI_RTTScene();
 	//Create cegui texture
@@ -260,7 +263,7 @@ void GUI::createDialog3( WindowManager &wmgr )
 	dialog3VideoWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f, 0), CEGUI::UDim(0.05f, 0)));
 	dialog3VideoWindow->setProperty("FrameEnabled", "False");
 	dialog3VideoWindow->setProperty("Image", CEGUI::PropertyHelper::imageToString(&imageSet.getImage("RTTImage")));
-
+	dialog3VideoWindow->setInheritsAlpha(false);
 	mDialogWindow3->addChildWindow(dialog3VideoWindow);
 }
 
@@ -279,6 +282,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialogWindow2->setTitleBarEnabled(false);
 	mDialogWindow2->setDragMovingEnabled(false);
 	mDialogWindow2->setFrameEnabled(false);
+	mDialogWindow2->setAlpha(0);
 	mDialogWindow2->setText( "Wakeup Time" );
 	mDialogWindow2->setProperty("YRotation","-90.0");
 	mWindowRoot->addChildWindow( mDialogWindow2 );	
@@ -286,13 +290,17 @@ void GUI::createDialog2( WindowManager &wmgr )
 
 
 	// dialog2ButtonRight -> switch to Dialog 1
-	PushButton* dialog2ButtonRight = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog2ButtonRight"));
-	dialog2ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
-	dialog2ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.0f, 0 ) ) );
-	dialog2ButtonRight->setAlwaysOnTop(true);
-	dialog2ButtonRight->setAlpha(0.2f);
-	dialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog2ButtonRightClicked,this));
-	mDialogWindow2->addChildWindow(dialog2ButtonRight);
+	mDialog2ButtonRight = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog2ButtonRight"));
+	mDialog2ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
+	mDialog2ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.0f, 0 ) ) );
+	mDialog2ButtonRight->setAlwaysOnTop(true);
+	mDialog2ButtonRight->setAlpha(0);
+	mDialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog2ButtonRightClicked,this));
+	mDialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&GUI::dialog2ButtonRightHoverIn,this));
+	mDialog2ButtonRight->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&GUI::dialog2ButtonRightHoverOut,this));
+	mDialog2ButtonRight->setInheritsAlpha(false);
+
+	mDialogWindow2->addChildWindow(mDialog2ButtonRight);
 
 
 	//mDialog2Slider -> set the Wackup Time
@@ -305,6 +313,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2Slider->setProperty("OverlapSize", "0");
 	mDialog2Slider->setProperty("ScrollPosition", "50");
 	mDialog2Slider->setAlwaysOnTop(true);
+		mDialog2Slider->setInheritsAlpha(false);
 	//mDialog2Slider->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&GUI::scrollPositionChanged, this));
 	mDialogWindow2->addChildWindow(mDialog2Slider);
 
@@ -319,6 +328,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	//mDialog2AlarmTime->setProperty("HorzFormatting", "HorzLeftAligned");
 	mDialog2AlarmTime->setProperty("VertFormatting", "TopAligned");
 	mDialog2AlarmTime->setProperty("BackgroundEnabled","False");
+	mDialog2AlarmTime->setInheritsAlpha(false);
 	//mDialog2AlarmTime->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftLeft,this));
 
 
@@ -329,6 +339,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2Checkbox->setSize(UVector2(UDim(0.2f, 0), UDim(0.2f, 0)));
 	bool valueCheckbox = mDialog2Checkbox->isSelected(); // Retrieve whether it is checked
 	mDialogWindow2->addChildWindow(mDialog2Checkbox);
+	mDialog2Checkbox->setInheritsAlpha(false);
 	mDialog2AlarmTime->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
 
 
@@ -340,6 +351,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2CurrentTime->setProperty("Font","Comic_12");
 	mDialog2CurrentTime->setProperty("HorzFormatting", "HorzCentred");
 	mDialog2CurrentTime->setProperty("VertFormatting", "VertCentred");
+	mDialog2CurrentTime->setInheritsAlpha(false);
 	//staticText mDialog2CurrentTimeHelper
 	mDialog2CurrentTimeHelper = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2CurrentTimeHelper"));
 	mDialogWindow2->addChildWindow(mDialog2CurrentTimeHelper);
@@ -348,6 +360,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2CurrentTimeHelper->setProperty("Font","Comic_12");
 	mDialog2CurrentTimeHelper->setProperty("HorzFormatting", "HorzCentred");
 	mDialog2CurrentTimeHelper->setProperty("VertFormatting", "VertCentred");
+	mDialog2CurrentTimeHelper->setInheritsAlpha(false);
 }
 
 
@@ -364,30 +377,37 @@ void GUI::createDialog1( WindowManager &wmgr )
 	mDialogWindow1->setTitleBarEnabled(false);
 	mDialogWindow1->setDragMovingEnabled(false);
 	mDialogWindow1->setFrameEnabled(false);
-	mDialogWindow1->setAlpha(0.2f);
+	mDialogWindow1->setAlpha(0);
 	mDialogWindow1->setProperty("YRotation","0.0");
 	mDialogWindow1->setText( "Dialog 1" );
+
 	
 	mWindowRoot->addChildWindow( mDialogWindow1 );
 
 
 	// dialog1ButtonRight
-	PushButton* dialog1ButtonRight = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog1ButtonRight"));
-	dialog1ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
-	dialog1ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.0f, 0 ) ) );
-	dialog1ButtonRight->setAlwaysOnTop(true);
-	dialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonRightClicked,this));
-	mDialogWindow1->addChildWindow(dialog1ButtonRight);
-
+	mDialog1ButtonRight = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog1ButtonRight"));
+	mDialog1ButtonRight->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
+	mDialog1ButtonRight->setPosition( UVector2( UDim( 0.8f, 0 ), UDim( 0.0f, 0 ) ) );
+	mDialog1ButtonRight->setAlwaysOnTop(true);
+	mDialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonRightClicked,this));
+	mDialogWindow1->addChildWindow(mDialog1ButtonRight);
+	mDialog1ButtonRight->setAlpha(0);
+	mDialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&GUI::dialog1ButtonRightHoverIn,this));
+	mDialog1ButtonRight->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&GUI::dialog1ButtonRightHoverOut,this));
+	mDialog1ButtonRight->setInheritsAlpha(false);
 
 	// dialog1ButtonLeft
-	PushButton* dialog1ButtonLeft = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog1ButtonLeft"));
-	dialog1ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
-	dialog1ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.0f, 0 ) ) );
-	dialog1ButtonLeft->setAlwaysOnTop(true);
-	dialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonLeftClicked,this));
-	mDialogWindow1->addChildWindow(dialog1ButtonLeft);
-
+	mDialog1ButtonLeft = static_cast<PushButton*>(wmgr.createWindow("OgreTray/Button", "dialog1ButtonLeft"));
+	mDialog1ButtonLeft->setSize(CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1.0f, 0)));
+	mDialog1ButtonLeft->setPosition( UVector2( UDim( 0, 0 ), UDim( 0.0f, 0 ) ) );
+	mDialog1ButtonLeft->setAlwaysOnTop(true);
+	mDialog1ButtonLeft->setAlpha(0);
+	mDialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::dialog1ButtonLeftClicked,this));
+	mDialogWindow1->addChildWindow(mDialog1ButtonLeft);
+	mDialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&GUI::dialog1ButtonLeftHoverIn,this));
+	mDialog1ButtonLeft->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&GUI::dialog1ButtonLeftHoverOut,this));
+	mDialog1ButtonLeft->setInheritsAlpha(false);
 }
 
 

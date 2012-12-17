@@ -55,6 +55,8 @@ public:
 		instAnim_moveWindow1FromLeftToStart->setTargetWindow(mDialogWindow1);
 		instAnim_moveWindow1FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromRightToStart"));
 		instAnim_moveWindow1FromRightToStart->setTargetWindow(mDialogWindow1);
+		instAnim_FadeIn1 = animMng.instantiateAnimation(animMng.getAnimation("FadeIn1"));
+				instAnim_FadeOut = animMng.instantiateAnimation(animMng.getAnimation("FadeOut"));
 
 		instAnim_MoveWindow2Right= animMng.instantiateAnimation(animMng.getAnimation("MoveWindow2Right")); //AnimationInstances get and setTarget
 		instAnim_MoveWindow2Right->setTargetWindow(mDialogWindow2);
@@ -117,7 +119,63 @@ public:
 		}
 		return true;
 	};
+
+	bool dialog1ButtonLeftHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+				instAnim_FadeIn1->setTargetWindow(mDialog1ButtonLeft);
+				instAnim_FadeIn1->start();
+				return true;
+	}
+
+	bool dialog1ButtonRightHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog1ButtonRight);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
+	bool dialog2ButtonRightHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog2ButtonRight);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
+	bool dialog3ButtonLeftHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog3ButtonLeft);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
 	
+		bool dialog1ButtonLeftHoverOut(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeOut->setTargetWindow(mDialog1ButtonLeft);
+		instAnim_FadeOut->start();
+		return true;
+	}
+
+		bool dialog1ButtonRightHoverOut(const CEGUI::EventArgs& /*e*/)
+		{
+			instAnim_FadeOut->setTargetWindow(mDialog1ButtonRight);
+			instAnim_FadeOut->start();
+			return true;
+		}
+
+		bool dialog2ButtonRightHoverOut(const CEGUI::EventArgs& /*e*/)
+		{
+			instAnim_FadeOut->setTargetWindow(mDialog2ButtonRight);
+			instAnim_FadeOut->start();
+			return true;
+		}
+
+		bool dialog3ButtonLeftHoverOut(const CEGUI::EventArgs& /*e*/)
+		{
+			instAnim_FadeOut->setTargetWindow(mDialog3ButtonLeft);
+			instAnim_FadeOut->start();
+			return true;
+		}
 
 	// renders the gui, handles RTT issues
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -144,6 +202,10 @@ private:
 	DefaultWindow* mDialog1TextClock;
 	DefaultWindow* mDialog1TextAlarm;
 	DefaultWindow* mDialog2CurrentTimeHelper;
+	PushButton* mDialog1ButtonRight;
+	PushButton* mDialog1ButtonLeft;
+	PushButton* mDialog3ButtonLeft;
+	PushButton* mDialog2ButtonRight ;
 	Checkbox* mDialog2Checkbox;
 	Slider* mDialog2Slider;
 	Window* mWindowRoot;
@@ -173,6 +235,9 @@ private:
 	AnimationInstance* instAnim_moveWindow2FromLeftToStart;
 	AnimationInstance* instAnim_moveWindow1FromLeftToStart;
 	AnimationInstance* instAnim_moveWindow3FromRightToStart;
+	AnimationInstance* instAnim_FadeIn1;
+	AnimationInstance* instAnim_FadeOut;
+
 
 	Clock* mClock;
 	AlarmClock* mAlarmClock;
