@@ -14,6 +14,7 @@ public:
 	void yRotation(CEGUI::Animation* anim,CEGUI::String valueStart, CEGUI::String value);
 	void unifiedXPositionInterpolation(CEGUI::Animation* anim, CEGUI::String pos1, CEGUI::String pos2);
 	CEGUI::Animation* createAnimation(CEGUI::String name, float duration, CEGUI::Animation::ReplayMode replayMode);
+	void fadeInAlpha(CEGUI::Animation* anim, CEGUI::String a1, CEGUI::String a2);
 };
 
 #endif // #ifndef __AnimationBuilder_h_

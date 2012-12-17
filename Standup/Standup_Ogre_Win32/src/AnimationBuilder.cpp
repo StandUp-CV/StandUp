@@ -87,6 +87,19 @@ void AnimationBuilder::createAnimations( CEGUI::String v1,  CEGUI::String v2,  C
 	// yRotation
 	yRotation(anim8,r1, r3);
 
+	
+	/************************************************************************/
+	/*                          FadeIn1                                            */
+	/************************************************************************/
+	CEGUI::Animation* anim9 = 	createAnimation("FadeIn1", 0.6f, CEGUI::Animation::RM_Once);
+	fadeInAlpha(anim9,"0.0","0.3f");
+
+
+/************************************************************************/
+/*                          FadeOut                                           */
+/************************************************************************/
+CEGUI::Animation* anim10 = 	createAnimation("FadeOut", 0.6f, CEGUI::Animation::RM_Once);
+	fadeInAlpha(anim10,"0.3f","0");
 }
 
 
@@ -102,6 +115,22 @@ CEGUI::Animation* AnimationBuilder::createAnimation(CEGUI::String name, float du
 	anim->setReplayMode(replayMode); // when this animation is started, only play it once, then stop
 	return anim;
 }
+
+
+/*
+ *	
+ *	fadeInAlpha
+ *	
+ */
+void AnimationBuilder::fadeInAlpha(CEGUI::Animation* anim, CEGUI::String a1, CEGUI::String a2)
+{
+	// this affector will again use float interpolator
+	CEGUI::Affector* affector = anim->createAffector("Alpha", "float");
+	affector->createKeyFrame(0.0f, a1); // at 0.0 seconds, set alpha to 1.0
+	affector->createKeyFrame(0.6f, a2, CEGUI::KeyFrame::P_QuadraticDecelerating); // at 0.3 seconds, set alpha to 0.5, now decelerating!
+}
+
+
 
 
 /*
