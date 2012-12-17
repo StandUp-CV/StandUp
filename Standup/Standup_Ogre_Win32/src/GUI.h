@@ -12,15 +12,32 @@
 
 using namespace CEGUI;
 // Class that handles the gui creation and animation
-class GUI : public Ogre::FrameListener
+class GUI : public Ogre::FrameListener , public AlarmEventHandler
 {
 public:
+
+	void watchOutEvent()
+	{
+		int i=1;
+		i++;
+	}
+	void alarmEvent()
+	{
+		int i=1;
+		i++;
+	}
+	void stopRingingEvent() { }
+	void everythingCompleteEvent() { }
+
+
 	GUI(CEGUI::System* system) : FrameListener() {
 		mMoveLeft = false;
 		mMoveRight = false;
 		mIsAlarmActive = false;
 		mSystem = system;
 	};
+
+	void registerAlarmClock(AlarmClock* ac) { mAlarmClock=ac; }
 
 	~GUI(void){ mSystem = NULL; };
 
@@ -108,13 +125,12 @@ public:
 
 	bool checkBoxClicked(const CEGUI::EventArgs& /*e*/) 
 	{
-		if(mIsAlarmActive){
-					mIsAlarmActive = false;
-		}
-		else
-		{
-					mIsAlarmActive = true;
-		}
+		mIsAlarmActive=!mIsAlarmActive;
+		
+		mAlarmClock->setActive(mIsAlarmActive);
+
+		mDialog2Slider->setEnabled(!mIsAlarmActive);
+
 		return true;
 	};
 	
@@ -174,7 +190,6 @@ private:
 	AnimationInstance* instAnim_moveWindow1FromLeftToStart;
 	AnimationInstance* instAnim_moveWindow3FromRightToStart;
 
-	Clock* mClock;
 	AlarmClock* mAlarmClock;
 
 	//RTT Utils

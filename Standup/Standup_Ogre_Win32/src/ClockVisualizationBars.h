@@ -10,8 +10,8 @@
 class ClockVisualizationBars : public Ogre::FrameListener, public ClockVisualization
 {
 public:
-	ClockVisualizationBars(Ogre::SceneManager* sceneManager, Clock* clock, int hourFormat = 1) : 
-		ClockVisualization(sceneManager, clock, hourFormat) {
+	ClockVisualizationBars(Ogre::SceneManager* sceneManager, int hourFormat = 1) : 
+		ClockVisualization(sceneManager, hourFormat) {
 		// set max values
 		mHours = 12 * mHourFormat;
 		mMinutes = 60;
@@ -24,7 +24,7 @@ public:
 		// counter for slowed clock update (needs only once per second ;)
 		static int second=-1;
 		// get current time from clock
-		const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+		const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 		float dayInterpolationTime = localTime.tm_hour + (localTime.tm_min * 0.01667f);
 		// get the current secs, mins and mHours
 		mCurrentSeconds = localTime.tm_sec;

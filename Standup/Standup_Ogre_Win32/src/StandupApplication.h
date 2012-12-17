@@ -42,9 +42,12 @@ public:
 		mGUI = new GUI(mCEGUISystem);
 		mRoot->addFrameListener(mGUI);
 		mGUI->createScene();
+
 	}
 
 protected:
+
+
 	StandupApplication(void);
 	bool configure();
 	virtual void createViewports(void);

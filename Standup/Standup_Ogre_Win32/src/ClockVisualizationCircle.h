@@ -21,8 +21,8 @@ public:
 	//-------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------- 
 	// Contructor of the visualization
-	ClockVisualizationCircle(Ogre::SceneManager* sceneManager, Clock* clock, 
-		Ogre::Camera* cam, int hourFormat = 1) : ClockVisualization(sceneManager, clock, hourFormat), 
+	ClockVisualizationCircle(Ogre::SceneManager* sceneManager, 
+		Ogre::Camera* cam, int hourFormat = 1) : ClockVisualization(sceneManager, hourFormat), 
 		mCamera(cam) {
 		// set max values
 		mHours = 12 * mHourFormat;
@@ -31,7 +31,7 @@ public:
 		// create the clock components
 		createClock();
 		// get the initial time
-		const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+		const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 		mCurrentSeconds = localTime.tm_sec;
 		mCurrentMinutes = localTime.tm_min;
 		mCurrentHours = localTime.tm_hour % (12 * mHourFormat);
@@ -63,7 +63,7 @@ public:
 		// step forwad in time for animation
 		mAnimationTime += (evt.timeSinceLastEvent);
 		// get current time from clock
-		const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+		const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 		float dayInterpolationTime = localTime.tm_hour + (localTime.tm_min * 0.01667f);
 		// get the current secs, mins and mHours
 		mCurrentSeconds = localTime.tm_sec;

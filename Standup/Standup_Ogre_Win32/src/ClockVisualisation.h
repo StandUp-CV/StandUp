@@ -5,11 +5,10 @@
 class ClockVisualization
 {
 public:
-	ClockVisualization(Ogre::SceneManager* sceneManager, Clock* clock, int hourFormat = 1) 
-		: mSceneMgr(sceneManager), mClock(clock), mHourFormat(hourFormat) {}
+	ClockVisualization(Ogre::SceneManager* sceneManager, int hourFormat = 1) 
+		: mSceneMgr(sceneManager), mHourFormat(hourFormat) {}
 protected:
 	// references the clock used for the visualization
-	Clock* mClock;
 	Ogre::SceneManager* mSceneMgr;
 	// saves the static values for max hours, mins and secs
 	int mHours;

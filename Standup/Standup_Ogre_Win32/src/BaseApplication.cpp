@@ -316,11 +316,11 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
-	if (arg.key >= OIS::KC_1 && arg.key<=OIS::KC_3)
+	/*if (arg.key >= OIS::KC_1 && arg.key<=OIS::KC_3)
 	{
 		CubeView *cw = (CubeView*)(mViewManager->getViews()[3]);
 		cw->setTargetSide(arg.key-OIS::KC_1);
-	}
+	}*/
 
 	if(arg.key == OIS::KC_F3)   // reset camera position
 	{
