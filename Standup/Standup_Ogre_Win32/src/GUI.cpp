@@ -175,7 +175,7 @@ void GUI::update(const Ogre::FrameEvent& evt)
 	}
 	else{
 		mDialog2CurrentTimeHelper->setVisible(true);
-			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(max,0) * UDim(0.5f,0)), UDim(0,0))))));
+			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(1,0) * UDim(0.5f,0)), UDim(0,0))))));
 	}
 
 	// update 
