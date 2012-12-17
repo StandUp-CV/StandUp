@@ -11,7 +11,7 @@ class SoundException : std::exception
 	char *what () { return "SoundException"; }
 };
 
-class Sound
+class Sound : public Ogre::FrameListener
 {
 private:
 
@@ -43,7 +43,18 @@ public:
 		result = system->init(32, FMOD_INIT_NORMAL, 0);
 		if(result!=FMOD_OK) throw new SoundException();
 
-		//result = system->createSound("booze.wav", FMOD_HARDWARE, 0, &sound);
+		reloadSoundFile("stuka.wav");
+	}
+
+	bool frameRenderingQueued(const Ogre::FrameEvent& evt) {
+		system->update();
+		return true;
+	}
+
+	void reloadSoundFile(Ogre::String path) {
+		if (sound) sound->release();
+		FMOD_RESULT       result;
+		result = system->createSound(path.c_str(), FMOD_HARDWARE, 0, &sound);
 		if(result!=FMOD_OK) throw new SoundException();
 	}
 
@@ -56,15 +67,10 @@ public:
 		if(system) result = system->release();
 	}
 
-	void update()
-	{
-		system->update();
-	}
-
 	void play()
 	{
 		FMOD::Channel *ch;
-		//system->playSound(FMOD_CHANNEL_FREE,sound,false,&ch);
+		system->playSound(FMOD_CHANNEL_FREE,sound,false,&ch);
 	}
 };
 

@@ -119,7 +119,7 @@ void StandupApplication::createScene(void)
 	// Create clock
 
 	mAlarmClock = new AlarmClock();
-	
+
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
 	mRoot->addFrameListener(mAlarmClock);
@@ -145,7 +145,6 @@ bool StandupApplication::configure() {
 		return false;
 	}
 }
-
 
 StandupApplication* StandupApplication::getInstance(){
 	if (instance == NULL)

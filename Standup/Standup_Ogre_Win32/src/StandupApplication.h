@@ -39,12 +39,15 @@ public:
 	void createCEGUI() override {
 		BaseApplication::createCEGUI();
 		// CEGUI
-		mGUI = new GUI(mCEGUISystem);
+		mGUI = new GUI(mCEGUISystem, mRoot);
 		mRoot->addFrameListener(mGUI);
 		mGUI->createScene();
 
 	}
 
+	Ogre::Root* getRoot(void) {
+		return mRoot;
+	}
 protected:
 
 
@@ -56,6 +59,9 @@ protected:
 	virtual void createLightBillboards(void);
 	void createLights();
 	static StandupApplication* instance;
+
+	AlarmClock *mAlarmClock;
+
 };
 
 #endif // #ifndef __StandupApplication_h_

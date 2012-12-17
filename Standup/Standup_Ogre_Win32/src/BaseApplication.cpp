@@ -26,7 +26,7 @@ This source file is part of the
 #include "OgreCompositorManager.h"
 #include "OgreParticleAffector.h"
 
-//#include "sound.h"
+//#include "alarmSound.h"
 
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
@@ -281,10 +281,6 @@ bool BaseApplication::setup(void)
 	//////////////////////////////////////////////////////////////////////////
 	createCEGUI();
 	//////////////////////////////////////////////////////////////////////////
-	//Create FMOD Sound
-	//////////////////////////////////////////////////////////////////////////
-	sound.play();
-	//////////////////////////////////////////////////////////////////////////
 	//Create the Scene
 	//////////////////////////////////////////////////////////////////////////
 	createScene();
@@ -294,7 +290,7 @@ bool BaseApplication::setup(void)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	sound.update();
+	
 
     if(mWindow->isClosed())
         return false;

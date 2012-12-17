@@ -92,8 +92,6 @@ protected:
 	// creates the base components of Crazy Eddie GUI
 	virtual void createCEGUI();
 
-	AlarmClock *mAlarmClock;
-
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;
@@ -113,10 +111,6 @@ protected:
     OIS::Keyboard* mKeyboard;
 	// saves the inital cam pos so you can reset with F3
 	Ogre::Vector3* mDefaultCamPosition;
-	// TODO: Deprecated pointer!
-	ViewManager *mViewManager;
-	// the reference to the class that handles sound
-	Sound sound;
 	// the refernce to the mGUI resposible class
     GUI* mGUI;
 };

@@ -9,8 +9,11 @@
 #include <string>
 #include "AnimationBuilder.h"
 #include "Clock.h"
+#include "fmod.hpp"
+#include "Sound.h"
 
 using namespace CEGUI;
+
 // Class that handles the gui creation and animation
 class GUI : public Ogre::FrameListener , public AlarmEventHandler
 {
@@ -18,8 +21,7 @@ public:
 
 	void watchOutEvent()
 	{
-		int i=1;
-		i++;
+		mAlarmSound->play();
 	}
 	void alarmEvent()
 	{
@@ -30,11 +32,13 @@ public:
 	void everythingCompleteEvent() { }
 
 
-	GUI(CEGUI::System* system) : FrameListener() {
+	GUI(CEGUI::System* system, Ogre::Root* root) : FrameListener() {
 		mMoveLeft = false;
 		mMoveRight = false;
 		mIsAlarmActive = false;
 		mSystem = system;
+		mAlarmSound = new Sound();
+		root->addFrameListener(mAlarmSound);
 	};
 
 	void registerAlarmClock(AlarmClock* ac) { mAlarmClock=ac; }
@@ -261,7 +265,9 @@ private:
 	//RTT Utils
 	Ogre::Viewport *mRTTViewport;
 	Ogre::Camera *mRTTCam;
-	Ogre::RenderTexture *mOgreRenderTexture;
+	Ogre::RenderTexture *mOgreRenderTexture;	
+	// the reference to the class that handles mAlarmSound
+	Sound* mAlarmSound;
 };
 
 #endif // #ifndef __GUI_h_
