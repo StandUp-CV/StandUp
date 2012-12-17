@@ -260,7 +260,7 @@ void GUI::createDialog3( WindowManager &wmgr )
 	//create Window
 	Window *dialog3VideoWindow = wmgr.createWindow("OgreTray/StaticImage", "RTTWindow");
 	dialog3VideoWindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f, 0), CEGUI::UDim(0.65f, 0)));
-	dialog3VideoWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f, 0), CEGUI::UDim(0.05f, 0)));
+	dialog3VideoWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.05f, 0), CEGUI::UDim(0.50f, 0)));
 	dialog3VideoWindow->setProperty("FrameEnabled", "False");
 	dialog3VideoWindow->setProperty("Image", CEGUI::PropertyHelper::imageToString(&imageSet.getImage("RTTImage")));
 	dialog3VideoWindow->setInheritsAlpha(false);
@@ -335,12 +335,25 @@ void GUI::createDialog2( WindowManager &wmgr )
 	//mDialog2Checkbox -> aktivate Alarm Clock
 	mDialog2Checkbox = static_cast<Checkbox*>(wmgr.createWindow("OgreTray/Checkbox", "mDialog2Checkbox"));
 	mDialog2Checkbox->setSelected( false );
-	mDialog2Checkbox->setPosition(UVector2(UDim (0,0), UDim(0.6f,0)));
-	mDialog2Checkbox->setSize(UVector2(UDim(0.2f, 0), UDim(0.2f, 0)));
+	mDialog2Checkbox->setPosition(UVector2(UDim (0,0), UDim(0.3f,0)));
+	mDialog2Checkbox->setSize(UVector2(UDim(0.1f, 0), UDim(0.1f, 0)));
 	bool valueCheckbox = mDialog2Checkbox->isSelected(); // Retrieve whether it is checked
 	mDialogWindow2->addChildWindow(mDialog2Checkbox);
 	mDialog2Checkbox->setInheritsAlpha(false);
-	mDialog2AlarmTime->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
+	//mDialog2Checkbox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
+
+	//staticText mDialog2StateInfo
+	mDialog2StateInfo = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2StateInfo"));
+	mDialogWindow2->addChildWindow(mDialog2StateInfo);
+	mDialog2StateInfo->setSize(UVector2(UDim(0.2f, 0), UDim(0.3f,0)));
+	mDialog2StateInfo->setPosition(UVector2(UDim(0.05f,0),UDim(0.5f,0)));
+	mDialog2StateInfo->setProperty("FrameEnabled", "False");
+	mDialog2StateInfo->setProperty("BackgroundEnabled","False");
+	mDialog2StateInfo->setProperty("Font","Comic_12");
+	mDialog2StateInfo->setProperty("HorzFormatting", "HorzCentred");
+	mDialog2StateInfo->setProperty("VertFormatting", "VertCentred");
+	mDialog2StateInfo->setText("SLEEP");
+	mDialog2StateInfo->setInheritsAlpha(false);
 
 
 	//staticText mDialog2CurrentTime

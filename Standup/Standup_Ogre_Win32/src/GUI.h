@@ -199,6 +199,7 @@ private:
 	FrameWindow* mainWindow;
 	DefaultWindow* mDialog2AlarmTime;
 	DefaultWindow* mDialog2CurrentTime;
+	DefaultWindow* mDialog2StateInfo;
 	DefaultWindow* mDialog1TextClock;
 	DefaultWindow* mDialog1TextAlarm;
 	DefaultWindow* mDialog2CurrentTimeHelper;
