@@ -92,6 +92,8 @@ protected:
 	// creates the base components of Crazy Eddie GUI
 	virtual void createCEGUI();
 
+	AlarmClock *mAlarmClock;
+
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;

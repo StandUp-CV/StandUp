@@ -18,10 +18,19 @@ class ClockException : std::exception
 class Clock
 {
 	public:
+
+	static const time_t gmtoff()
+	{
+		const time_t t=100000;
+		tm *li=gmtime(&t);
+		int secs=mktime(li);
+		return secs-t;
+
+	}
 	
 	static const time_t getCurrentSecond() { static time_t t; time(&t); return t; };
 	static const tm& getDisplayTime(const time_t &second) { static tm *lt; lt=localtime(&second); return *lt; };
-	static const tm& getGMTime() { time_t rawtime; time ( &rawtime ); return *gmtime( &rawtime ); }
+	//static const tm& getGMTime() { time_t rawtime; time ( &rawtime ); return *gmtime( &rawtime ); }
 
 	static const time_t HOUR = (60*60);
 	static const time_t DAY = (HOUR*24);
@@ -80,15 +89,19 @@ private:
 
 	bool isCurrent(time_t ct, time_t event) { return ct>=event && event>timeOfLastUpdate; }
 
+	ClockException clex;
+
 public:
 
 	AlarmClock()
 	{
+		alarmState = INACTIVE;
 		snoozeTime = Clock::HOUR;
 		prerunTime = Clock::HOUR;
 	}
 
-	void setAlarmTime( time_t t) { if (alarmState!=INACTIVE) throw ( new ClockException ); alarmTime = t; }
+	void setAlarmTime( time_t t) { if (alarmState!=INACTIVE) throw clex; alarmTime = t; }
+	void setActive ( bool state) { alarmState=state?ACTIVE:INACTIVE; }
 
 	// Hady Created for display Alarmtime
 	//static const time_t getAlarmTime() {return alarmTime;};

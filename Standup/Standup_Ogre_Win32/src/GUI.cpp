@@ -18,7 +18,6 @@ Filename:    GUI.cpp
 
 void GUI::createScene( void )
 {
-	Clock* clock;
 	AlarmClock* alarm;
 
 	// CEGUI
@@ -57,8 +56,7 @@ int GUI::getSliderValueMin(float f){
 // param realtive XPosition of Slider Thump [0,1]
 // return String (example 12:34) for mDialog2AlarmTime CEGUI Window
 String GUI::getSliderTimeString(float f){
-	float max = 0.9846f;
-	f/=max;
+
 	int hour = getSliderValueHour(f);
 	int min = getSliderValueMin(f);
 	String s ="";
@@ -74,7 +72,7 @@ String GUI::getSliderTimeString(float f){
 //return current Time as String (example 12:34:56)
 String GUI::getCurrentTimeString(void){
 	// get current time from clock
-	const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+	const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 	// get the current secs, mins and mHours
 	mCurrentSeconds = localTime.tm_sec;
 	mCurrentMinutes = localTime.tm_min;
@@ -98,9 +96,8 @@ String GUI::getCurrentTimeString(void){
 
 float GUI::getCurrentTimePosition(){
 
-	float max = 0.9846f;
 	// get current time from clock
-	const tm& localTime = mClock->getDisplayTime(mClock->getCurrentSecond());
+	const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 	// get the current secs, mins and mHours
 	float min = localTime.tm_min;
 	float hour = localTime.tm_hour % (12 * mHourFormat); // in right time format (12 vs 24)
@@ -150,6 +147,19 @@ bool GUI::frameRenderingQueued( const Ogre::FrameEvent& evt )
 
 void GUI::update(const Ogre::FrameEvent& evt)
 {
+	int off=Clock::gmtoff();
+
+	float alarmtime=mDialog2Slider->getCurrentValue();
+	float day=(float)((Clock::getCurrentSecond())/Clock::DAY);
+
+	try
+	{
+		mAlarmClock->setAlarmTime( (int) ( (day+alarmtime) * Clock::DAY + off) );
+	}
+	catch (ClockException& e42)
+	{
+		
+	}
 
 	//update position of mDialog2AlarmTime Window
 	mDialog2AlarmTime->setPosition(((UVector2(UDim(0.15f,0),UDim(0.66f,0))) + (mDialog2Slider->getThumb()->getPosition()) * (UVector2( UDim(0.57f, 0 ), UDim( 0, 0 )))));
@@ -157,16 +167,15 @@ void GUI::update(const Ogre::FrameEvent& evt)
 
 	mDialog2CurrentTimeHelper->setSize( (UVector2(UDim(0,0),UDim(0.3f,0))) +(UVector2((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)), UDim(0,0))));
 	//update Text of mDialog2AlarmTime (example 12:34)
-	mDialog2AlarmTime->setText(getSliderTimeString(static_cast<float>(mDialog2Slider->getThumb()->getXPosition().asRelative(1))));
+	mDialog2AlarmTime->setText(getSliderTimeString(alarmtime));
 
-		float max = 0.9846f;
 	if(mDialog2CurrentTime->getXPosition().asRelative(1.0) <=   ((UDim(0.2f,0) +((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)))).asRelative(1.0f))){
 		mDialog2CurrentTimeHelper->setVisible(false);
 			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.3f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)), UDim(0,0))))));
 	}
 	else{
 		mDialog2CurrentTimeHelper->setVisible(true);
-			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.3f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(max,0) * UDim(0.5f,0)), UDim(0,0))))));
+		mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.3f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(1,0) * UDim(0.5f,0)), UDim(0,0))))));
 	}
 
 	// update 
@@ -180,7 +189,7 @@ Ogre::TexturePtr GUI::createCEGUI_RTTScene()
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
 
 	ClockVisualizationBars* clockVis = 
-		new ClockVisualizationBars(mSceneMgr, mClock, 1);
+		new ClockVisualizationBars(mSceneMgr, 1);
 	StandupApplication::getInstance()->getRoot()->addFrameListener(clockVis);
 
 	//Create ogre texture
@@ -296,15 +305,12 @@ void GUI::createDialog2( WindowManager &wmgr )
 
 
 	//mDialog2Slider -> set the Wackup Time
-	mDialog2Slider = static_cast<Slider*>(wmgr.createWindow("OgreTray/HorizontalScrollbar", "mDialog2Slider"));
+	mDialog2Slider = static_cast<Slider*>(wmgr.createWindow("OgreTray/Slider", "mDialog2Slider"));
 	mDialog2Slider->setPosition(UVector2(UDim(0.2f,0), UDim(0.7f,0)));
 	mDialog2Slider->setSize(UVector2(UDim(0.5f,0), UDim(0.02f,0)));
-	mDialog2Slider->setProperty("DocumentSize", "101");
-	mDialog2Slider->setProperty("PageSize", "16");
-	mDialog2Slider->setProperty("StepSize", "1");
-	mDialog2Slider->setProperty("OverlapSize", "0");
-	mDialog2Slider->setProperty("ScrollPosition", "50");
 	mDialog2Slider->setAlwaysOnTop(true);
+	mDialog2Slider->setMaxValue(1.0f);
+	mDialog2Slider->setCurrentValue(0.5f);
 	//mDialog2Slider->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&GUI::scrollPositionChanged, this));
 	mDialogWindow2->addChildWindow(mDialog2Slider);
 
@@ -329,7 +335,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2Checkbox->setSize(UVector2(UDim(0.2f, 0), UDim(0.2f, 0)));
 	bool valueCheckbox = mDialog2Checkbox->isSelected(); // Retrieve whether it is checked
 	mDialogWindow2->addChildWindow(mDialog2Checkbox);
-	mDialog2AlarmTime->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
+	mDialog2Checkbox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
 
 
 	//staticText mDialog2CurrentTime
@@ -349,8 +355,6 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2CurrentTimeHelper->setProperty("HorzFormatting", "HorzCentred");
 	mDialog2CurrentTimeHelper->setProperty("VertFormatting", "VertCentred");
 }
-
-
 
 /************************************************************************/
 /* ------------------------------Dialog 1 - CENTER----------------------*/

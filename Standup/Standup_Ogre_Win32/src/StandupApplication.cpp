@@ -117,12 +117,15 @@ void StandupApplication::createScene(void)
 	// set lights
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.75, 0.75, 0.75));
 	// Create clock
-	Clock clock = Clock();
-	AlarmClock* alarm = new AlarmClock();
+
+	mAlarmClock = new AlarmClock();
 	
-	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);
+	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
-	mRoot->addFrameListener(alarm);
+	mRoot->addFrameListener(mAlarmClock);
+
+	mGUI->registerAlarmClock(this->mAlarmClock);
+	mAlarmClock->hookAlarmEventHandler(this->mGUI);
 }
 
 bool StandupApplication::configure() {
