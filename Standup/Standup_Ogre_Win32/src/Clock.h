@@ -63,7 +63,7 @@ public:
 
 };
 
-class AlarmClock
+class AlarmClock : public Ogre::FrameListener
 {
 private:
 
@@ -95,7 +95,9 @@ public:
 
 	void hookAlarmEventHandler ( AlarmEventHandler *handler ) { alarmEventHandler = handler; }
 
-	void update()
+	
+
+	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override
 	{
 		bool anyoneSleeping=false;
 
@@ -183,6 +185,7 @@ public:
 
 
 		timeOfLastUpdate=ct;
+		return true;
 	}
 };
 
