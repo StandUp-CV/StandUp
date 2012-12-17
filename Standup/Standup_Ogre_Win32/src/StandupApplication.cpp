@@ -18,6 +18,7 @@ This source file is part of the
 #include "StandupApplication.h"
 #include "ClockVisualizationCircle.h"
 #include "ClockVisualizationBars.h"
+#include "clock.h"
 
 //-------------------------------------------------------------------------------------
 StandupApplication* StandupApplication::instance = 0;
@@ -117,9 +118,11 @@ void StandupApplication::createScene(void)
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.75, 0.75, 0.75));
 	// Create clock
 	Clock clock = Clock();
+	AlarmClock* alarm = new AlarmClock();
+	
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, &clock, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
-
+	mRoot->addFrameListener(alarm);
 }
 
 bool StandupApplication::configure() {
