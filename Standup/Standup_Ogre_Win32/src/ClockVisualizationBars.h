@@ -6,23 +6,30 @@
 #include "Clock.h"
 #include "OgreSceneNode.h"
 #include "ClockVisualisation.h"
+#include "StandupApplication.h"
 
 class ClockVisualizationBars : public Ogre::FrameListener, public ClockVisualization
 {
 public:
-	ClockVisualizationBars(Ogre::SceneManager* sceneManager, int hourFormat = 1) : 
-		ClockVisualization(sceneManager, hourFormat) {
+	ClockVisualizationBars(Ogre::SceneManager* sceneManager, Ogre::Camera* cam, int hourFormat = 1) : 
+		ClockVisualization(sceneManager, hourFormat), mCamera(cam) {
 		// set max values
 		mHours = 12 * mHourFormat;
 		mMinutes = 60;
 		mSeconds = 60;
 		// creates the clock
 		createClock();
+		mLight = mSceneMgr->createLight("light1");
+		mLight->setType(Ogre::Light::LT_POINT);
+		mLight->setDiffuseColour(0.8,0.8,0.8);
+		//mLight->setPosition
 	}
 
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		// counter for slowed clock update (needs only once per second ;)
 		static int second=-1;
+		static Ogre::Vector3& dir = Ogre::Vector3();
+		static Ogre::Ray& ray = Ogre::Ray();
 		// get current time from clock
 		const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 		float dayInterpolationTime = localTime.tm_hour + (localTime.tm_min * 0.01667f);
@@ -42,18 +49,40 @@ public:
 			mMinutesBarsNode->setScale(0.1f, 0.1f, minsScale);
 			mSecondsBarsNode->setScale(0.1f, 0.1f, secsScale);
 
-			mHoursBarsNode->setPosition(0,12,(hrsScale * 50)-50);
-			mMinutesBarsNode->setPosition(0,0,(minsScale * 50)-50);
-			mSecondsBarsNode->setPosition(0,-12,(secsScale * 50)-50);
+			mHoursBarsNode->setPosition(0,12,(hrsScale * 50)-49);
+			mMinutesBarsNode->setPosition(0,0,(minsScale * 50)-49);
+			mSecondsBarsNode->setPosition(0,-12,(secsScale * 50)-49);
 		}
 
+		// mouse orientation
+		OIS::MouseState state = StandupApplication::getInstance()->getMouse()->getMouseState();
+		ray = Ogre::Ray();
+		float x = state.X.abs;
+		float y = state.Y.abs;
+		float relX = x/(float)state.width;//mCamera->getViewport()->getWidth();
+		float relY = y/(float)state.height;//mCamera->getViewport()->getHeight();
+		relX = (1-relX);
+		relY = (1-relY);
+		mCamera->getCameraToViewportRay(relX * mCamera->getViewport()->getWidth(),
+			relY * mCamera->getViewport()->getHeight(), &ray);
+		dir = Ogre::Vector3(ray.getDirection().x, ray.getDirection().y, ray.getDirection().z);
+		dir.normalise();
+		//dir *= -1;
+		//mDebugNode->setOrientation(Ogre::Quaternion( 
+		//	&dir));
+		mLight->setPosition(ray.getOrigin());
+		mClockNode->setOrientation(
+			Ogre::Quaternion( 
+			&dir));
+			/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0), 
+			Ogre::Vector3(0,1,1)));*/
 		return true;
 	}
 protected:
 	void createClock() {
 		Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
 		mClockNode = rootNode->createChildSceneNode("MainBarsClockNode");
-
+		//mDebugNode = rootNode->createChildSceneNode("DebugNode");
 		mClockNode->setPosition(0,0,0);
 		mClockNode->setScale(0.66f, 0.66f, 0.66f);
 		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI), 
@@ -70,8 +99,14 @@ protected:
 		Ogre::String secondsMaterialName = "Standup/Clock/Seconds";
 		Ogre::String backgroundMaterial = "Standup/Clock/Background";
 
+
 		Ogre::Entity* tempGeometry;
 
+		// DEBUG
+		//tempGeometry = mSceneMgr->createEntity(Ogre::SceneManager::PT_CUBE);
+
+		//mDebugNode->attachObject(tempGeometry);
+		//mDebugNode->setScale(0.01,0.3,0.01);
 		// Hours
 		tempGeometry = mSceneMgr->createEntity(Ogre::SceneManager::PT_CUBE);
 		tempGeometry->setMaterialName(hoursMaterialName);
@@ -134,7 +169,11 @@ private:
 	Ogre::SceneNode* mClockNode;
 	Ogre::SceneNode* mHoursBarsNode;
 	Ogre::SceneNode* mMinutesBarsNode;
-	Ogre::SceneNode* mSecondsBarsNode;
+	Ogre::SceneNode* mSecondsBarsNode;	
+	Ogre::SceneNode* mDebugNode;
+	// references the ogre basic camera
+	Ogre::Camera* mCamera;
+	Ogre::Light* mLight;
 };
 
 #endif // !CLOCK_VISUALIZATION_BARS_H

@@ -9,12 +9,13 @@
 
 enum AlarmState { ACTIVE, INACTIVE, MOVEMENT, AWAKENING };
 enum PersonState { SLEEPING, SLUMBERING, GOTUP, AWAKE };
-
+//-------------------------------------------------------------------------------------
 class ClockException : std::exception
 {
 	std::string what() { return "ClockException"; }
 };
-
+//-------------------------------------------------------------------------------------
+// Class that get access to the c time lib
 class Clock
 {
 	public:
@@ -37,7 +38,8 @@ class Clock
 
 
 };
-
+//-------------------------------------------------------------------------------------
+// handles the systems events for the alarm clock
 class AlarmEventHandler
 {
 public:
@@ -49,7 +51,8 @@ public:
 
 
 };
-
+//-------------------------------------------------------------------------------------
+// Represents a person with its values for the alarm clock
 class Person
 {
 private:
@@ -71,7 +74,8 @@ public:
 
 
 };
-
+//-------------------------------------------------------------------------------------
+// Represents a alarm clock in general and the (possible) interface to matlab
 class AlarmClock : public Ogre::FrameListener
 {
 private:

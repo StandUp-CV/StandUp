@@ -24,7 +24,6 @@ This source file is part of the
 #include "BaseApplication.h"
 #include <OgrePrerequisites.h>
 
-
 using namespace CEGUI;
 
 class StandupApplication : public BaseApplication
@@ -34,8 +33,11 @@ public:
     virtual ~StandupApplication(void);
 
 	static StandupApplication* getInstance();
+
 	OIS::Mouse* getMouse() { return mMouse; }
+
 	OIS::Keyboard* getKeyboard() { return mKeyboard; }
+
 	void createCEGUI() override {
 		BaseApplication::createCEGUI();
 		// CEGUI
@@ -56,10 +58,10 @@ protected:
 	virtual void createViewports(void);
 	virtual void createCamera(void);
 	virtual void createScene(void);
-	virtual void createLightBillboards(void);
 	void createLights();
+	// static instance reference
 	static StandupApplication* instance;
-
+	// references the alarm clock for the system
 	AlarmClock *mAlarmClock;
 
 };

@@ -21,12 +21,11 @@ public:
 
 	void watchOutEvent()
 	{
-		mAlarmSound->play();
+		mPrerunSound->play();
 	}
 	void alarmEvent()
 	{
-		int i=1;
-		i++;
+		mAlarmSound->play();
 	}
 	void stopRingingEvent() { }
 	void everythingCompleteEvent() { }
@@ -38,7 +37,10 @@ public:
 		mIsAlarmActive = false;
 		mSystem = system;
 		mAlarmSound = new Sound();
+		mPrerunSound = new Sound();
+		mPrerunSound->reloadSoundFile("prerun.wav");
 		root->addFrameListener(mAlarmSound);
+		root->addFrameListener(mPrerunSound);
 	};
 
 	void registerAlarmClock(AlarmClock* ac) { mAlarmClock=ac; }
@@ -95,7 +97,6 @@ public:
 	}
 
 	Ogre::TexturePtr createCEGUI_RTTScene();
-
 	/************************************************************************/
 	/* Events                                                               */
 	/************************************************************************/
@@ -242,7 +243,7 @@ private:
 	int mAlarmHours;
 
 	Ogre::Camera* mCamera;
-	Ogre::SceneManager* mSceneMgr;
+	Ogre::SceneManager* mRTTSceneMgr;
 	Ogre::RenderTarget *mRenderTarget;
 	Ogre::Viewport* mViewport;
 
@@ -268,6 +269,7 @@ private:
 	Ogre::RenderTexture *mOgreRenderTexture;	
 	// the reference to the class that handles mAlarmSound
 	Sound* mAlarmSound;
+	Sound* mPrerunSound;
 };
 
 #endif // #ifndef __GUI_h_

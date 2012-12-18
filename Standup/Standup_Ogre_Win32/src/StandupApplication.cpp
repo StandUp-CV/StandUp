@@ -60,7 +60,6 @@ void StandupApplication::createCamera(void)
 	mCamera->lookAt(Ogre::Vector3(0,0,0));
 	mCamera->setNearClipDistance(1);
 	mCamera->setFOVy(Ogre::Radian(Ogre::Math::PI * 0.4f));
-	//mCameraMan = new OgreBites::SdkCameraMan(mCamera);	
 }
 
 /*
@@ -78,15 +77,6 @@ void StandupApplication::createCamera(void)
  */
 void StandupApplication::createLights() 
 {
-	//Ogre::Light* spotLight = mSceneMgr->createLight(name);
-	//spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-	//spotLight->setDiffuseColour(1.0, 1.0, 1.0);
-	//spotLight->setSpecularColour(1.0, 1.0, 1.0);
-	//spotLight->setDirection(-xPos/xPos, -1, -zPos/zPos);
-	//spotLight->setPosition(xPos, 250.0, zPos);
-	//spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);
-	//spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));
-
 	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
 	//light1->setType(Ogre::Light::LT_POINT);
 	//light1->setPosition(5,75,0);
@@ -151,58 +141,6 @@ StandupApplication* StandupApplication::getInstance(){
 		return instance = new StandupApplication();
 	else
 		return instance;
-}
-
-/*
-* createLightBillboards
-*/
-void StandupApplication::createLightBillboards(void)
-{
-
-	// create a billboardset
-	/*Ogre::BillboardSet* lightSet1 = mSceneMgr->createBillboardSet("lightSet1");
-	lightSet1->setMaterialName("Examples/FlyingLightMaterial");
-
-	// create billboards
-	// Red light billboard, in "off" state
-	Ogre::Vector3 redLightPosition(74, -8, -70);
-	Ogre::Billboard* mRedLightBoard = lightSet1->createBillboard(redLightPosition);
-	mRedLightBoard->setColour(Ogre::ColourValue::Green);
-
-	// Blue light billboard, in "off" state
-	Ogre::Vector3 blueLightPosition(-87, -8, -70);
-	Ogre::Billboard* mBlueLightBoard = lightSet1->createBillboard(blueLightPosition);
-	mBlueLightBoard->setColour(Ogre::ColourValue::Red);
-
-	// White light billboard, in "off" state
-	Ogre::Vector3 whiteLightPosition(-5.5, 30, -80);
-	Ogre::Billboard* mWhiteLightBoard = lightSet1->createBillboard(whiteLightPosition);
-	mWhiteLightBoard->setColour(Ogre::ColourValue::Blue);
-
-
-	// Red light, in "off" state
-	Ogre::Light* mRedLight = mSceneMgr->createLight("RedFlyingLight");
-	mRedLight->setType(Ogre::Light::LT_POINT);
-	mRedLight->setPosition(redLightPosition);
-	mRedLight->setDiffuseColour(Ogre::ColourValue::White);
-	mView1->attachObject(mRedLight);
-
-	// Blue light, in "off" state
-	Ogre::Light* mBlueLight = mSceneMgr->createLight("BlueFlyingLight");
-	mBlueLight->setType(Ogre::Light::LT_POINT);
-	mBlueLight->setPosition(blueLightPosition);
-	mBlueLight->setDiffuseColour(Ogre::ColourValue::White);
-	mView1->attachObject(mBlueLight);
-
-	// White light in "off" state
-	Ogre::Light*mWhiteLight = mSceneMgr->createLight("WhiteFlyingLight");
-	mWhiteLight->setType(Ogre::Light::LT_POINT);
-	mWhiteLight->setPosition(whiteLightPosition);
-	mWhiteLight->setDiffuseColour(Ogre::ColourValue::White);
-	mView1->attachObject(mWhiteLight);
-
-	// attachObject to Nodes
-	mView1->attachObject( lightSet1 );*/
 }
 
 //-------------------------------------------------------------------------------------

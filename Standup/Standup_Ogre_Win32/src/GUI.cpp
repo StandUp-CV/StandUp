@@ -148,13 +148,13 @@ bool GUI::frameRenderingQueued( const Ogre::FrameEvent& evt )
 void GUI::update(const Ogre::FrameEvent& evt)
 {
 	int off=Clock::gmtoff();
-
+	bool isToday = mDialog2CurrentTime->getXPosition().asRelative(1.0) <=   ((UDim(0.2f,0) +((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)))).asRelative(1.0f));
 	float alarmtime=mDialog2Slider->getCurrentValue();
 	float day=(float)((Clock::getCurrentSecond())/Clock::DAY);
 
 	try
 	{
-		mAlarmClock->setAlarmTime( (int) ( (day+alarmtime) * Clock::DAY + off) );
+		mAlarmClock->setAlarmTime( (int) ( ((!isToday?1:0)+day+alarmtime) * Clock::DAY + off) );
 	}
 	catch (ClockException& e42)
 	{
@@ -169,7 +169,7 @@ void GUI::update(const Ogre::FrameEvent& evt)
 	//update Text of mDialog2AlarmTime (example 12:34)
 	mDialog2AlarmTime->setText(getSliderTimeString(alarmtime));
 
-	if(mDialog2CurrentTime->getXPosition().asRelative(1.0) <=   ((UDim(0.2f,0) +((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)))).asRelative(1.0f))){
+	if(isToday){
 		mDialog2CurrentTimeHelper->setVisible(false);
 			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)), UDim(0,0))))));
 	}
@@ -186,12 +186,9 @@ void GUI::update(const Ogre::FrameEvent& evt)
 
 Ogre::TexturePtr GUI::createCEGUI_RTTScene()
 {
-	mSceneMgr = StandupApplication::getInstance()->getRoot()->createSceneManager(Ogre::ST_GENERIC);
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
+	mRTTSceneMgr = StandupApplication::getInstance()->getRoot()->createSceneManager(Ogre::ST_GENERIC);
+	mRTTSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
 
-	ClockVisualizationBars* clockVis = 
-		new ClockVisualizationBars(mSceneMgr, 1);
-	StandupApplication::getInstance()->getRoot()->addFrameListener(clockVis);
 
 	//Create ogre texture
 	Ogre::TexturePtr tex = StandupApplication::getInstance()->getRoot()->getTextureManager()->createManual(
@@ -209,7 +206,7 @@ Ogre::TexturePtr GUI::createCEGUI_RTTScene()
 	//mOgreRenderTexture->setActive(false);
 
 	//create Cam
-	mRTTCam = mSceneMgr->createCamera("RTTCam");
+	mRTTCam = mRTTSceneMgr->createCamera("RTTCam");
 	mRTTCam->setPosition(-100, 0, 0);
 	mRTTCam->lookAt(Ogre::Vector3(0,0,0));
 	mRTTCam->setNearClipDistance(1);
@@ -255,6 +252,11 @@ void GUI::createDialog3( WindowManager &wmgr )
 	mDialog3ButtonLeft->setInheritsAlpha(false);
 
 	Ogre::TexturePtr tex = createCEGUI_RTTScene();
+	// create content
+	ClockVisualizationBars* clockVis = 
+		new ClockVisualizationBars(mRTTSceneMgr, mRTTCam, 1);
+	StandupApplication::getInstance()->getRoot()->addFrameListener(clockVis);
+
 	//Create cegui texture
 	CEGUI::Texture &guiTex = StandupApplication::getInstance()->getOgreCEGUIRenderer()->createTexture(tex);
 

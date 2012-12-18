@@ -101,7 +101,7 @@ public:
 		// Light Color interpolate
 		Ogre::ColourValue newColor = interpolateColors(dayInterpolationTime);//localTime.tm_hour + (localTime.tm_min * 0.01667f));
 		mDaytimeLight->setDiffuseColour(newColor);
-		//mDaytimeLight->setSpecularColour(newColor);
+		mDaytimeLight->setSpecularColour(newColor);
 		// light position update animation
 		// 
 		float speed = (mAnimationTime * 0.2f);
@@ -164,6 +164,7 @@ private:
 		Ogre::SceneNode* rootNode = mSceneMgr->getRootSceneNode();
 
 		mClockNode = rootNode->createChildSceneNode("MainCircleClockNode");
+		mClockNode->setPosition(0,0,0);
 		mMiddleSphereNode = mClockNode->createChildSceneNode("ClockRotationNode");
 		//mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0.5f), Ogre::Vector3::NEGATIVE_UNIT_Z));
 		mHoursNode = mClockNode->createChildSceneNode("HoursNode");
@@ -172,7 +173,7 @@ private:
 
 		Ogre::Entity* sphere = mSceneMgr->createEntity(Ogre::SceneManager::PT_SPHERE);
 		sphere->setMaterialName("Standup/Clock/Cubemap_Hours");
-		sphere->setCastShadows(true);
+		sphere->setCastShadows(false);
 		mMiddleSphereNode->attachObject(sphere);
 		mMiddleSphereNode->setScale(0.2,0.2,0.2);
 

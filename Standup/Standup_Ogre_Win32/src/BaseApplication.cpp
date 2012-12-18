@@ -160,30 +160,6 @@ void BaseApplication::createFrameListener(void)
     //Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
-//     mTrayMgr = new OgreBites::SdkTrayManager("InterfaceName", mWindow, mMouse, this);
-//     mTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-//     mTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-//     mTrayMgr->hideCursor();
-
-    // create a params panel for displaying sample details
-//     Ogre::StringVector items;
-//     items.push_back("cam.pX");
-//     items.push_back("cam.pY");
-//     items.push_back("cam.pZ");
-//     items.push_back("");
-//     items.push_back("cam.oW");
-//     items.push_back("cam.oX");
-//     items.push_back("cam.oY");
-//     items.push_back("cam.oZ");
-//     items.push_back("");
-//     items.push_back("Filtering");
-//     items.push_back("Poly Mode");
-// 
-//     mDetailsPanel = mTrayMgr->createParamsPanel(OgreBites::TL_NONE, "DetailsPanel", 200, items);
-//     mDetailsPanel->setParamValue(9, "Bilinear");
-//     mDetailsPanel->setParamValue(10, "Solid");
-//     mDetailsPanel->hide();
-
     mRoot->addFrameListener(this);
 }
 //-------------------------------------------------------------------------------------
@@ -219,13 +195,6 @@ void BaseApplication::setupResources(void)
 void BaseApplication::createResourceListener(void)
 {
 
-	
-	
-
-	//Ogre::CompositorManager::getSingleton().addCompositor(mCamera->getViewport(), "Glow");
-	//Ogre::CompositorManager::getSingleton().setCompositorEnabled(mCamera->getViewport(), "Glow", true);
-	//GlowMaterialListener *gml = new GlowMaterialListener();
-	//Ogre::MaterialManager::getSingleton().addListener(gml);
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::loadResources(void)
@@ -290,8 +259,6 @@ bool BaseApplication::setup(void)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	
-
     if(mWindow->isClosed())
         return false;
 
@@ -312,12 +279,6 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
-	/*if (arg.key >= OIS::KC_1 && arg.key<=OIS::KC_3)
-	{
-		CubeView *cw = (CubeView*)(mViewManager->getViews()[3]);
-		cw->setTargetSide(arg.key-OIS::KC_1);
-	}*/
-
 	if(arg.key == OIS::KC_F3)   // reset camera position
 	{
 		mCamera->setPosition(*mDefaultCamPosition);
