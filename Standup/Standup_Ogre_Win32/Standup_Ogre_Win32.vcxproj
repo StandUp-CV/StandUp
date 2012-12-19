@@ -33,7 +33,6 @@
     <ClInclude Include="src\ClockVisualisation.h" />
     <ClInclude Include="src\ClockVisualizationCircle.h" />
     <ClInclude Include="src\ClockVisualizationBars.h" />
-    <ClInclude Include="src\GlowMaterialListener.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\stdafx.h" />

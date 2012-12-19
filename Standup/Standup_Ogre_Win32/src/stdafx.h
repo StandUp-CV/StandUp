@@ -1,4 +1,6 @@
-
+/// \file src\stdafx.h
+///
+/// \brief Declares the stdafx class.
 
 #include <time.h>
 
@@ -53,6 +55,14 @@
 
 // any other header can be included, as usual
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
+/// \def WIN32_LEAN_AND_MEAN
+///
+/// \brief A macro that defines window 32 lean and mean.
+///
+/// \author Hans Ferchland
+/// \date 19.12.2012
+
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 #endif

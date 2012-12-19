@@ -77,9 +77,6 @@
     <ClInclude Include="src\AnimationBuilder.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\GlowMaterialListener.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\CameraTest.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
