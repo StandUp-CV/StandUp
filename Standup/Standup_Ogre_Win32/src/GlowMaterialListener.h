@@ -1,9 +1,6 @@
 #ifndef GLOWMATERIALLISTENER_H__
 #define GLOWMATERIALLISTENER_H__
 
-#include <Ogre.h>
-#include <OgreMaterialManager.h>
-
 class GlowMaterialListener : public Ogre::MaterialManager::Listener
 {
 protected:

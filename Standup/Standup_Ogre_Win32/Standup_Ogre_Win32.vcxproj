@@ -13,7 +13,12 @@
   <ItemGroup>
     <ClCompile Include="src\AnimationBuilder.cpp" />
     <ClCompile Include="src\BaseApplication.cpp" />
+    <ClCompile Include="src\CameraTest.cpp" />
+    <ClCompile Include="src\Clock.cpp" />
+    <ClCompile Include="src\ClockVisualizationBars.cpp" />
+    <ClCompile Include="src\ClockVisualizationCircle.cpp" />
     <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\StandupApplication.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -73,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

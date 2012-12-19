@@ -1,10 +1,17 @@
-// stdafx.h is the header file where you include all those headers 
-// you need in your project that rarely or never change. 
-// These could be Ogre headers, or anything else you want. 
-// The name of this header file doesn't matter, but by 
-// convention we name it stdafx.h.
+
+
+#include <time.h>
+
+#include <sstream>
+#include <string>
+
+#include <vector>
+#include <exception>
 
 // Ogre headers you need
+
+#include <Ogre.h>
+#include <OgreMaterialManager.h>
 #include <OgreException.h>
 #include <OgreRoot.h>
 #include <OgreConfigFile.h>
@@ -14,11 +21,35 @@
 #include <OgreRenderWindow.h>
 #include <OgreEntity.h>
 #include <OgreWindowEventUtilities.h>
+#include <OgrePrerequisites.h>
+#include <OgreStringConverter.h>
+
+// OIS include
+
+#include <OISEvents.h>
+#include <OISInputManager.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
+
 // CEGUI include
+
 #include <CEGUI.h>
 #include <CEGUIOgreRenderer.h>
 #include <CEGUIOgreRenderTarget.h>
+#include <CEGUIOgreImageCodec.h>
 #include <CEGUISystem.h>
+#include <CEGUISlider.h>
+
+
+// FMOD
+
+#include <fmod.hpp>
+#include <fmod_errors.h>
+
+
+#include "Sound.h"
+#include "Clock.h"
+
 
 // any other header can be included, as usual
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

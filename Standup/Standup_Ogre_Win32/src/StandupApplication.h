@@ -22,7 +22,7 @@ This source file is part of the
 
 #include "stdafx.h"
 #include "BaseApplication.h"
-#include <OgrePrerequisites.h>
+
 
 using namespace CEGUI;
 //! StandupApplication class is the core of Standup.

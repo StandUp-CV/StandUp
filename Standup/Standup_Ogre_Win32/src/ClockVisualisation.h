@@ -1,6 +1,6 @@
-#ifndef CLOCK_VISUALIZATIONS_H
-#define CLOCK_VISUALIZATIONS_H
-#include "clock.h"
+
+#ifndef CLOCK_VISUALISATION_H
+#define CLOCK_VISUALISATION_H
 
 class ClockVisualization
 {
@@ -21,4 +21,5 @@ protected:
 	int mHourFormat;
 };
 
-#endif // !CLOCK_VISUALIZATIONS_H
+#endif // !CLOCK_VISUALISATION_H
+

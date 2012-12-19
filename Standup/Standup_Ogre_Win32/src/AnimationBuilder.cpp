@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "AnimationBuilder.h"
-#include "OgreStringConverter.h"
 
 AnimationBuilder::AnimationBuilder(void)
 {

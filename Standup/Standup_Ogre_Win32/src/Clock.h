@@ -2,10 +2,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-#include <time.h>
-#include <vector>
-#include <string>
-#include <exception>
 
 // enums for the state machines
 
@@ -28,34 +24,17 @@ class Clock
 
 	// get the offset from gmt to local time in seconds
 
-	static const time_t gmtoff()
-	{
-		// select a value that is high enough
-		// so that mktime can produce a valid result
-		// ( computed value in secs never < 0 )
+	static const time_t gmtoff();
 
-		const time_t t=100000;
-
-		// fill a tm structure with the gm time
-		tm *li=gmtime(&t);
-
-		// convert back using local time
-		int secs=mktime(li);
-
-		// compute difference
-		return secs-t;
-
-	}
-	
 	// get the seconds passed since 1/1/1970
 	// (wrapper for c library)
 	
-	static const time_t getCurrentSecond() { static time_t t; time(&t); return t; };
+	static const time_t getCurrentSecond();
 
 	// fill a tm structure
 	// (wrapper for c library)
 
-	static const tm& getDisplayTime(const time_t &second) { static tm *lt; lt=localtime(&second); return *lt; };
+	static const tm& getDisplayTime(const time_t &second);
 
 	// constants for conversion between seconds and hours or days, respectively
 
@@ -146,113 +125,19 @@ private:
 
 public:
 
-	AlarmClock()
-	{
-		alarmState = INACTIVE;
-		snoozeTime = Clock::HOUR;
-		prerunTime = Clock::HOUR;
-	}
+	AlarmClock();
 
-	void setAlarmTime( time_t t) { if (alarmState!=INACTIVE) throw clex; alarmTime = t; }
-	void setActive ( bool state) { alarmState=state?ACTIVE:INACTIVE; }
+	void setAlarmTime( time_t t);
+	void setActive ( bool state);
 
 	// Hady Created for display Alarmtime
 	//static const time_t getAlarmTime() {return alarmTime;};
 
-	void hookAlarmEventHandler ( AlarmEventHandler *handler ) { alarmEventHandler = handler; }
+	void hookAlarmEventHandler ( AlarmEventHandler *handler );
 
-	void watchPerson ( Person *p ) { peopleWatched[0] = p; }
+	void watchPerson ( Person *p );
 
-	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override
-	{
-		bool anyoneSleeping=false;
-
-		std::vector <Person>::size_type i, npeople;
-		npeople = peopleWatched.size();
-
-		time_t ct = Clock::getCurrentSecond();
-
-		switch(alarmState)
-		{
-		case ACTIVE:
-			if (isCurrent(ct,alarmTime-prerunTime))
-			{
-				alarmEventHandler->watchOutEvent();
-				alarmState = MOVEMENT;
-			}
-			break;
-
-		case MOVEMENT:
-			
-			for(i=0;i<npeople;++i)
-			{
-				switch(peopleWatched[i]->getCurrentState())
-				{
-				case SLEEPING:
-				case SLUMBERING:
-					anyoneSleeping=true;
-				}
-
-			}
-
-			if (ct>alarmTime && anyoneSleeping)
-			{
-				alarmEventHandler->alarmEvent();
-				alarmState = AWAKENING;
-				//actualTimeOfAlarm = ct;
-
-			}
-
-			if (!anyoneSleeping && isCurrent(ct,alarmTime+snoozeTime))
-			{
-				alarmState = ACTIVE;
-				alarmTime += Clock::DAY;
-				alarmEventHandler->everythingCompleteEvent();
-			}
-
-			break;
-
-		case AWAKENING:
-			for (i=0; i< npeople; ++i)
-			{
-				time_t pt = peopleWatched[i]->getLastActionTime();
-
-				switch(peopleWatched[i]->getCurrentState())
-				{
-				case SLEEPING:
-				case SLUMBERING:
-					anyoneSleeping=true;
-					break;
-
-				case GOTUP:
-					if (isCurrent(pt,alarmTime+snoozeTime))
-					{
-						peopleWatched[i]->finallyAwakeEvent();
-					}
-					break;
-				}
-			}
-
-			if (anyoneSleeping)
-			{
-				//alarmEventHandler->alarmEvent();
-				//actualTimeOfAlarm = ct;
-			}
-			else
-			{
-				alarmEventHandler->stopRingingEvent();
-				alarmState = MOVEMENT;
-			}
-
-			break;
-
-		}
-
-
-
-		timeOfLastUpdate=ct;
-		return true;
-	}
+	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 };
 
 

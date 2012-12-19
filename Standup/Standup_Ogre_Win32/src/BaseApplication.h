@@ -29,16 +29,14 @@ This source file is part of the
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 
-#include <OISEvents.h>
-#include <OISInputManager.h>
-#include <OISKeyboard.h>
-#include <OISMouse.h>
+
 
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
-#include "GUI.h"
+#include "AnimationBuilder.h"
 #include "CameraTest.h"
+#include "GUI.h"
 
 
 #define CUBEFACE_SIZE 1024

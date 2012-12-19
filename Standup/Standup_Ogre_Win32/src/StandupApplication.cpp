@@ -109,8 +109,6 @@ void StandupApplication::createScene(void)
 
 	ClockVisualizationCircle* clockVis = new ClockVisualizationCircle(mSceneMgr, mCamera, 2);
 	mRoot->addFrameListener(clockVis);
-	mRoot->addFrameListener(mAlarmClock);
-
 }
 
 bool StandupApplication::configure() {

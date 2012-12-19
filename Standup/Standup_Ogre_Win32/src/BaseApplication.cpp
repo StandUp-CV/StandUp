@@ -15,6 +15,7 @@ This source file is part of the
 -----------------------------------------------------------------------------
 */
 #include "stdafx.h"
+
 #include "BaseApplication.h"
 #include "CEGUIOgreRenderer.h"
 #include "CEGUIOgreImageCodec.h"

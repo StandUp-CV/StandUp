@@ -7,12 +7,274 @@ Filename:    GUI.cpp
 -----------------------------------------------------------------------------
 */
 #include "stdafx.h"
-#include "GUI.h"
-#include "Clock.h"
-#include "CEGUISlider.h"
-#include "OgreStringConverter.h"
+
+
 #include "StandupApplication.h"
 #include "ClockVisualizationBars.h"
+#include "AnimationBuilder.h"
+#include "Clock.h"
+#include "CameraTest.h"
+#include "GUI.h"
+
+
+
+	//! Constructor GUI
+	/*!
+		Create Object
+		set initial value of members
+	*/
+	GUI::GUI(CEGUI::System* system, Ogre::Root* root) : FrameListener()
+	{
+		mMoveLeft = false;
+		mMoveRight = false;
+		mIsAlarmActive = false;
+		mSystem = system;
+
+		mCameraTest = new CameraTest();
+	};
+
+	//! Destructor GUI
+	/*!
+	*/
+	GUI::~GUI(void)
+	{ 
+		delete mCameraTest;
+	};
+
+
+
+	//! Creates all Animation Instances used for GUI Animations
+	/*!
+		get all Animations created in AnimationBuilder
+	*/
+	void GUI::setAnimationInstances() 
+	{
+		/************************************************************************/
+		/* -----------------------ANIMATION-------------------------------------*/
+		/************************************************************************/
+
+		mAnimationBuilder->createAnimations(mDialogWindow1->getProperty("UnifiedXPosition"),
+			mDialogWindow2->getProperty("UnifiedXPosition"), 
+			mDialogWindow3->getProperty("UnifiedXPosition"), 
+			mDialogWindow1->getProperty("YRotation"),
+			mDialogWindow2->getProperty("YRotation"),
+			mDialogWindow3->getProperty("YRotation")
+			);
+		AnimationManager& animMng = AnimationManager::getSingleton();
+
+		// Animation Instances used in Dialog1
+		instAnim_MoveWindow1Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Left"));//AnimationInstances get and setTarget
+		instAnim_MoveWindow1Left->setTargetWindow(mDialogWindow1);
+		instAnim_MoveWindow1Right = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow1Right"));
+		instAnim_MoveWindow1Right->setTargetWindow(mDialogWindow1);
+		instAnim_moveWindow1FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromLeftToStart"));
+		instAnim_moveWindow1FromLeftToStart->setTargetWindow(mDialogWindow1);
+		instAnim_moveWindow1FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow1FromRightToStart"));
+		instAnim_moveWindow1FromRightToStart->setTargetWindow(mDialogWindow1);
+		instAnim_FadeIn1 = animMng.instantiateAnimation(animMng.getAnimation("FadeIn1"));
+		instAnim_FadeOut = animMng.instantiateAnimation(animMng.getAnimation("FadeOut"));
+
+		// Animation Instances used in Dialog2
+		instAnim_MoveWindow2Right= animMng.instantiateAnimation(animMng.getAnimation("MoveWindow2Right")); //AnimationInstances get and setTarget
+		instAnim_MoveWindow2Right->setTargetWindow(mDialogWindow2);
+		instAnim_moveWindow2FromLeftToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow2FromLeftToStart"));
+		instAnim_moveWindow2FromLeftToStart->setTargetWindow(mDialogWindow2);
+
+		// Animation Instances used in Dialog3
+		instAnim_MoveWindow3Left = animMng.instantiateAnimation(animMng.getAnimation("MoveWindow3Left"));
+		instAnim_MoveWindow3Left->setTargetWindow(mDialogWindow3);
+		instAnim_moveWindow3FromRightToStart = animMng.instantiateAnimation(animMng.getAnimation("moveWindow3FromRightToStart"));
+		instAnim_moveWindow3FromRightToStart->setTargetWindow(mDialogWindow3);
+
+	}
+
+
+
+	/************************************************************************/
+	/* Events                                                               */
+	/************************************************************************/
+	
+	//! THe Event Handling when mDialog1ButtonLeft is clicked
+	/*!
+		start YRotation and UnifiedXPosition-Change Animation
+	\param Event CEGUI::PushButton::EventClicked
+	\return true
+	*/
+	bool GUI::dialog1ButtonLeftClicked(const CEGUI::EventArgs& /*e*/) 
+	{
+		instAnim_MoveWindow1Right->start();
+		instAnim_MoveWindow2Right->start();
+		mMoveRight = true;
+		return true;
+	};
+
+	//! THe Event Handling when mDialog1ButtonRight is clicked
+	/*!
+		start YRotation and UnifiedXPosition-Change Animation
+	\param Event CEGUI::PushButton::EventClicked
+	\return true
+	*/
+	bool GUI::dialog1ButtonRightClicked(const CEGUI::EventArgs& /*e*/) 
+	{
+		instAnim_MoveWindow1Left->start();
+		instAnim_MoveWindow3Left->start();
+		mMoveLeft = true;
+		return true;
+	};
+
+	//! THe Event Handling when mDialog2ButtonRight is clicked
+	/*!
+	start YRotation and UnifiedXPosition-Change Animation
+	\param Event CEGUI::PushButton::EventClicked
+	\return true
+	*/
+	bool GUI::dialog2ButtonRightClicked(const CEGUI::EventArgs& /*e*/) 
+	{
+		instAnim_moveWindow1FromRightToStart->start();
+		instAnim_moveWindow2FromLeftToStart->start();
+		return true;
+	};
+
+	//! THe Event Handling when mDialog3ButtonLeft is clicked
+	/*!
+	start YRotation and UnifiedXPosition-Change Animation
+	\param Event CEGUI::PushButton::EventClicked
+	\return true
+	*/
+	bool GUI::dialog3ButtonLeftClicked(const CEGUI::EventArgs& /*e*/) 
+	{
+		instAnim_moveWindow1FromLeftToStart->start();
+		instAnim_moveWindow3FromRightToStart->start();
+		return true;
+	};
+
+	//! THe Event Handling when the Value of the mDialog2CheckBox changed
+	/*!
+	change Text in mDialog2StateInfo
+	\param Event CEGUI::PushButton::EventCheckStateChanged
+	\return true
+	*/
+	bool GUI::checkBoxClicked(const CEGUI::EventArgs& /*e*/) 
+	{
+		mIsAlarmActive=!mIsAlarmActive;	
+		mCameraTest->getAlarmClock()->setActive(mIsAlarmActive);
+		mDialog2Slider->setEnabled(!mIsAlarmActive);
+		if(!mIsAlarmActive)
+		{	
+			mDialog2StateInfo->setText("Please choose wakeup time and press activate.");
+		}
+		else
+		{	
+			mDialog2StateInfo->setText("The wakeup alarm is active.");
+			//TODO PersonState Info, when alarm starts
+		}
+		return true;
+	};
+
+	//! THe Event Handling when the Mouse Hover in a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.0" to "0.3")
+	\param Event CEGUI::PushButton::EventMouseEntersArea
+	\return true
+	*/
+	bool GUI::dialog1ButtonLeftHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+			instAnim_FadeIn1->setTargetWindow(mDialog1ButtonLeft);
+			instAnim_FadeIn1->start();
+			return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover in a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.0" to "0.3")
+	\param Event CEGUI::PushButton::EventMouseEntersArea
+	\return true
+	*/
+	bool GUI::dialog1ButtonRightHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog1ButtonRight);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover in a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.0" to "0.3")
+	\param Event CEGUI::PushButton::EventMouseEntersArea
+	\return true
+	*/
+	bool GUI::dialog2ButtonRightHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog2ButtonRight);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover in a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.0" to "0.3")
+	\param Event CEGUI::PushButton::EventMouseEntersArea
+	\return true
+	*/
+	bool GUI::dialog3ButtonLeftHoverIn(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeIn1->setTargetWindow(mDialog3ButtonLeft);
+		instAnim_FadeIn1->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover out a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.3" to "0.0")
+	\param Event CEGUI::PushButton::EventMouseLeavesArea
+	\return true
+	*/	
+	bool GUI::dialog1ButtonLeftHoverOut(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeOut->setTargetWindow(mDialog1ButtonLeft);
+		instAnim_FadeOut->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover out a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.3" to "0.0")
+	\param Event CEGUI::PushButton::EventMouseLeavesArea
+	\return true
+	*/	
+	bool GUI::dialog1ButtonRightHoverOut(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeOut->setTargetWindow(mDialog1ButtonRight);
+		instAnim_FadeOut->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover out a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.3" to "0.0")
+	\param Event CEGUI::PushButton::EventMouseLeavesArea
+	\return true
+	*/	
+	bool GUI::dialog2ButtonRightHoverOut(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeOut->setTargetWindow(mDialog2ButtonRight);
+		instAnim_FadeOut->start();
+		return true;
+	}
+
+	//! THe Event Handling when the Mouse Hover out a button Area 
+	/*!
+	start Animation Fade In (Alpha from "0.3" to "0.0")
+	\param Event CEGUI::PushButton::EventMouseLeavesArea
+	\return true
+	*/	
+	bool GUI::dialog3ButtonLeftHoverOut(const CEGUI::EventArgs& /*e*/)
+	{
+		instAnim_FadeOut->setTargetWindow(mDialog3ButtonLeft);
+		instAnim_FadeOut->start();
+		return true;
+	}
+
 
 
 
@@ -130,7 +392,7 @@ void GUI::update(const Ogre::FrameEvent& evt)
 
 	try
 	{
-		mCameraTest->getAlarmClock()->setAlarmTime( (int) ( ((!isToday?1:0)+day+alarmtime) * Clock::DAY + off) );
+		mCameraTest->getAlarmClock()->setAlarmTime( (int) ( ((isToday?1:0)+day+alarmtime) * Clock::DAY + off) );
 	}
 	catch (ClockException& e42)
 	{
