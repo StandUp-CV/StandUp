@@ -6,6 +6,8 @@
 #include <fmod.hpp>
 #include <fmod_errors.h>
 
+enum SoundEffect { PRERUN, ALARM };
+
 class SoundException : std::exception
 {
 	char *what () { return "SoundException"; }
@@ -16,7 +18,7 @@ class Sound : public Ogre::FrameListener
 private:
 
 	FMOD::System     *system;
-	FMOD::Sound      *sound;
+	FMOD::Sound      *sound[2];
 
 public:
 
@@ -26,7 +28,8 @@ public:
 		FMOD_RESULT       result;
 
 		system=NULL;
-		sound=NULL;
+		sound[0]=NULL;
+		sound[1]=NULL;
 
 		result = FMOD::System_Create(&system);
 		if(result!=FMOD_OK) throw new SoundException();
@@ -43,7 +46,8 @@ public:
 		result = system->init(32, FMOD_INIT_NORMAL, 0);
 		if(result!=FMOD_OK) throw new SoundException();
 
-		reloadSoundFile("stuka.wav");
+		reloadSoundFile(PRERUN, "stuka.wav");
+		reloadSoundFile(ALARM, "stuka.wav");
 	}
 
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt) {
@@ -51,10 +55,10 @@ public:
 		return true;
 	}
 
-	void reloadSoundFile(Ogre::String path) {
-		if (sound) sound->release();
+	void reloadSoundFile(SoundEffect which, Ogre::String path) {
+		if (sound[which]) sound[which]->release();
 		FMOD_RESULT       result;
-		result = system->createSound(path.c_str(), FMOD_HARDWARE, 0, &sound);
+		result = system->createSound(path.c_str(), FMOD_HARDWARE, 0, &sound[which]);
 		if(result!=FMOD_OK) throw new SoundException();
 	}
 
@@ -62,15 +66,16 @@ public:
 	{
 		FMOD_RESULT       result;
 
-		if(sound) result = sound->release();
+		if(sound[0]) result = sound[0]->release();
+		if(sound[1]) result = sound[1]->release();
 		if(system) result = system->close();
 		if(system) result = system->release();
 	}
 
-	void play()
+	void play(SoundEffect which)
 	{
 		FMOD::Channel *ch;
-		system->playSound(FMOD_CHANNEL_FREE,sound,false,&ch);
+		system->playSound(FMOD_CHANNEL_FREE,sound[which],false,&ch);
 	}
 };
 

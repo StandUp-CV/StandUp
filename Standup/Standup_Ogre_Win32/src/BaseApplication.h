@@ -37,8 +37,8 @@ This source file is part of the
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
-#include "sound.h"
 #include "GUI.h"
+#include "CameraTest.h"
 
 
 #define CUBEFACE_SIZE 1024

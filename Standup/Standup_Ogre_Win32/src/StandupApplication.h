@@ -79,7 +79,7 @@ protected:
 	virtual void createCamera(void); /*!< Creates the camera for the applications */
 	virtual void createScene(void); /*!< Creates the initial scene for the application */
 	void createLights(); /*!< Deprecated - Creates the lights of the scene */
-	AlarmClock *mAlarmClock; /*!< References the alarm clock for the system */
+
 private:
 	StandupApplication(void); /*!< Hidden Constructor due singleton pattern. */
 	static StandupApplication* instance; /*!< Instance of the one and only instance of the application */  

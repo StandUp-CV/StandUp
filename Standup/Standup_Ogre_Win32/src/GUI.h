@@ -3,32 +3,20 @@
 #define __GUI_h_
 
 #include "stdafx.h"
-#include "GUI.h"
 #include "OgreFrameListener.h"
 #include <sstream>
 #include <string>
 #include "AnimationBuilder.h"
 #include "Clock.h"
-#include "fmod.hpp"
-#include "Sound.h"
+#include "CameraTest.h"
 
 using namespace CEGUI;
 
 // Class that handles the gui creation and animation
-class GUI : public Ogre::FrameListener , public AlarmEventHandler
+class GUI : public Ogre::FrameListener 
 {
 public:
 
-	void watchOutEvent()
-	{
-		mPrerunSound->play();
-	}
-	void alarmEvent()
-	{
-		mAlarmSound->play();
-	}
-	void stopRingingEvent() { }
-	void everythingCompleteEvent() { }
 
 
 	GUI(CEGUI::System* system, Ogre::Root* root) : FrameListener() {
@@ -36,16 +24,11 @@ public:
 		mMoveRight = false;
 		mIsAlarmActive = false;
 		mSystem = system;
-		mAlarmSound = new Sound();
-		mPrerunSound = new Sound();
-		mPrerunSound->reloadSoundFile("stuka.wav");
-		root->addFrameListener(mAlarmSound);
-		root->addFrameListener(mPrerunSound);
+
+		mCameraTest = new CameraTest();
 	};
 
-	void registerAlarmClock(AlarmClock* ac) { mAlarmClock=ac; }
-
-	~GUI(void){ mSystem = NULL; };
+	~GUI(void){ delete mCameraTest; };
 
 	void createScene(void);
 
@@ -134,7 +117,7 @@ public:
 	{
 		mIsAlarmActive=!mIsAlarmActive;
 		
-		mAlarmClock->setActive(mIsAlarmActive);
+		mCameraTest->getAlarmClock()->setActive(mIsAlarmActive);
 
 		mDialog2Slider->setEnabled(!mIsAlarmActive);
 
@@ -264,15 +247,14 @@ private:
 	AnimationInstance* instAnim_FadeOut;
 
 
-	AlarmClock* mAlarmClock;
-
 	//RTT Utils
 	Ogre::Viewport *mRTTViewport;
 	Ogre::Camera *mRTTCam;
 	Ogre::RenderTexture *mOgreRenderTexture;	
-	// the reference to the class that handles mAlarmSound
-	Sound* mAlarmSound;
-	Sound* mPrerunSound;
+
+
+	CameraTest *mCameraTest = NULL;
+
 };
 
 #endif // #ifndef __GUI_h_

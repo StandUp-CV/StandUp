@@ -18,7 +18,6 @@ Filename:    GUI.cpp
 
 void GUI::createScene( void )
 {
-	AlarmClock* alarm;
 
 	// CEGUI
 	WindowManager& wmgr = WindowManager::getSingleton();
@@ -157,7 +156,7 @@ void GUI::update(const Ogre::FrameEvent& evt)
 
 	try
 	{
-		mAlarmClock->setAlarmTime( (int) ( ((!isToday?1:0)+day+alarmtime) * Clock::DAY + off) );
+		mCameraTest->getAlarmClock()->setAlarmTime( (int) ( ((!isToday?1:0)+day+alarmtime) * Clock::DAY + off) );
 	}
 	catch (ClockException& e42)
 	{

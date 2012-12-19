@@ -7,67 +7,113 @@
 #include <string>
 #include <exception>
 
+// enums for the state machines
+
 enum AlarmState { ACTIVE, INACTIVE, MOVEMENT, AWAKENING };
 enum PersonState { SLEEPING, SLUMBERING, GOTUP, AWAKE };
+
 //-------------------------------------------------------------------------------------
+
 class ClockException : std::exception
 {
 	std::string what() { return "ClockException"; }
 };
+
 //-------------------------------------------------------------------------------------
 // Class that get access to the c time lib
+
 class Clock
 {
 	public:
 
+	// get the offset from gmt to local time in seconds
+
 	static const time_t gmtoff()
 	{
+		// select a value that is high enough
+		// so that mktime can produce a valid result
+		// ( computed value in secs never < 0 )
+
 		const time_t t=100000;
+
+		// fill a tm structure with the gm time
 		tm *li=gmtime(&t);
+
+		// convert back using local time
 		int secs=mktime(li);
+
+		// compute difference
 		return secs-t;
 
 	}
 	
+	// get the seconds passed since 1/1/1970
+	// (wrapper for c library)
+	
 	static const time_t getCurrentSecond() { static time_t t; time(&t); return t; };
+
+	// fill a tm structure
+	// (wrapper for c library)
+
 	static const tm& getDisplayTime(const time_t &second) { static tm *lt; lt=localtime(&second); return *lt; };
-	//static const tm& getGMTime() { time_t rawtime; time ( &rawtime ); return *gmtime( &rawtime ); }
+
+	// constants for conversion between seconds and hours or days, respectively
 
 	static const time_t HOUR = (60*60);
 	static const time_t DAY = (HOUR*24);
 
 
 };
+
+
 //-------------------------------------------------------------------------------------
 // handles the systems events for the alarm clock
+
 class AlarmEventHandler
 {
 public:
 
+	// triggered one hour before alarm should ring,
+	// the camera should start its prerun at this point
 	virtual void watchOutEvent() = 0;
+
+	// triggered at the exact moment when the alarm should ring
 	virtual void alarmEvent() = 0;
+
+	// triggered when the should stop ringing
 	virtual void stopRingingEvent() = 0;
+
+	// triggered when the wake-up cycle is complete
+	// and the alarm state machine has gone back to its default state
 	virtual void everythingCompleteEvent() = 0;
-
-
 };
+
 //-------------------------------------------------------------------------------------
 // Represents a person with its values for the alarm clock
+
 class Person
 {
 private:
+
+	// the state this person is in
 	PersonState state;
+
+	// time of this persons last action
 	time_t lastActionTime;
 
+	// call this method if something qualified as an action
 	void action() { lastActionTime = Clock::getCurrentSecond(); }
 
 public:
 
+	// assume person is sleeping
+	// when initializing the state machine
 	Person() { state = SLEEPING; lastActionTime=0; }
 
 	const PersonState const getCurrentState() { return state; }
 	const time_t const getLastActionTime() { return lastActionTime; }
 
+	// state machine implementation
 	void getUpEvent()   { if (state==AWAKE) throw (new ClockException()); state = GOTUP; action(); }
 	void getDownEvent() { if (state==AWAKE) throw (new ClockException()); state = SLUMBERING; action(); }
 	void finallyAwakeEvent() { if (state!=GOTUP) throw (new ClockException()); state = AWAKE; }
@@ -80,8 +126,11 @@ class AlarmClock : public Ogre::FrameListener
 {
 private:
 
-	std::vector <Person> allTheLonelyPeople;
+	
+	// watch multiple people
+	std::vector <Person*> peopleWatched;
 
+	// time, in seconds, frameRenderingQueued() has last been called
 	time_t timeOfLastUpdate;
 
 
@@ -112,14 +161,14 @@ public:
 
 	void hookAlarmEventHandler ( AlarmEventHandler *handler ) { alarmEventHandler = handler; }
 
-	
+	void watchPerson ( Person *p ) { peopleWatched[0] = p; }
 
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override
 	{
 		bool anyoneSleeping=false;
 
 		std::vector <Person>::size_type i, npeople;
-		npeople = allTheLonelyPeople.size();
+		npeople = peopleWatched.size();
 
 		time_t ct = Clock::getCurrentSecond();
 
@@ -137,7 +186,7 @@ public:
 			
 			for(i=0;i<npeople;++i)
 			{
-				switch(allTheLonelyPeople[i].getCurrentState())
+				switch(peopleWatched[i]->getCurrentState())
 				{
 				case SLEEPING:
 				case SLUMBERING:
@@ -166,9 +215,9 @@ public:
 		case AWAKENING:
 			for (i=0; i< npeople; ++i)
 			{
-				time_t pt = allTheLonelyPeople[i].getLastActionTime();
+				time_t pt = peopleWatched[i]->getLastActionTime();
 
-				switch(allTheLonelyPeople[i].getCurrentState())
+				switch(peopleWatched[i]->getCurrentState())
 				{
 				case SLEEPING:
 				case SLUMBERING:
@@ -178,7 +227,7 @@ public:
 				case GOTUP:
 					if (isCurrent(pt,alarmTime+snoozeTime))
 					{
-						allTheLonelyPeople[i].finallyAwakeEvent();
+						peopleWatched[i]->finallyAwakeEvent();
 					}
 					break;
 				}
