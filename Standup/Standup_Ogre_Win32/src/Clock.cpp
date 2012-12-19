@@ -62,11 +62,14 @@ void AlarmClock::watchPerson ( Person *p ) { peopleWatched.push_back( p ); }
 
 bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+	// helper variable
 	bool anyoneSleeping=false;
 
+	// get person count
 	std::vector <Person>::size_type i, npeople;
 	npeople = peopleWatched.size();
 
+	// now
 	time_t ct = Clock::getCurrentSecond();
 
 	switch(alarmState)
@@ -74,13 +77,18 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	case ACTIVE:
 		if (isCurrent(ct,alarmTime-prerunTime))
 		{
+			// alarm is activated and prerun time is reached
+			// tell camera to begin its prerun and change state
+
 			alarmEventHandler->watchOutEvent();
 			alarmState = MOVEMENT;
 		}
 		break;
 
 	case MOVEMENT:
-			
+		
+		// check wether anyone is sleeping
+
 		for(i=0;i<npeople;++i)
 		{
 			switch(peopleWatched[i]->getCurrentState())
@@ -94,6 +102,9 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 		if (ct>alarmTime && anyoneSleeping)
 		{
+			// if someone is sleeping and time of alarm is reached,
+			// ring alarm and change state
+
 			alarmEventHandler->alarmEvent();
 			alarmState = AWAKENING;
 			//actualTimeOfAlarm = ct;
@@ -102,6 +113,10 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 		if (!anyoneSleeping && isCurrent(ct,alarmTime+snoozeTime))
 		{
+			// noone is sleeping and the snooze time has run out
+			// reset state machine to its original state
+			// and set alarm to next day
+
 			alarmState = ACTIVE;
 			alarmTime += Clock::DAY;
 			alarmEventHandler->everythingCompleteEvent();
@@ -124,6 +139,8 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			case GOTUP:
 				if (isCurrent(pt,alarmTime+snoozeTime))
 				{
+					// this person can be regarded as totally awake
+
 					peopleWatched[i]->finallyAwakeEvent();
 				}
 				break;
@@ -132,11 +149,12 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 		if (anyoneSleeping)
 		{
-			//alarmEventHandler->alarmEvent();
-			//actualTimeOfAlarm = ct;
+		
 		}
 		else
 		{
+			// noone is sleeping anymore
+
 			alarmEventHandler->stopRingingEvent();
 			alarmState = MOVEMENT;
 		}
@@ -146,7 +164,8 @@ bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	}
 
 
-
+	// keep track of last update time
 	timeOfLastUpdate=ct;
+
 	return true;
 }

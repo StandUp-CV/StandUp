@@ -634,6 +634,8 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2CurrentTimeHelper->setProperty("VertFormatting", "VertCentred");
 	mDialog2CurrentTime->setAlpha(0.8f);
 	mDialog2CurrentTimeHelper->setInheritsAlpha(false);
+
+	mCameraTest->setOutputLabel(mDialog2StateInfo);
 }
 
 /************************************************************************/

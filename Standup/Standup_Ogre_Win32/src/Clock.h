@@ -25,8 +25,6 @@ enum AlarmState { ACTIVE, INACTIVE, MOVEMENT, AWAKENING };
 
 enum PersonState { SLEEPING, SLUMBERING, GOTUP, AWAKE };
 
-// -------------------------------------------------------------------------------------. 
-
 /// \class ClockException
 ///
 /// \brief Exception for signalling clock errors.
@@ -92,7 +90,7 @@ class Clock
 	/// The second.
 	///
 	/// \return The display time.
-	
+
 	static const tm& getDisplayTime(const time_t &second);
 
 	// constants for conversion between seconds and hours or days, respectively
@@ -105,7 +103,8 @@ class Clock
 
 /// \class AlarmEventHandler
 ///
-/// \brief handles the systems events for the alarm clock.
+/// \brief -------------------------------------------------------------------------------------
+///  handles the systems events for the alarm clock.
 ///
 /// \author Hans Ferchland
 /// \date 19.12.2012
@@ -114,14 +113,32 @@ class AlarmEventHandler
 {
 public:
 
-	// triggered one hour before alarm should ring,
-	// the camera should start its prerun at this point
+	/// \fn virtual void AlarmEventHandler::watchOutEvent() = 0;
+	///
+	/// \brief triggered one hour before alarm should ring, the camera should start its prerun at
+	/// this point.
+	///
+	/// \author Hans Ferchland
+	/// \date 19.12.2012
+
 	virtual void watchOutEvent() = 0;
 
-	// triggered at the exact moment when the alarm should ring
+	/// \fn virtual void AlarmEventHandler::alarmEvent() = 0;
+	///
+	/// \brief triggered at the exact moment when the alarm should ring.
+	///
+	/// \author Hans Ferchland
+	/// \date 19.12.2012
+
 	virtual void alarmEvent() = 0;
 
-	// triggered when the should stop ringing
+	/// \fn virtual void AlarmEventHandler::stopRingingEvent() = 0;
+	///
+	/// \brief triggered when the should stop ringing.
+	///
+	/// \author Hans Ferchland
+	/// \date 19.12.2012
+
 	virtual void stopRingingEvent() = 0;
 
 	/// \fn virtual void AlarmEventHandler::everythingCompleteEvent() = 0;
@@ -147,7 +164,8 @@ class Person
 private:
 
 	PersonState state; /*!< the state this person is in */
-	time_t lastActionTime;  /*!< Time of the last action */
+
+	time_t lastActionTime;  /*!< Time of this persons last action */
 
 	/// \fn void Person::action()
 	///
@@ -191,7 +209,7 @@ public:
 
 	const time_t const getLastActionTime() { return lastActionTime; }
 
-	// State machine implementation
+	// state machine implementation
 
 	/// \fn void Person::getUpEvent()
 	///
@@ -229,7 +247,6 @@ public:
 
 	void finallyAwakeEvent() { if (state!=GOTUP) throw (new ClockException()); state = AWAKE; }
 
-
 };
 
 /// \class AlarmClock
@@ -251,8 +268,7 @@ private:
 
 	std::vector <Person*> peopleWatched;
 
-	// time, in seconds, frameRenderingQueued() has last been called
-	time_t timeOfLastUpdate;	/*!< Time of the last update */
+	time_t timeOfLastUpdate;	/*!< time, in seconds, frameRenderingQueued() has last been called */
 
 	/// \property time_t alarmTime,snoozeTime,prerunTime
 	///
@@ -261,13 +277,14 @@ private:
 	/// \return The time of the prerun.
 
 	time_t alarmTime,snoozeTime,prerunTime;
+	//time_t actualTimeOfAlarm;
 
-	AlarmState alarmState;  /*!< State of the alarm */
-	AlarmEventHandler *alarmEventHandler;   /*!< The alarm event handler */
+	AlarmState alarmState;  /*!< current state of the state machine */
+	AlarmEventHandler *alarmEventHandler;   /*!< which object to notify of changes */
 
 	/// \fn bool AlarmClock::isCurrent(time_t ct, time_t event)
 	///
-	/// \brief Query if 'ct' is current.
+	/// \brief did this happen in between the last event and now?
 	///
 	/// \author Hans Ferchland
 	/// \date 19.12.2012
@@ -320,7 +337,7 @@ public:
 
 	/// \fn void AlarmClock::hookAlarmEventHandler ( AlarmEventHandler *handler );
 	///
-	/// \brief Handler, called when the hook alarm event.
+	/// \brief supply a handler for change events.
 	///
 	/// \author Hans Ferchland
 	/// \date 19.12.2012
@@ -332,7 +349,7 @@ public:
 
 	/// \fn void AlarmClock::watchPerson ( Person *p );
 	///
-	/// \brief Watch person.
+	/// \brief add a person to the list of persons to watch.
 	///
 	/// \author Hans Ferchland
 	/// \date 19.12.2012
@@ -344,7 +361,7 @@ public:
 
 	/// \fn bool AlarmClock::frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 	///
-	/// \brief Frame rendering queued.
+	/// \brief update handler.
 	///
 	/// \author Hans Ferchland
 	/// \date 19.12.2012

@@ -21,7 +21,7 @@ enum InputTest { GETUP, LAYDOWN, ISAWAKE };
 
 /// \class CameraTest
 ///
-/// \brief Camera test.
+/// \brief Camera test. test class for webcam. input of computer vision part is simulated.
 ///
 /// \author Hans Ferchland
 /// \date 19.12.2012
@@ -33,6 +33,8 @@ private:
 	Sound* mSound;  /*!< The sound */
 	AlarmClock* mAlarmClock;	/*!< The alarm clock */
 	Person* mPerson;	/*!< The person */
+
+	CEGUI::DefaultWindow *mLabel;   /*!< The label */
 
 public:
 
@@ -112,6 +114,18 @@ public:
 	/// The what.
 
 	void inputTest(InputTest what);
+
+	/// \fn void CameraTest::setOutputLabel(CEGUI::DefaultWindow* label)
+	///
+	/// \brief Sets output label.
+	///
+	/// \author Hans Ferchland
+	/// \date 19.12.2012
+	///
+	/// \param [in,out] label
+	/// If non-null, the label.
+
+	void setOutputLabel(CEGUI::DefaultWindow* label) { mLabel=label; }
 
 };
 

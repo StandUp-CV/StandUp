@@ -6,6 +6,7 @@
 
 CameraTest::CameraTest ()
 {
+	mLabel = NULL;
 	mSound = NULL;
 	mAlarmClock = NULL;
 	mPerson = NULL;
@@ -35,20 +36,22 @@ AlarmClock* CameraTest::getAlarmClock()
 	
 void CameraTest::watchOutEvent()
 {
-	int i=0;
-	i++;
+	mLabel->setText("watchOutEvent() was triggered.");
 }
 
 void CameraTest::alarmEvent()
 {
+	mLabel->setText("alarmEvent() was triggered.");
 }
 
 void CameraTest::stopRingingEvent()
 {
+	mLabel->setText("stopRingingEvent() was triggered.");
 }
 
 void CameraTest::everythingCompleteEvent()
 {
+	mLabel->setText("everythingCompleteEvent() was triggered.");
 }
 
 void CameraTest::inputTest(InputTest what)
