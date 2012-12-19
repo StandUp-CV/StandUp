@@ -61,13 +61,13 @@ bool ClockVisualizationBars::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		relY * mCamera->getViewport()->getHeight(), &ray);
 	dir = Ogre::Vector3(ray.getDirection().x, ray.getDirection().y, ray.getDirection().z);
 	dir.normalise();
+	Ogre::Vector3 left = dir.crossProduct(mCamera->getUp());
+	left.normalise();
 	//dir *= -1;
-	//mDebugNode->setOrientation(Ogre::Quaternion( 
-	//	&dir));
 	mLight->setPosition(ray.getOrigin());
 	mClockNode->setOrientation(
 		Ogre::Quaternion( 
-		&dir));
+		dir, mCamera->getUp(), left));
 		/*mClockNode->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Math::PI * 0), 
 		Ogre::Vector3(0,1,1)));*/
 	return true;
