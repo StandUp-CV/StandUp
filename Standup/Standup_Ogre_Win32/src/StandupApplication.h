@@ -25,19 +25,38 @@ This source file is part of the
 #include <OgrePrerequisites.h>
 
 using namespace CEGUI;
-
+//! StandupApplication class is the core of Standup.
+/*!
+	This class extends the BaseApplication and implements 
+	content and behaviour.
+ */
 class StandupApplication : public BaseApplication
 {
 public:
-    
-    virtual ~StandupApplication(void);
 
+	//! Gets the one and only pointer to the StandupApplication.    
+	/*! 
+		Creates the application if not instatiated already. 
+		Returns the refernce if it is there.
+		\return the pointer to the one and only StandupApplication.   
+	*/
 	static StandupApplication* getInstance();
-
+	//! Gets the mouse pointer of the ogre application.    
+	/*!     
+		\return the pointer to the ogre mouse      
+		\sa Ogre::Mouse    
+	*/
 	OIS::Mouse* getMouse() { return mMouse; }
-
+	//! Gets the keyboard pointer of the ogre application.    
+	/*!     
+		\return the pointer to the ogre keyboard      
+		\sa Ogre::Keyboard    
+	*/
 	OIS::Keyboard* getKeyboard() { return mKeyboard; }
-
+	//! Creates the CEGUI components and the applications main gui-content    
+	/*!     
+		\sa BaseApplication.createCEGUI(), GUI, CEGUI   
+	*/
 	void createCEGUI() override {
 		BaseApplication::createCEGUI();
 		// CEGUI
@@ -46,24 +65,25 @@ public:
 		mGUI->createScene();
 
 	}
-
+	//! Gets the root of the ogre application.    
+	/*!     
+		\return the pointer to the ogre root      
+		\sa Ogre::Root    
+	*/
 	Ogre::Root* getRoot(void) {
 		return mRoot;
 	}
 protected:
-
-
-	StandupApplication(void);
-	bool configure();
-	virtual void createViewports(void);
-	virtual void createCamera(void);
-	virtual void createScene(void);
-	void createLights();
-	// static instance reference
-	static StandupApplication* instance;
-	// references the alarm clock for the system
-	AlarmClock *mAlarmClock;
-
+	bool configure(); /*!< Configures the options window and window title */
+	virtual void createViewports(void); /*!< Creates the applications viewport */
+	virtual void createCamera(void); /*!< Creates the camera for the applications */
+	virtual void createScene(void); /*!< Creates the initial scene for the application */
+	void createLights(); /*!< Deprecated - Creates the lights of the scene */
+	AlarmClock *mAlarmClock; /*!< References the alarm clock for the system */
+private:
+	StandupApplication(void); /*!< Hidden Constructor due singleton pattern. */
+	static StandupApplication* instance; /*!< Instance of the one and only instance of the application */  
+	virtual ~StandupApplication(void); /*!< Destructor of the Application is hidden due singleton */  
 };
 
 #endif // #ifndef __StandupApplication_h_
