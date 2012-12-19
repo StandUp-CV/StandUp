@@ -16,8 +16,6 @@ This source file is part of the
 */
 #include "stdafx.h"
 #include "BaseApplication.h"
-#include "ViewManager.h"
-#include "CubeView.h"
 #include "CEGUIOgreRenderer.h"
 #include "CEGUIOgreImageCodec.h"
 #include "GlowMaterialListener.h"
