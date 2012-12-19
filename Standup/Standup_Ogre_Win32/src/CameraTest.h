@@ -4,6 +4,10 @@
 
 enum InputTest { GETUP, LAYDOWN, ISAWAKE };
 
+
+// test class for webcam
+// input of computer vision part is simulated
+
 class CameraTest : public AlarmEventHandler
 {
 private:
@@ -11,6 +15,8 @@ private:
 	Sound* mSound;
 	AlarmClock* mAlarmClock;
 	Person* mPerson;
+
+	CEGUI::DefaultWindow *mLabel;
 
 public:
 
@@ -27,6 +33,8 @@ public:
 	~CameraTest ();
 	AlarmClock* getAlarmClock();
 	void inputTest(InputTest what);
+
+	void setOutputLabel(CEGUI::DefaultWindow* label) { mLabel=label; }
 
 };
 

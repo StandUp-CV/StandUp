@@ -116,9 +116,13 @@ private:
 	time_t alarmTime,snoozeTime,prerunTime;
 	//time_t actualTimeOfAlarm;
 
+	// current state of the state machine
 	AlarmState alarmState;
+
+	// which object to notify of changes
 	AlarmEventHandler *alarmEventHandler;
 
+	// did this happen in between the last event and now?
 	bool isCurrent(time_t ct, time_t event) { return ct>=event && event>timeOfLastUpdate; }
 
 	ClockException clex;
@@ -133,10 +137,13 @@ public:
 	// Hady Created for display Alarmtime
 	//static const time_t getAlarmTime() {return alarmTime;};
 
+	// supply a handler for change events
 	void hookAlarmEventHandler ( AlarmEventHandler *handler );
 
+	// add a person to the list of persons to watch
 	void watchPerson ( Person *p );
 
+	// update handler
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 };
 
