@@ -63,26 +63,6 @@ void StandupApplication::createCamera(void)
 }
 
 /*
- *	add Spotlight
-
-  It sets up a plain white-light spotlight pointing 
-  back to the head at the designated X and Z position. 
-  The spotlight is set up with a very wide range, by the line 
-  spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));.
-  This is the angle of the spotlight - 180 is very wide, 
-  but I did this to ensure the spotlights overlap and leave no dark spots.
-  Also, the attenuation is set with 
-  spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
-  This defines how the light weakens over distance.
- */
-void StandupApplication::createLights() 
-{
-	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
-	//light1->setType(Ogre::Light::LT_POINT);
-	//light1->setPosition(5,75,0);
-}
-
-/*
  *	create Scene
  */
 void StandupApplication::createScene(void)
@@ -128,6 +108,50 @@ bool StandupApplication::configure() {
 		return false;
 	}
 }
+
+//-------------------------------------------------------------------------------------
+bool StandupApplication::keyPressed( const OIS::KeyEvent &arg )
+{
+	if(arg.key == OIS::KC_F3)   // reset camera position
+	{
+		mCamera->setPosition(*mDefaultCamPosition);
+	}
+
+	if(arg.key == OIS::KC_F5)   // refresh all textures
+	{
+		Ogre::TextureManager::getSingleton().reloadAll();
+	}
+	else if (arg.key == OIS::KC_SYSRQ)   // take a screenshot
+	{
+		mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
+	}
+	else if (arg.key == OIS::KC_ESCAPE)
+	{
+		mShutDown = true;
+	}
+	else if (arg.key == OIS::KC_1)
+	{
+		mGUI->setPersonState(GETUP);
+	}
+	else if (arg.key == OIS::KC_2)
+	{
+		mGUI->setPersonState(LAYDOWN);
+	}
+	else if (arg.key == OIS::KC_3)
+	{
+		mGUI->setPersonState(ISAWAKE);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	//		CEGUI Input Methods
+	//////////////////////////////////////////////////////////////////////////
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown(arg.key);
+	sys.injectChar(arg.text);
+
+	return true;
+}
+
 
 StandupApplication* StandupApplication::getInstance(){
 	if (instance == NULL)

@@ -58,26 +58,25 @@ bool ClockVisualizationCircle::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if(mCurrentSeconds!=second)
 	{
 		second = mCurrentSeconds;
-		//mDaytimeLight->setSpecularColour(newColor);
 		// Seconds
 		for (int i = 0; i < mSeconds; i++) {
-			//mVectorSecondGeom[i]->setVisible(i!=mCurrentSeconds);
 			Ogre::Entity* node = mVectorSecondGeom[(i+mSeconds/4) % mSeconds];
+			// set material and shadows for the second that really is
 			node->setMaterialName(i < mCurrentSeconds?"Standup/Clock/Cubemap_Seconds":"Standup/Clock/Cubemap_Trans");
 			node->setCastShadows(i < mCurrentSeconds);
 		}
 
 		// Minutes
 		for (int i = 0; i < mMinutes; i++) {
-			//mVectorMinuteGeom[i]->setVisible(i < mCurrentMinutes);
 			Ogre::Entity* node = mVectorMinuteGeom[(i+mMinutes/4) % mMinutes];
+			// set material and shadows for the minute that really is
 			node->setMaterialName(i < mCurrentMinutes?"Standup/Clock/Cubemap_Minutes":"Standup/Clock/Cubemap_Trans");
 			node->setCastShadows(i < mCurrentMinutes);
 		}
 		// Hours
 		for (int i = 0; i < mHours; i++) {
-			//mVectorHourGeom[i]->setVisible(i < mCurrentHours);
 			Ogre::Entity* node = mVectorHourGeom[(i+mHours/4) % mHours];
+			// set material and shadows for the minute that really is
 			node->setMaterialName(i < mCurrentHours ? "Standup/Clock/Cubemap_Hours" : "Standup/Clock/Cubemap_Trans");
 			node->setCastShadows(i < mCurrentHours);
 		}

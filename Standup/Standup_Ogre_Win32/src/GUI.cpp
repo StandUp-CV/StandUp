@@ -346,6 +346,10 @@ String GUI::getCurrentTimeString(void){
 }
 
 
+void GUI::setPersonState(InputTest state){
+	mCameraTest->inputTest(state);
+}
+
 float GUI::getCurrentTimePosition(){
 
 

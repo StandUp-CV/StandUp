@@ -19,7 +19,6 @@ This source file is part of the
 #include "BaseApplication.h"
 #include "CEGUIOgreRenderer.h"
 #include "CEGUIOgreImageCodec.h"
-#include "GlowMaterialListener.h"
 #include "OgreResourceGroupManager.h"
 #include "OgrePixelFormat.h"
 #include "OgreCompositorManager.h"
@@ -275,36 +274,8 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
     return true;
 }
-//-------------------------------------------------------------------------------------
-bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
-{
-	if(arg.key == OIS::KC_F3)   // reset camera position
-	{
-		mCamera->setPosition(*mDefaultCamPosition);
-	}
 
-    if(arg.key == OIS::KC_F5)   // refresh all textures
-    {
-        Ogre::TextureManager::getSingleton().reloadAll();
-    }
-    else if (arg.key == OIS::KC_SYSRQ)   // take a screenshot
-    {
-        mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
-    }
-    else if (arg.key == OIS::KC_ESCAPE)
-    {
-        mShutDown = true;
-    }
 
-	//////////////////////////////////////////////////////////////////////////
-	//		CEGUI Input Methods
-	//////////////////////////////////////////////////////////////////////////
-	CEGUI::System &sys = CEGUI::System::getSingleton();
-	sys.injectKeyDown(arg.key);
-	sys.injectChar(arg.text);
-
-    return true;
-}
 
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {

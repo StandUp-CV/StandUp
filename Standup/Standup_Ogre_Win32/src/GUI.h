@@ -8,7 +8,7 @@
 ///
 /// \brief A macro that defines graphical user interface h.
 ///
-/// \author Hans Ferchland
+/// \author Hady Khalifa
 /// \date 19.12.2012
 
 #define __GUI_h_
@@ -19,7 +19,7 @@ using namespace CEGUI;
 ///
 /// \brief Class that handles the gui creation and animation.
 ///
-/// \author Hans Ferchland
+/// \author Hady Khalifa
 /// \date 19.12.2012
 
 class GUI : public Ogre::FrameListener 
@@ -30,7 +30,7 @@ public:
 	///
 	/// \brief Constructor.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] system
@@ -44,7 +44,7 @@ public:
 	///
 	/// \brief Destructor.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 
 	~GUI(void);
@@ -53,7 +53,7 @@ public:
 	///
 	/// \brief Creates the scene.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 
 	void createScene(void);
@@ -62,7 +62,7 @@ public:
 	///
 	/// \brief Creates dialog 1.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] wmgr
@@ -74,7 +74,7 @@ public:
 	///
 	/// \brief Creates dialog 2.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] wmgr
@@ -86,7 +86,7 @@ public:
 	///
 	/// \brief Creates dialog 3.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] wmgr
@@ -109,7 +109,7 @@ public:
 	///
 	/// \brief Sets animation instances.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 
 	void setAnimationInstances();
@@ -122,7 +122,7 @@ public:
 	///
 	/// \brief Dialog 1 button left clicked.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -136,7 +136,7 @@ public:
 	///
 	/// \brief Dialog 1 button right clicked.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -150,7 +150,7 @@ public:
 	///
 	/// \brief Dialog 2 button right clicked.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -164,7 +164,7 @@ public:
 	///
 	/// \brief Dialog 3 button left clicked.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -178,7 +178,7 @@ public:
 	///
 	/// \brief Check box clicked.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -192,7 +192,7 @@ public:
 	///
 	/// \brief Dialog 1 button left hover in.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -206,7 +206,7 @@ public:
 	///
 	/// \brief Dialog 1 button right hover in.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -220,7 +220,7 @@ public:
 	///
 	/// \brief Dialog 2 button right hover in.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -234,7 +234,7 @@ public:
 	///
 	/// \brief Dialog 3 button left hover in.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -248,7 +248,7 @@ public:
 	///
 	/// \brief Dialog 1 button left hover out.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -262,7 +262,7 @@ public:
 	///
 	/// \brief Dialog 1 button right hover out.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -276,7 +276,7 @@ public:
 	///
 	/// \brief Dialog 2 button right hover out.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -290,7 +290,7 @@ public:
 	///
 	/// \brief Dialog 3 button left hover out.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param parameter1
@@ -318,7 +318,7 @@ public:
 	///
 	/// \brief Updates the given evt.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param evt
@@ -330,7 +330,7 @@ public:
 	///
 	/// \brief Finds the slidervaluemin of the given arguments.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param f
@@ -344,7 +344,7 @@ public:
 	///
 	/// \brief Gets slider value hour.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param f
@@ -358,7 +358,7 @@ public:
 	///
 	/// \brief Gets slider time string.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param f
@@ -372,12 +372,21 @@ public:
 	///
 	/// \brief Gets current time string.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \return The current time string.
 
 	String getCurrentTimeString(void);
+
+	/// \fn void GUI::setPersonState(vInputTest stateoid);
+	///
+	/// \set Person state
+	///
+	/// \author Hady Khalifa
+	/// \date 19.12.2012
+	///
+	void setPersonState(InputTest state);
 
 private:
 
@@ -385,7 +394,7 @@ private:
 	///
 	/// \brief Initialises the rtt viewport.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] surface
@@ -397,7 +406,7 @@ private:
 	///
 	/// \brief Gets current time position.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \return The current time position.
