@@ -1,21 +1,10 @@
-/// \file src\Sound.h
-///
-/// \brief Declares the sound class.
 
 #ifndef SOUND_H
-
-/// \def SOUND_H
-///
-/// \brief A macro that defines sound h.
-///
-/// \author Hans Ferchland
-/// \date 19.12.2012
-
 #define SOUND_H
 
 /// \enum SoundEffect
 ///
-/// \brief enumarate sound effects that can be played.
+/// \brief enumarates sound effects that can be played.
 
 enum SoundEffect { PRERUN, ALARM };
 
@@ -23,7 +12,7 @@ enum SoundEffect { PRERUN, ALARM };
 ///
 /// \brief Exception for signalling sound errors.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class SoundException : std::exception
@@ -33,9 +22,9 @@ class SoundException : std::exception
 
 /// \class Sound
 ///
-/// \brief Sound.
+/// \brief integrates the FMOD library to play the alarm sound effects.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class Sound : public Ogre::FrameListener
@@ -49,18 +38,18 @@ public:
 
 	/// \fn Sound::Sound();
 	///
-	/// \brief Default constructor.
+	/// \brief create FMOD and load sound effects.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	Sound();
 
 	/// \fn Sound::~Sound();
 	///
-	/// \brief Destructor.
+	/// \brief destroy everything.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	~Sound();
@@ -72,11 +61,11 @@ public:
 	///
 	/// \brief load or reload a sound file.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param which
-	/// The which.
+	/// Which sound effect to load
 	/// \param path
 	/// Full pathname of the file.
 
@@ -86,11 +75,11 @@ public:
 	///
 	/// \brief play a sound file.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param which
-	/// The which.
+	/// Which sound effect to play
 
 	void play(SoundEffect which);
 };

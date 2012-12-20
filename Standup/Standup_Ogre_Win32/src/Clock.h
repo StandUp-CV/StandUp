@@ -1,56 +1,45 @@
-/// \file src\Clock.h
-///
-/// \brief Declares the clock class.
 
 #ifndef CLOCK_H
-
-/// \def CLOCK_H
-///
-/// \brief A macro that defines clock h.
-///
-/// \author Hans Ferchland
-/// \date 19.12.2012
-
 #define CLOCK_H
 
 /// \enum AlarmState
 ///
-/// \brief enums for the state machines.
+/// \brief enums for the AlarmClock state machine.
 
 enum AlarmState { ACTIVE, INACTIVE, MOVEMENT, AWAKENING };
 
 /// \enum PersonState
 ///
-/// \brief Values that represent PersonState.
+/// \brief enums for the Person state machine.
 
 enum PersonState { SLEEPING, SLUMBERING, GOTUP, AWAKE };
 
 /// \class ClockException
 ///
-/// \brief Exception for signalling clock errors.
+/// \brief Exception for signalling clock errors. Inherited from std::exception.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class ClockException : std::exception
 {
 	/// \fn std::string ClockException::what()
 	///
-	/// \brief Gets the what.
+	/// \brief name of the exception.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \return .
+	/// \return "ClockException"
 
 	std::string what() { return "ClockException"; }
 };
 
 /// \class Clock
 ///
-/// \brief Class that get access to the c time lib.
+/// \brief wrapper class for the c library header time.h. static class.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class Clock
@@ -61,10 +50,10 @@ class Clock
 	///
 	/// \brief get the offset from gmt to local time in seconds.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \return .
+	/// \return time in seconds
 
 	static const time_t gmtoff();
 
@@ -72,10 +61,10 @@ class Clock
 	///
 	/// \brief get the seconds passed since 1/1/1970 (wrapper for c library)
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \return The current second.
+	/// \return time in seconds
 	
 	static const time_t getCurrentSecond();
 
@@ -83,30 +72,29 @@ class Clock
 	///
 	/// \brief fill a tm structure (wrapper for c library)
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param second
-	/// The second.
+	/// seconds since 1/1/1970
 	///
-	/// \return The display time.
+	/// \return input converted to a tm struct
 
 	static const tm& getDisplayTime(const time_t &second);
 
 	// constants for conversion between seconds and hours or days, respectively
 
-	static const time_t HOUR = (60*60); /*!< The hour */
-	static const time_t DAY = (HOUR*24);	/*!< The day */
+	static const time_t HOUR = (60*60); /*!< seconds per hour */
+	static const time_t DAY = (HOUR*24);	/*!< seconds per day */
 
 
 };
 
 /// \class AlarmEventHandler
 ///
-/// \brief -------------------------------------------------------------------------------------
-///  handles the systems events for the alarm clock.
+/// \brief abstract class, inherited by CameraTest. Handles events triggered by AlarmClock.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class AlarmEventHandler
@@ -115,10 +103,9 @@ public:
 
 	/// \fn virtual void AlarmEventHandler::watchOutEvent() = 0;
 	///
-	/// \brief triggered one hour before alarm should ring, the camera should start its prerun at
-	/// this point.
+	/// \brief triggered one hour before alarm should ring, the camera should start its prerun at this point.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	virtual void watchOutEvent() = 0;
@@ -127,7 +114,7 @@ public:
 	///
 	/// \brief triggered at the exact moment when the alarm should ring.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	virtual void alarmEvent() = 0;
@@ -136,17 +123,16 @@ public:
 	///
 	/// \brief triggered when the should stop ringing.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	virtual void stopRingingEvent() = 0;
 
 	/// \fn virtual void AlarmEventHandler::everythingCompleteEvent() = 0;
 	///
-	/// \brief triggered when the wake-up cycle is complete and the alarm state machine has gone
-	/// back to its default state.
+	/// \brief triggered when the wake-up cycle is complete and the alarm state machine has gone back to its default state.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	virtual void everythingCompleteEvent() = 0;
@@ -154,9 +140,9 @@ public:
 
 /// \class Person
 ///
-/// \brief Represents a person with its values for the alarm clock.
+/// \brief Represents one persons state for use with the alarm clock.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class Person
@@ -171,7 +157,7 @@ private:
 	///
 	/// \brief call this method if something qualified as an action.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	void action() { lastActionTime = Clock::getCurrentSecond(); }
@@ -182,7 +168,7 @@ public:
 	///
 	/// \brief assume person is sleeping when initializing the state machine.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	Person() { state = SLEEPING; lastActionTime=0; }
@@ -191,7 +177,7 @@ public:
 	///
 	/// \brief Gets current state.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \return The current state.
@@ -200,12 +186,12 @@ public:
 
 	/// \fn const time_t const Person::getLastActionTime()
 	///
-	/// \brief Gets the last action time.
+	/// \brief Gets the time of this persons last action.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \return The last action time.
+	/// \return time in seconds.
 
 	const time_t const getLastActionTime() { return lastActionTime; }
 
@@ -213,9 +199,9 @@ public:
 
 	/// \fn void Person::getUpEvent()
 	///
-	/// \brief state machine implementation.
+	/// \brief called by computer vision part when a corresponding movement has been detected.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \exception ClockException
@@ -225,9 +211,9 @@ public:
 
 	/// \fn void Person::getDownEvent()
 	///
-	/// \brief Gets down event.
+	/// \brief called by computer vision part when a corresponding movement has been detected.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \exception ClockException
@@ -237,9 +223,9 @@ public:
 
 	/// \fn void Person::finallyAwakeEvent()
 	///
-	/// \brief Finally awake event.
+	/// \brief called by computer vision part when a corresponding movement has been detected.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \exception ClockException
@@ -251,9 +237,9 @@ public:
 
 /// \class AlarmClock
 ///
-/// \brief Represents a alarm clock in general and the (possible) interface to matlab.
+/// \brief Represents an alarm clock in general and the (possible) interface to matlab.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class AlarmClock : public Ogre::FrameListener
@@ -262,22 +248,13 @@ private:
 
 	/// \property std::vector <Person*> peopleWatched
 	///
-	/// \brief watch multiple people.
-	///
-	/// \return The people watched.
+	/// \brief all the people that should get up.
 
 	std::vector <Person*> peopleWatched;
 
 	time_t timeOfLastUpdate;	/*!< time, in seconds, frameRenderingQueued() has last been called */
 
-	/// \property time_t alarmTime,snoozeTime,prerunTime
-	///
-	/// \brief Gets the time of the prerun.
-	///
-	/// \return The time of the prerun.
-
 	time_t alarmTime,snoozeTime,prerunTime;
-	//time_t actualTimeOfAlarm;
 
 	AlarmState alarmState;  /*!< current state of the state machine */
 	AlarmEventHandler *alarmEventHandler;   /*!< which object to notify of changes */
@@ -286,13 +263,13 @@ private:
 	///
 	/// \brief did this happen in between the last event and now?
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param ct
-	/// The ct.
+	/// The current time in seconds.
 	/// \param event
-	/// The event.
+	/// The time when te event triggered in seconds.
 	///
 	/// \return true if current, false if not.
 
@@ -306,7 +283,7 @@ public:
 	///
 	/// \brief Default constructor.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	AlarmClock();
@@ -315,47 +292,47 @@ public:
 	///
 	/// \brief Sets alarm time.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param t
-	/// The time_t to process.
+	/// new time of alarm in seconds.
 
 	void setAlarmTime( time_t t);
 
 	/// \fn void AlarmClock::setActive ( bool state);
 	///
-	/// \brief Sets an active.
+	/// \brief activate or deactivate the alarm clock (called by GUI).
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param state
-	/// true to state.
+	/// true: activate, false: deactivate
 
 	void setActive ( bool state);
 
 	/// \fn void AlarmClock::hookAlarmEventHandler ( AlarmEventHandler *handler );
 	///
-	/// \brief supply a handler for change events.
+	/// \brief supply a handler for change events (called by AlarmTest).
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \param [in,out] handler
-	/// If non-null, the handler.
+	/// \param handler
+	/// pointer to the object which should become the alarm event handler.
 
 	void hookAlarmEventHandler ( AlarmEventHandler *handler );
 
 	/// \fn void AlarmClock::watchPerson ( Person *p );
 	///
-	/// \brief add a person to the list of persons to watch.
+	/// \brief add a person to the list of persons to watch. (called by AlarmTest)
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
-	/// \param [in,out] p
-	/// If non-null, the Person * to process.
+	/// \param p
+	/// pointer to the Person object which should be added to the list.
 
 	void watchPerson ( Person *p );
 
@@ -363,13 +340,13 @@ public:
 	///
 	/// \brief update handler.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param evt
 	/// The event.
 	///
-	/// \return true if it succeeds, false if it fails.
+	/// \return true if OGRE should continue rendering.
 
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 };

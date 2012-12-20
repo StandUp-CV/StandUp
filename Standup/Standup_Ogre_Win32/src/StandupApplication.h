@@ -18,22 +18,10 @@ This source file is part of the
 -----------------------------------------------------------------------------
 */
 #ifndef __StandupApplication_h_
-
-/// \def __StandupApplication_h_();
-///
-/// \brief A macro that defines standup application h.
-///
-/// \author Hans Ferchland
-/// \date 19.12.2012
-
 #define __StandupApplication_h_
 
 #include "stdafx.h"
 #include "BaseApplication.h"
-
-/// \namespace CEGUI
-///
-/// \brief .
 
 using namespace CEGUI;
 //! StandupApplication class is the core of Standup.

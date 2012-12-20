@@ -1,21 +1,10 @@
-/// \file src\CameraTest.h
-///
-/// \brief Declares the camera test class.
 
 #ifndef CAMERATEST
-
-/// \def CAMERATEST
-///
-/// \brief A macro that defines cameratest.
-///
-/// \author Hans Ferchland
-/// \date 19.12.2012
-
 #define CAMERATEST
 
 /// \enum InputTest
 ///
-/// \brief Values that represent InputTest.
+/// \brief events that could hypotetically be triggered by the computer vision code
 
 enum InputTest { GETUP, LAYDOWN, ISAWAKE };
 
@@ -23,80 +12,80 @@ enum InputTest { GETUP, LAYDOWN, ISAWAKE };
 ///
 /// \brief Camera test. test class for webcam. input of computer vision part is simulated.
 ///
-/// \author Hans Ferchland
+/// \author Roman Hillebrand
 /// \date 19.12.2012
 
 class CameraTest : public AlarmEventHandler
 {
 private:
 
-	Sound* mSound;  /*!< The sound */
-	AlarmClock* mAlarmClock;	/*!< The alarm clock */
-	Person* mPerson;	/*!< The person */
+	Sound* mSound;  /*!< The sound object */
+	AlarmClock* mAlarmClock;	/*!< The alarm clock object */
+	Person* mPerson;	/*!< The person object */
 
-	CEGUI::DefaultWindow *mLabel;   /*!< The label */
+	CEGUI::DefaultWindow *mLabel;   /*!< The label object */
 
 public:
 
 	/// \fn void CameraTest::watchOutEvent();
 	///
-	/// \brief inherited from AlarmEventHandler.
+	/// \brief inherited from AlarmEventHandler. 
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	void watchOutEvent();
 
 	/// \fn void CameraTest::alarmEvent();
 	///
-	/// \brief Alarm event.
+	/// \brief inherited from AlarmEventHandler.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	void alarmEvent();
 
 	/// \fn void CameraTest::stopRingingEvent();
 	///
-	/// \brief Stops ringing event.
+	/// \brief inherited from AlarmEventHandler.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	void stopRingingEvent();
 
 	/// \fn void CameraTest::everythingCompleteEvent();
 	///
-	/// \brief Everything complete event.
+	/// \brief inherited from AlarmEventHandler.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	void everythingCompleteEvent();
 
 	/// \fn CameraTest::CameraTest ();
 	///
-	/// \brief computer vision simulation.
+	/// \brief creates Sound, AlarmClock and Person objects and registers event handlers.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	CameraTest ();
 
 	/// \fn CameraTest::~CameraTest ();
 	///
-	/// \brief Destructor.
+	/// \brief destroys Sound, AlarmClock and Person objects.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 
 	~CameraTest ();
 
 	/// \fn AlarmClock* CameraTest::getAlarmClock();
 	///
-	/// \brief Gets alarm clock.
+	/// \brief get a reference to the AlarmClock member.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \return null if it fails, else the alarm clock.
@@ -105,21 +94,21 @@ public:
 
 	/// \fn void CameraTest::inputTest(InputTest what);
 	///
-	/// \brief Tests input.
+	/// \brief called by GUI to simulate computer vision triggered events.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param what
-	/// The what.
+	/// what event to simulate.
 
 	void inputTest(InputTest what);
 
 	/// \fn void CameraTest::setOutputLabel(CEGUI::DefaultWindow* label)
 	///
-	/// \brief Sets output label.
+	/// \brief called by GUI to specify a label which should display the corresponding texts, should an event occur.
 	///
-	/// \author Hans Ferchland
+	/// \author Roman Hillebrand
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] label

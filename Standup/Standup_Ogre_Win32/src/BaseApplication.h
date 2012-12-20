@@ -55,7 +55,7 @@ class ViewManager;
 
 /// \class BaseApplication
 ///
-/// \brief Base application.
+/// \brief base class for the application. responsible for creating and managing the ogre specific objects.
 ///
 /// \author Hans Ferchland
 /// \date 19.12.2012
@@ -66,7 +66,7 @@ public:
 
     /// \fn BaseApplication::BaseApplication(void);
     ///
-    /// \brief Default constructor.
+    /// \brief initializes all the member object pointers to null
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
@@ -75,7 +75,7 @@ public:
 
     /// \fn virtual BaseApplication::~BaseApplication(void);
     ///
-    /// \brief Destructor.
+    /// \brief does nothing.
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
@@ -84,7 +84,7 @@ public:
 
     /// \fn virtual void BaseApplication::go(void);
     ///
-    /// \brief Goes this BaseApplication.
+    /// \brief called by main: setup, main loop, destroy
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
@@ -120,7 +120,7 @@ protected:
 
     /// \fn virtual void BaseApplication::chooseSceneManager(void);
     ///
-    /// \brief Choose scene manager.
+    /// \brief Chooses a scene manager.
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
@@ -129,7 +129,7 @@ protected:
 
     /// \fn virtual void BaseApplication::createCamera(void);
     ///
-    /// \brief Creates the camera.
+    /// \brief Creates the main camera.
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
@@ -138,7 +138,7 @@ protected:
 
     /// \fn virtual void BaseApplication::createFrameListener(void);
     ///
-    /// \brief Creates frame listener.
+    /// \brief Creates a frame listener.
     ///
     /// \author Hans Ferchland
     /// \date 19.12.2012
