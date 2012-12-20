@@ -73,7 +73,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(CEGUI_HOME)\cegui\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CEGUI_HOME)\cegui\include\WindowRendererSets;$(CEGUI_HOME)\cegui\include\XMLParserModules;$(CEGUI_HOME)\cegui\include\ScriptingModules;$(CEGUI_HOME)\cegui\include\ImageCodecModules;$(CEGUI_HOME)\cegui\include\falagard;$(CEGUI_HOME)\cegui\include\elements;$(CEGUI_HOME)\cegui\include\RendererModules\Ogre;$(CEGUI_HOME)\cegui\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

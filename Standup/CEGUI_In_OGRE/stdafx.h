@@ -11,7 +11,7 @@
 #include <OgreEntity.h>
 #include <OgreWindowEventUtilities.h>
 #include "CEGUI.h"
-#include "CEGUIOgreRenderer.h"
+#include <CEGUIOgreRenderer.h>
 #include "CEGUISystem.h"
 
 // any other header can be included, as usual

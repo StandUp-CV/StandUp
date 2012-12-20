@@ -103,21 +103,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FMOD_HOME)\api\inc;$(CEGUI_HOME)\cegui\include\WindowRendererSets;$(CEGUI_HOME)\cegui\include\XMLParserModules;$(CEGUI_HOME)\cegui\include\ScriptingModules;$(CEGUI_HOME)\cegui\include\ImageCodecModules;$(CEGUI_HOME)\cegui\include\falagard;$(CEGUI_HOME)\cegui\include\elements;$(CEGUI_HOME)\cegui\include\RendererModules\Ogre;$(CEGUI_HOME)\cegui\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zm300 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodex_vc.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;OIS.lib;corona.lib;D3DX11Effects.lib;DevIL.lib;expat.lib;freeglut.lib;FreeImage.lib;freetype.lib;ILU.lib;jpeg.lib;libmng.lib;libpng.lib;libtiff.lib;lua.lib;pcre.lib;SILLY.lib;xerces-c_3D.lib;zlib.lib;OgreMain.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(FMOD_HOME);$(CEGUI_HOME)\dependencies\lib\dynamic;$(CEGUI_HOME)\lib;$(OGRE_HOME)\boost\lib;$(FMOD_HOME)\api\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)\$(TargetFileName)" "$(OGRE_HOME)\Bin\$(Configuration)"</Command>
