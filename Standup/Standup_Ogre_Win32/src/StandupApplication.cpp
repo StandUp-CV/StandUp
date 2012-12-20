@@ -63,26 +63,6 @@ void StandupApplication::createCamera(void)
 }
 
 /*
- *	add Spotlight
-
-  It sets up a plain white-light spotlight pointing 
-  back to the head at the designated X and Z position. 
-  The spotlight is set up with a very wide range, by the line 
-  spotLight->setSpotlightRange(Ogre::Degree(180), Ogre::Degree(180));.
-  This is the angle of the spotlight - 180 is very wide, 
-  but I did this to ensure the spotlights overlap and leave no dark spots.
-  Also, the attenuation is set with 
-  spotLight->setAttenuation(500.0f, 1.0f, 0.007f, 0.0f);. 
-  This defines how the light weakens over distance.
- */
-void StandupApplication::createLights() 
-{
-	//Ogre::Light* light1 = mSceneMgr->createLight("Light1");
-	//light1->setType(Ogre::Light::LT_POINT);
-	//light1->setPosition(5,75,0);
-}
-
-/*
  *	create Scene
  */
 void StandupApplication::createScene(void)
