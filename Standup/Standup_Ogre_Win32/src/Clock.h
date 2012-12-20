@@ -1,4 +1,8 @@
 
+/// \file src\Clock.h
+///
+/// \brief Declares the Clock, AlarmEventHandler, Person and AlarmClock classes.
+
 #ifndef CLOCK_H
 #define CLOCK_H
 

@@ -391,8 +391,11 @@ void GUI::update(const Ogre::FrameEvent& evt)
 {
 	int off=Clock::gmtoff();
 	bool isToday = mDialog2CurrentTime->getXPosition().asRelative(1.0) <=   ((UDim(0.2f,0) +((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)))).asRelative(1.0f));
-	float alarmtime=mDialog2Slider->getCurrentValue();
-	float day=(float)((Clock::getCurrentSecond())/Clock::DAY);
+
+	// floating point accuracy bug fixed
+
+	double alarmtime=mDialog2Slider->getCurrentValue();
+	double day=(double)((Clock::getCurrentSecond())/Clock::DAY);
 
 	try
 	{

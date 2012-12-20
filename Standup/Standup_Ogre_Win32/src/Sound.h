@@ -1,4 +1,8 @@
 
+/// \file src\Sound.h
+///
+/// \brief Declares the Sound class.
+
 #ifndef SOUND_H
 #define SOUND_H
 

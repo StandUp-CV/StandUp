@@ -1,4 +1,8 @@
 
+/// \file src\CameraTest.h
+///
+/// \brief Declares the CameraTest class.
+
 #ifndef CAMERATEST
 #define CAMERATEST
 
