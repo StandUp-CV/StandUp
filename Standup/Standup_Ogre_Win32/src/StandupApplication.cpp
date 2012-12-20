@@ -67,8 +67,6 @@ void StandupApplication::createCamera(void)
  */
 void StandupApplication::createScene(void)
 {
-	// create lights for the scene
-	createLights();
 
 	// create Ground Entity and Material, Enable Shadows
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
@@ -137,10 +135,7 @@ bool StandupApplication::keyPressed( const OIS::KeyEvent &arg )
 	{
 		mGUI->setPersonState(LAYDOWN);
 	}
-	else if (arg.key == OIS::KC_3)
-	{
-		mGUI->setPersonState(ISAWAKE);
-	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	//		CEGUI Input Methods

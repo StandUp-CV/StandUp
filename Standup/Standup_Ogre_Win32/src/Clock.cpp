@@ -41,8 +41,8 @@ AlarmClock::AlarmClock()
 
 	alarmState = INACTIVE;
 
-	snoozeTime = Clock::HOUR;
-	prerunTime = Clock::HOUR;
+	snoozeTime = 60; // Clock::HOUR;
+	prerunTime = 5;  // Clock::HOUR;
 
 	timeOfLastUpdate = 0;
 	alarmTime = 0;
