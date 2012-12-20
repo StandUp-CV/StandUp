@@ -227,20 +227,6 @@ protected:
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-    /// \fn virtual bool BaseApplication::keyPressed( const OIS::KeyEvent &arg );
-    ///
-    /// \brief OIS::KeyListener.
-    ///
-    /// \author Hans Ferchland
-    /// \date 19.12.2012
-    ///
-    /// \param arg
-    /// The argument.
-    ///
-    /// \return true if it succeeds, false if it fails.
-
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-
     /// \fn virtual bool BaseApplication::keyReleased( const OIS::KeyEvent &arg );
     ///
     /// \brief Key released.

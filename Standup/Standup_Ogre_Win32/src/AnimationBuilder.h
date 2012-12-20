@@ -8,7 +8,7 @@
 ///
 /// \brief A macro that defines animation builder h.
 ///
-/// \author Hans Ferchland
+/// \author Hady Khalifa
 /// \date 19.12.2012
 
 #define __AnimationBuilder_h_
@@ -20,7 +20,7 @@
 ///
 /// \brief Animation builder.
 ///
-/// \author Hans Ferchland
+/// \author Hady Khalifa
 /// \date 19.12.2012
 
 class AnimationBuilder
@@ -31,7 +31,7 @@ public:
 	///
 	/// \brief Default constructor.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 
 	AnimationBuilder(void);
@@ -40,7 +40,7 @@ public:
 	///
 	/// \brief Destructor.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 
 	~AnimationBuilder(void);
@@ -50,7 +50,7 @@ public:
 	///
 	/// \brief Creates the animations.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param v1
@@ -73,7 +73,7 @@ public:
 	///
 	/// \brief Y coordinate rotations.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] anim
@@ -90,7 +90,7 @@ public:
 	///
 	/// \brief Unified x coordinate position interpolation.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] anim
@@ -107,7 +107,7 @@ public:
 	///
 	/// \brief Creates an animation.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param name
@@ -126,7 +126,7 @@ public:
 	///
 	/// \brief Fade in alpha.
 	///
-	/// \author Hans Ferchland
+	/// \author Hady Khalifa
 	/// \date 19.12.2012
 	///
 	/// \param [in,out] anim

@@ -109,6 +109,50 @@ bool StandupApplication::configure() {
 	}
 }
 
+//-------------------------------------------------------------------------------------
+bool StandupApplication::keyPressed( const OIS::KeyEvent &arg )
+{
+	if(arg.key == OIS::KC_F3)   // reset camera position
+	{
+		mCamera->setPosition(*mDefaultCamPosition);
+	}
+
+	if(arg.key == OIS::KC_F5)   // refresh all textures
+	{
+		Ogre::TextureManager::getSingleton().reloadAll();
+	}
+	else if (arg.key == OIS::KC_SYSRQ)   // take a screenshot
+	{
+		mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
+	}
+	else if (arg.key == OIS::KC_ESCAPE)
+	{
+		mShutDown = true;
+	}
+	else if (arg.key == OIS::KC_1)
+	{
+		mGUI->setPersonState(GETUP);
+	}
+	else if (arg.key == OIS::KC_2)
+	{
+		mGUI->setPersonState(LAYDOWN);
+	}
+	else if (arg.key == OIS::KC_3)
+	{
+		mGUI->setPersonState(ISAWAKE);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	//		CEGUI Input Methods
+	//////////////////////////////////////////////////////////////////////////
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown(arg.key);
+	sys.injectChar(arg.text);
+
+	return true;
+}
+
+
 StandupApplication* StandupApplication::getInstance(){
 	if (instance == NULL)
 		return instance = new StandupApplication();
