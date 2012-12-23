@@ -133,6 +133,8 @@ public:
 
 		mDialog2Slider->setEnabled(!mIsAlarmActive);
 
+		if(!mIsAlarmActive){	mDialog2StateInfo->setText("Please choose wakeup time and press activate.");}
+		else{	mDialog2StateInfo->setText("The wakeup alarm is active.");}
 		return true;
 	};
 
@@ -219,6 +221,7 @@ private:
 	DefaultWindow* mDialog1TextClock;
 	DefaultWindow* mDialog1TextAlarm;
 	DefaultWindow* mDialog2CurrentTimeHelper;
+	DefaultWindow* mDialog2Clock;
 	PushButton* mDialog1ButtonRight;
 	PushButton* mDialog1ButtonLeft;
 	PushButton* mDialog3ButtonLeft;
