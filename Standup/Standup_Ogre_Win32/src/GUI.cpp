@@ -181,8 +181,8 @@ void GUI::update(const Ogre::FrameEvent& evt)
 
 	mDialog2AlarmTime->setText(getSliderTimeString(alarmtime));
 
-	//if(mDialog2CurrentTime->getXPosition().asRelative(1.0) <   ((UDim(0.205f,0) +(((UDim(alarmtime,0)) * UDim(0.595f,0)))).asRelative(1.0f))){
-	if(isToday){
+	if(mDialog2CurrentTime->getXPosition().asRelative(1.0) <   ((UDim(0.205f,0) +(((UDim(alarmtime,0)) * UDim(0.595f,0)))).asRelative(1.0f))){
+	//if(isToday){
 		mDialog2CurrentTimeHelper->setVisible(false);
 		mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2(((UDim(alarmtime,0)) * UDim(0.595f,0)), UDim(0,0))))));
 	}

@@ -38,7 +38,7 @@ public:
 		mSystem = system;
 		mAlarmSound = new Sound();
 		mPrerunSound = new Sound();
-		mPrerunSound->reloadSoundFile("prerun.wav");
+		mPrerunSound->reloadSoundFile("stuka.wav");
 		root->addFrameListener(mAlarmSound);
 		root->addFrameListener(mPrerunSound);
 	};
