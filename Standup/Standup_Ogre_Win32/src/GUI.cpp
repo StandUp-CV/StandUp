@@ -40,7 +40,7 @@ void GUI::createScene( void )
 // return int hours [0,23]
 int GUI::getSliderValueHour(float f){
 	
-	int hourValue = (int)(24*f);
+	int hourValue = (int)(24*f)%24;
 
 	return hourValue;
 }
@@ -96,12 +96,15 @@ String GUI::getCurrentTimeString(void){
 
 float GUI::getCurrentTimePosition(){
 
+
 	// get current time from clock
 	const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
 	// get the current secs, mins and mHours
+	float sec = localTime.tm_sec;
 	float min = localTime.tm_min;
 	float hour = localTime.tm_hour % (12 * mHourFormat); // in right time format (12 vs 24)
-		float xPos = (float)(((((min/60)/24) + (hour/24)))*0.5f);
+		float xPos = (float)((min/1440) + (hour/24)+ (sec/86400));
+		xPos;
 		return xPos;
 }
 
@@ -161,27 +164,42 @@ void GUI::update(const Ogre::FrameEvent& evt)
 		
 	}
 
-	//update position of mDialog2AlarmTime Window
-	mDialog2AlarmTime->setPosition(((UVector2(UDim(0.15f,0),UDim(0.66f,0))) + (mDialog2Slider->getThumb()->getPosition()) * (UVector2( UDim(0.57f, 0 ), UDim( 0, 0 )))));
-	mDialog2CurrentTime->setPosition((UVector2(UDim(0.2f,0),UDim(0.71f,0))) + (UVector2(UDim(getCurrentTimePosition(),0),UDim(0,0))));
 
-	mDialog2CurrentTimeHelper->setSize( (UVector2(UDim(0,0),UDim(0.1f,0))) +(UVector2((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)), UDim(0,0))));
+	mDialog2Clock->setText(getCurrentTimeString());
+
+	//update position of mDialog2AlarmTime Window
+	mDialog2AlarmTime->setPosition(((UVector2(UDim(0.15f,0),UDim(0.64f,0))) + (UVector2(UDim((alarmtime * 0.595f),0), UDim( 0, 0 )))));
+	
+
+	mDialog2Clock->setPosition(UVector2(UDim(0.15f,0),UDim(0.82f,0)) + (UVector2(UDim((getCurrentTimePosition()* 0.595f),0),UDim(0,0))));
+	//
+	mDialog2CurrentTime->setPosition((UVector2(UDim(0.205f,0),UDim(0.71f,0))) + (UVector2(UDim((getCurrentTimePosition()* 0.595f),0),UDim(0,0))));
+
+
+	mDialog2CurrentTimeHelper->setSize( (UVector2(UDim(0,0),UDim(0.1f,0))) +(UVector2((UDim(alarmtime,0) * UDim(0.595f,0)), UDim(0,0))));
 	//update Text of mDialog2AlarmTime (example 12:34)
+
 	mDialog2AlarmTime->setText(getSliderTimeString(alarmtime));
 
+	//if(mDialog2CurrentTime->getXPosition().asRelative(1.0) <   ((UDim(0.205f,0) +(((UDim(alarmtime,0)) * UDim(0.595f,0)))).asRelative(1.0f))){
 	if(isToday){
 		mDialog2CurrentTimeHelper->setVisible(false);
-			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((mDialog2Slider->getThumb()->getXPosition() * UDim(0.5f,0)), UDim(0,0))))));
+		mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2(((UDim(alarmtime,0)) * UDim(0.595f,0)), UDim(0,0))))));
 	}
 	else{
-		mDialog2CurrentTimeHelper->setVisible(true);
-			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition() - UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(1,0) * UDim(0.5f,0)), UDim(0,0))))));
+		if(mDialog2Slider->getCurrentValue()!=0 )
+			mDialog2CurrentTimeHelper->setVisible(true);
+		else
+		{
+			mDialog2CurrentTimeHelper->setVisible(false);
+		}
+			mDialog2CurrentTime->setSize(  (UVector2(UDim(0,0),UDim(0.1f,0))) -((UVector2(mDialog2CurrentTime->getXPosition()- UDim(0.2f,0), UDim(0,0)) - (UVector2((UDim(1,0) * UDim(0.595f,0)), UDim(0,0))))));
 	}
 
 	// update 
 	//mDialog2CurrentTime->setText(Ogre::StringConverter::toString(mDialog2Checkbox->isSelected()));
-	mDialog2CurrentTime->setText(getCurrentTimeString());
-	mDialog2CurrentTimeHelper->setText("current State");
+
+	//mDialog2CurrentTimeHelper->setText("current State");
 }
 
 Ogre::TexturePtr GUI::createCEGUI_RTTScene()
@@ -318,10 +336,10 @@ void GUI::createDialog2( WindowManager &wmgr )
 	//mDialog2Slider -> set the Wackup Time
 	mDialog2Slider = static_cast<Slider*>(wmgr.createWindow("OgreTray/Slider", "mDialog2Slider"));
 	mDialog2Slider->setPosition(UVector2(UDim(0.2f,0), UDim(0.7f,0)));
-	mDialog2Slider->setSize(UVector2(UDim(0.5f,0), UDim(0.02f,0)));
+	mDialog2Slider->setSize(UVector2(UDim(0.6f,0), UDim(0.02f,0)));
 	mDialog2Slider->setAlwaysOnTop(true);
 	mDialog2Slider->setInheritsAlpha(false);
-	mDialog2Slider->setMaxValue(1.0f);
+	mDialog2Slider->setMaxValue(0.9999f);
 	mDialog2Slider->setCurrentValue(0.5f);
 	//mDialog2Slider->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&GUI::scrollPositionChanged, this));
 	mDialogWindow2->addChildWindow(mDialog2Slider);
@@ -334,8 +352,8 @@ void GUI::createDialog2( WindowManager &wmgr )
 	mDialog2AlarmTime->setPosition(UVector2(UDim(0.15f,0), UDim(0.6f,0)));	
 	mDialog2AlarmTime->setProperty("FrameEnabled", "False");
 	//	mDialog2AlarmTime->setFont((CEGUI::utf8*)"Comic_12");
-	//mDialog2AlarmTime->setProperty("HorzFormatting", "HorzLeftAligned");
-	mDialog2AlarmTime->setProperty("VertFormatting", "TopAligned");
+	mDialog2AlarmTime->setProperty("HorzFormatting", "HorzCentred");
+	mDialog2AlarmTime->setProperty("VertFormatting", "VertCentred");
 	mDialog2AlarmTime->setProperty("BackgroundEnabled","False");
 	mDialog2AlarmTime->setInheritsAlpha(false);
 	//mDialog2AlarmTime->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&GUI::swiftLeft,this));
@@ -344,30 +362,42 @@ void GUI::createDialog2( WindowManager &wmgr )
 	//mDialog2Checkbox -> aktivate Alarm Clock
 	mDialog2Checkbox = static_cast<Checkbox*>(wmgr.createWindow("OgreTray/Checkbox", "mDialog2Checkbox"));
 	mDialog2Checkbox->setSelected( false );
-	mDialog2Checkbox->setPosition(UVector2(UDim (0.05f,0), UDim(0.7f,0)));
+	mDialog2Checkbox->setPosition(UVector2(UDim (0.02f,0), UDim(0.7f,0)));
 	mDialog2Checkbox->setSize(UVector2(UDim(0.11f, 0), UDim(0.11f, 0)));
 	bool valueCheckbox = mDialog2Checkbox->isSelected(); // Retrieve whether it is checked
 	mDialogWindow2->addChildWindow(mDialog2Checkbox);
 	mDialog2Checkbox->setInheritsAlpha(false);
 	mDialog2Checkbox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,CEGUI::Event::Subscriber(&GUI::checkBoxClicked,this));
+	
+	//staticText mDialog2Clock
+	mDialog2Clock = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2Clock"));
+	mDialogWindow2->addChildWindow(mDialog2Clock);
+	mDialog2Clock->setSize(UVector2(UDim(0.1f, 0), UDim(0.05f,0)));
+	mDialog2Clock->setProperty("FrameEnabled", "False");
+	mDialog2Clock->setProperty("BackgroundEnabled","False");
+	mDialog2Clock->setProperty("Font","Comic_12");
+	mDialog2Clock->setProperty("HorzFormatting", "HorzCentred");
+	mDialog2Clock->setProperty("VertFormatting", "VertCentred");
+	mDialog2Clock->setInheritsAlpha(false);
+
+	
 	//staticText mDialog2StateInfo
 	mDialog2StateInfo = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2StateInfo"));
 	mDialogWindow2->addChildWindow(mDialog2StateInfo);
-	mDialog2StateInfo->setSize(UVector2(UDim(1.0f, 0), UDim(0.3f,0)));
-	mDialog2StateInfo->setPosition(UVector2(UDim(0,0),UDim(0.80f,0)));
+	mDialog2StateInfo->setSize(UVector2(UDim(1.0f, 0), UDim(0.05f,0)));
+	mDialog2StateInfo->setPosition(UVector2(UDim(0,0),UDim(0.90f,0)));
 	mDialog2StateInfo->setProperty("FrameEnabled", "False");
 	mDialog2StateInfo->setProperty("BackgroundEnabled","False");
-	mDialog2StateInfo->setProperty("Font","Comic_18");
+	mDialog2StateInfo->setProperty("Font","Comic_16");
 	mDialog2StateInfo->setProperty("HorzFormatting", "HorzCentred");
 	mDialog2StateInfo->setProperty("VertFormatting", "VertCentred");
-	mDialog2StateInfo->setText("Please Set Alarm Time...");
 	mDialog2StateInfo->setInheritsAlpha(false);
+	mDialog2StateInfo->setText("Please choose wakeup time and press activate.");
 
 
 	//staticText mDialog2CurrentTime
 	mDialog2CurrentTime = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2CurrentTime"));
 	mDialogWindow2->addChildWindow(mDialog2CurrentTime);
-	mDialog2CurrentTime->setSize(UVector2(UDim(0.2f, 0), UDim(0.3f,0)));
 	mDialog2CurrentTime->setProperty("FrameEnabled", "False");
 	mDialog2CurrentTime->setProperty("Font","Comic_12");
 	mDialog2CurrentTime->setAlpha(0.8f);
@@ -377,7 +407,7 @@ void GUI::createDialog2( WindowManager &wmgr )
 	//staticText mDialog2CurrentTimeHelper
 	mDialog2CurrentTimeHelper = static_cast<DefaultWindow*>(wmgr.createWindow("OgreTray/StaticText", "mDialog2CurrentTimeHelper"));
 	mDialogWindow2->addChildWindow(mDialog2CurrentTimeHelper);
-	mDialog2CurrentTimeHelper->setPosition(UVector2(UDim(0.2f,0), UDim(0.71f,0)));	
+	mDialog2CurrentTimeHelper->setPosition(UVector2(UDim(0.205f,0), UDim(0.71f,0)));	
 	mDialog2CurrentTimeHelper->setProperty("FrameEnabled", "False");
 	mDialog2CurrentTimeHelper->setProperty("Font","Comic_12");
 	mDialog2CurrentTimeHelper->setProperty("HorzFormatting", "HorzCentred");
