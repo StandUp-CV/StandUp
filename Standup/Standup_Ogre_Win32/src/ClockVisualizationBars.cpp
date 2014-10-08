@@ -26,7 +26,6 @@ bool ClockVisualizationBars::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	static Ogre::Ray& ray = Ogre::Ray();
 	// get current time from clock
 	const tm& localTime = Clock::getDisplayTime(Clock::getCurrentSecond());
-	float dayInterpolationTime = localTime.tm_hour + (localTime.tm_min * 0.01667f);
 	// get the current secs, mins and mHours
 	mCurrentSeconds = localTime.tm_sec;
 	mCurrentMinutes = localTime.tm_min;
